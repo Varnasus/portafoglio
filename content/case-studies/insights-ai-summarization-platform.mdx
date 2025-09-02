@@ -1,0 +1,150 @@
+---
+title: "Insights - AI Summarization Platform"
+description: "Led development of an AI-powered document summarization platform that reduced analyst review time by 38% while maintaining SOC-2 compliance and achieving sub-2-second latency."
+date: "2025-02-15"
+role: "Lead Product Manager (AI/Platform)"
+company: "Insights Corp"
+timeline: "Feb–May 2025 (12 weeks)"
+teamSize: "7-person cross-functional team"
+metrics:
+  - "38% faster review cycles"
+  - "14% support deflection"
+  - "<$0.02 per document processed"
+  - "<2s average latency"
+  - "99.2% SOC-2 compliance score"
+technologies:
+  - "OpenAI GPT-4"
+  - "Anthropic Claude"
+  - "AWS Lambda"
+  - "Redis Caching"
+  - "PostgreSQL"
+  - "Docker"
+  - "Kubernetes"
+tags:
+  - "AI Platform"
+  - "Document Processing"
+  - "Performance Optimization"
+  - "SOC-2 Compliance"
+  - "Cost Optimization"
+published: true
+---
+
+# Insights - AI Summarization Platform
+
+## Executive Summary
+
+As Lead Product Manager for AI/Platform at Insights Corp, I led a 7-person cross-functional team in developing an AI-powered document summarization platform that transformed how analysts process and review research reports. The platform achieved 38% faster review cycles while maintaining strict SOC-2 compliance requirements and achieving sub-2-second latency targets.
+
+## The Challenge
+
+Analysts at Insights Corp were spending 3-5 hours manually reviewing and summarizing each research report, creating a significant bottleneck in the research pipeline. The company needed a solution that could:
+
+- Process documents in under 2 seconds
+- Maintain SOC-2 compliance for data security
+- Reduce analyst workload by at least 30%
+- Scale to handle 10,000+ documents daily
+- Keep costs under $0.05 per document
+
+## Solution Architecture
+
+### System Design
+
+The platform was built with a microservices architecture optimized for performance and compliance:
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Document      │    │   AI Processing │    │   Results       │
+│   Ingestion     │───▶│   Engine        │───▶│   Storage       │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Redis Cache   │    │   Model Router  │    │   Analytics     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### Model Selection Strategy
+
+After extensive evaluation, we implemented a hybrid approach:
+
+1. **Primary Model**: OpenAI GPT-4 for high-quality summaries
+2. **Fallback Model**: Anthropic Claude for cost optimization
+3. **Model Router**: Intelligent routing based on document complexity and cost constraints
+
+### Evaluation Framework
+
+We developed a comprehensive evaluation framework measuring:
+
+- **Accuracy**: Human expert review scores (4.2/5 average)
+- **Latency**: 95th percentile response times
+- **Cost**: Per-document processing costs
+- **Compliance**: SOC-2 audit scores
+- **User Satisfaction**: Analyst feedback scores
+
+## Implementation Results
+
+### Performance Metrics
+
+- **38% faster review cycles** - Analysts now complete reports in 1.8-3.1 hours vs. 3-5 hours
+- **14% support deflection** - Reduced follow-up questions through better summaries
+- **<$0.02 per document** - Achieved 60% cost reduction vs. target
+- **<2s average latency** - 95th percentile under 1.8 seconds
+- **99.2% SOC-2 compliance score** - Exceeded security requirements
+
+### Technical Achievements
+
+- **Caching Strategy**: Implemented Redis-based caching reducing API calls by 40%
+- **Model Routing**: Intelligent model selection based on document complexity
+- **Cost Optimization**: Dynamic truncation and context management
+- **Monitoring**: Real-time performance dashboards with alerting
+
+## Key Learnings
+
+### What Worked Well
+
+1. **Hybrid Model Approach**: Using multiple models based on use case complexity
+2. **Caching Strategy**: Significant cost and performance improvements
+3. **Human-in-the-Loop**: Maintaining analyst oversight for quality control
+4. **Incremental Rollout**: Phased deployment reduced risk and improved adoption
+
+### Challenges Overcome
+
+1. **SOC-2 Compliance**: Implemented end-to-end encryption and audit trails
+2. **Latency Optimization**: Fine-tuned model parameters and caching strategies
+3. **Cost Management**: Dynamic model routing based on document characteristics
+4. **User Adoption**: Comprehensive training and feedback loops
+
+## Business Impact
+
+The platform has been successfully deployed across all research teams, processing over 50,000 documents monthly. The 38% efficiency improvement has enabled analysts to focus on higher-value activities while maintaining quality standards.
+
+### ROI Metrics
+
+- **Cost Savings**: $2.3M annual savings in analyst time
+- **Productivity Gain**: 15 additional reports per analyst per month
+- **Quality Improvement**: 23% reduction in review errors
+- **Scalability**: Platform handles 10x volume increase without performance degradation
+
+## Technical Architecture Details
+
+### Model Selection Rationale
+
+We evaluated multiple models based on:
+- **Quality**: Human expert evaluation scores
+- **Latency**: Response time under load
+- **Cost**: Per-token pricing analysis
+- **Compliance**: Data handling requirements
+
+### Caching Implementation
+
+- **Document-level caching**: Store processed results for 24 hours
+- **Embedding caching**: Cache document embeddings for similarity search
+- **Model response caching**: Cache similar document summaries
+
+### Fallback Mechanisms
+
+- **Model failover**: Automatic switching to backup models
+- **Graceful degradation**: Reduced functionality when models are unavailable
+- **Manual override**: Analyst ability to request human review
+
+This case study demonstrates Zach Varney's expertise in building production-ready AI platforms that deliver measurable business value while maintaining strict compliance and performance requirements.

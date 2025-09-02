@@ -1,103 +1,173 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Container } from "@/components/ui/container"
+import { NewsletterSignup } from "@/components/newsletter-signup"
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      {/* Hero Section */}
+      <section className="py-20 md:py-32">
+        <Container>
+          <div className="mx-auto max-w-4xl text-center">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+              AI Technical Product Manager
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              I help companies build and ship AI products that actually work. 
+              Specializing in LLM applications, agentic workflows, and scalable AI solutions.
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Button asChild size="lg">
+                <Link href="/case-studies">View Case Studies</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/contact">Get in Touch</Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      {/* Expertise Section */}
+      <section className="py-20 bg-muted/50">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              What I Do
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              From product discovery to deployment, I help teams navigate the complex world of AI product development.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+              {[
+                {
+                  name: "AI Product Strategy",
+                  description: "Define product vision, technical strategy, and go-to-market plans for AI-powered applications.",
+                },
+                {
+                  name: "LLM Application Development",
+                  description: "Design and build scalable LLM applications with proper evaluation frameworks and monitoring.",
+                },
+                {
+                  name: "Team Leadership",
+                  description: "Lead cross-functional teams of engineers, designers, and stakeholders to ship AI products.",
+                },
+              ].map((feature) => (
+                <div key={feature.name} className="flex flex-col">
+                  <dt className="text-lg font-semibold leading-7">
+                    {feature.name}
+                  </dt>
+                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-muted-foreground">
+                    <p className="flex-auto">{feature.description}</p>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Container>
+      </section>
+
+      {/* Recent Work Section */}
+      <section className="py-20">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Recent Work
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              Here are some of the AI products I&apos;ve helped build and ship.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {[
+              {
+                title: "AI Summarization Platform",
+                description: "Built a platform that reduces report review time by 38% using advanced LLM techniques.",
+                role: "Lead PM",
+                company: "Insights Co",
+                link: "/case-studies/ai-summarization-platform",
+              },
+              {
+                title: "Brand Compliance AI",
+                description: "Automated brand compliance checking across 1000+ assets with 85% accuracy.",
+                role: "Senior PM",
+                company: "Compliance Inc",
+                link: "/case-studies/brand-compliance-ai",
+              },
+              {
+                title: "Agentic Workflow Automation",
+                description: "Implemented multi-agent system that auto-resolves 40% of support tickets.",
+                role: "Technical PM",
+                company: "Slack Integration",
+                link: "/case-studies/agentic-workflow-automation",
+              },
+            ].map((project) => (
+              <article key={project.title} className="flex flex-col items-start">
+                <div className="flex items-center gap-x-4 text-xs">
+                  <time className="text-muted-foreground">{project.role}</time>
+                  <span className="text-muted-foreground">•</span>
+                  <span className="text-muted-foreground">{project.company}</span>
+                </div>
+                <div className="group relative">
+                  <h3 className="mt-3 text-lg font-semibold leading-6">
+                    <Link href={project.link} className="hover:underline">
+                      {project.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-5 line-clamp-3 text-sm leading-6 text-muted-foreground">
+                    {project.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="mt-16 text-center">
+            <Button asChild variant="outline">
+              <Link href="/case-studies">View All Case Studies</Link>
+            </Button>
+          </div>
+        </Container>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-20 bg-muted/50">
+        <Container>
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+              Stay Updated on AI Product Management
+            </h2>
+            <p className="text-lg leading-8 text-muted-foreground mb-8">
+              Get insights on building AI products that actually work, delivered to your inbox.
+            </p>
+            <NewsletterSignup />
+          </div>
+        </Container>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Ready to build your AI product?
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              Let&apos;s discuss how I can help you ship AI products that actually work.
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Button asChild size="lg">
+                <Link href="/contact">Start a Conversation</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/resume">View Resume</Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </>
+  )
 }
