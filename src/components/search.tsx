@@ -33,7 +33,7 @@ const searchData: SearchResult[] = [
     title: "AI Summarization Platform - Insights Co",
     description: "Built a platform that reduces report review time by 38% using advanced LLM techniques.",
     type: "case-study",
-    url: "/case-studies/ai-summarization-platform",
+          url: "/case-studies/insights-ai-summarization-platform",
     tags: ["LLM", "Summarization", "Productivity"],
     date: "2024-02-20"
   },

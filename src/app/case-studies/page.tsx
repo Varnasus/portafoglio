@@ -18,7 +18,7 @@ const caseStudies = [
     teamSize: "7 people",
     metrics: ["38% faster review cycles", "14% support deflection", "<$0.02 per document"],
     technologies: ["OpenAI API", "Python", "React", "AWS"],
-    slug: "ai-summarization-platform",
+    slug: "insights-ai-summarization-platform",
     date: "2024-05-01"
   },
   {
@@ -30,7 +30,7 @@ const caseStudies = [
     teamSize: "5 people",
     metrics: ["85% accuracy", "10x faster review process", "1000+ assets processed"],
     technologies: ["Computer Vision", "OpenAI", "Python", "Docker"],
-    slug: "brand-compliance-ai",
+    slug: "compliance-brand-guide-enforcement",
     date: "2024-03-15"
   },
   {
@@ -42,7 +42,7 @@ const caseStudies = [
     teamSize: "6 people",
     metrics: ["40% ticket auto-resolution", "2.3x faster first response", "60% support reduction"],
     technologies: ["LangChain", "OpenAI", "TypeScript", "Slack API"],
-    slug: "agentic-workflow-automation",
+    slug: "slack-integration-agentic-workflow-automation",
     date: "2024-01-20"
   }
 ]
