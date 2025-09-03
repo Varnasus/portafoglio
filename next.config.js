@@ -1,7 +1,7 @@
-import { withContentlayer } from 'next-contentlayer'
-import type { NextConfig } from "next";
+const { withContentlayer } = require('next-contentlayer')
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   /* config options here */
   images: {
     domains: ['images.unsplash.com', 'via.placeholder.com'],
@@ -77,4 +77,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withContentlayer(nextConfig);
+module.exports = withContentlayer(nextConfig);

@@ -20,10 +20,10 @@
     "critters": "^0.0.23",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
-    "next": "15.5.1",
+    "next": "^14.2.5",
     "next-contentlayer": "^0.3.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "recharts": "^3.1.2",
     "tailwind-merge": "^3.3.1"
   },
