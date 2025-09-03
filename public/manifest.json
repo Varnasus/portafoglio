@@ -99,20 +99,21 @@
     // }
   ],
   "screenshots": [
-    {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop view of Zach Varney's portfolio"
-    },
-    {
-      "src": "/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile view of Zach Varney's portfolio"
-    }
+    // Commented out until screenshots are ready
+    // {
+    //   "src": "/screenshot-desktop.png",
+    //   "sizes": "1280x720",
+    //   "type": "image/png",
+    //   "form_factor": "wide",
+    //   "label": "Desktop view of Zach Varney's portfolio"
+    // },
+    // {
+    //   "src": "/screenshot-mobile.png",
+    //   "sizes": "390x844",
+    //   "type": "image/png",
+    //   "form_factor": "narrow",
+    //   "label": "Mobile view of Zach Varney's portfolio"
+    // }
   ],
   "related_applications": [],
   "prefer_related_applications": false,

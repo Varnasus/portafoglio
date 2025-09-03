@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent Geist font loading errors */
+@font-face {
+  font-family: 'Geist Sans';
+  src: local('system-ui'), local('sans-serif');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: local('monospace');
+  font-display: swap;
+}
+
 /* Test utility class to see if Tailwind is working */
 .test-tailwind {
   @apply bg-red-500 text-white p-4 rounded;
