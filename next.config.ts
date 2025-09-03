@@ -49,7 +49,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.NODE_ENV === 'production' ? 'https://zachvarney.com' : '*',
+            value: process.env.NODE_ENV === 'production' ? 'https://zvarney.com' : '*',
           },
           {
             key: 'Access-Control-Allow-Methods',
