@@ -1,23 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonSchema, OrganizationSchema, WebSiteSchema } from "@/components/schema";
 import { SkipNavigation, AccessibilityProvider } from "@/components/accessibility";
 import { siteConfig } from "@/lib/site";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -130,10 +117,8 @@ export default function RootLayout({
         {/* Manifest for PWA */}
         <link rel="manifest" href="/manifest.json" />
         
-        {/* Apple touch icons - commented out until logos are ready */}
-        {/* <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /> */}
-        {/* <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /> */}
-        {/* <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" /> */}
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" />
         
         {/* Structured data for breadcrumbs */}
         <script
@@ -155,7 +140,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen bg-background font-sans`}
+        className={`antialiased min-h-screen bg-background font-sans`}
       >
         <AccessibilityProvider>
           <SkipNavigation />
