@@ -11,7 +11,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    optimizeCss: true,
   },
   async headers() {
     return [
