@@ -8,13 +8,13 @@ import { SkipNavigation, AccessibilityProvider } from "@/components/accessibilit
 import { siteConfig } from "@/lib/site";
 
 const inter = Inter({
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
   display: 'swap',
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: 'swap',
 });
@@ -122,8 +122,8 @@ export default function RootLayout({
         {/* Custom Analytics - No external script needed */}
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/fonts/geist-sans.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/geist-mono.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         
         {/* DNS prefetch for external domains */}
         <link rel="dns-prefetch" href="//plausible.io" />
