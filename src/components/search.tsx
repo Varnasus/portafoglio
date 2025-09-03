@@ -51,7 +51,7 @@ const searchData: SearchResult[] = [
     title: "Brand Compliance AI - Compliance Inc",
     description: "Automated brand compliance checking across 1000+ assets with 85% accuracy.",
     type: "case-study",
-    url: "/case-studies/brand-compliance-ai",
+    url: "/case-studies/compliance-brand-guide-enforcement",
     tags: ["Computer Vision", "Compliance", "Automation"],
     date: "2024-03-10"
   },
@@ -69,7 +69,7 @@ const searchData: SearchResult[] = [
     title: "Agentic Workflow Automation - Slack Integration",
     description: "Implemented multi-agent system that auto-resolves 40% of support tickets.",
     type: "case-study",
-    url: "/case-studies/agentic-workflow-automation",
+    url: "/case-studies/slack-integration-agentic-workflow-automation",
     tags: ["Multi-Agent", "Automation", "Support"],
     date: "2024-03-25"
   }

@@ -120,4 +120,5 @@ export const CaseStudy = defineDocumentType(() => ({
 export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Post, CaseStudy],
+  disableImportAliasWarning: true,
 }) 

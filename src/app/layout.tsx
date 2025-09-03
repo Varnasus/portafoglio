@@ -122,8 +122,6 @@ export default function RootLayout({
         {/* Custom Analytics - No external script needed */}
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         
         {/* DNS prefetch for external domains */}
         <link rel="dns-prefetch" href="//plausible.io" />

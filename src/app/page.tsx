@@ -88,21 +88,21 @@ export default function Home() {
                 description: "Built a platform that reduces report review time by 38% using advanced LLM techniques.",
                 role: "Lead PM",
                 company: "Insights Co",
-                link: "/case-studies/ai-summarization-platform",
+                link: "/case-studies/insights-ai-summarization-platform",
               },
               {
                 title: "Brand Compliance AI",
                 description: "Automated brand compliance checking across 1000+ assets with 85% accuracy.",
                 role: "Senior PM",
                 company: "Compliance Inc",
-                link: "/case-studies/brand-compliance-ai",
+                link: "/case-studies/compliance-brand-guide-enforcement",
               },
               {
                 title: "Agentic Workflow Automation",
                 description: "Implemented multi-agent system that auto-resolves 40% of support tickets.",
                 role: "Technical PM",
                 company: "Slack Integration",
-                link: "/case-studies/agentic-workflow-automation",
+                link: "/case-studies/slack-integration-agentic-workflow-automation",
               },
             ].map((project) => (
               <article key={project.title} className="flex flex-col items-start">

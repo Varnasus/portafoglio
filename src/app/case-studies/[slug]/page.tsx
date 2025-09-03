@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { allCaseStudies } from 'contentlayer/generated'
+import { allCaseStudies } from '../../../../.contentlayer/generated'
 import { siteConfig } from '@/lib/site'
 
 interface CaseStudyPageProps {
@@ -73,7 +73,7 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
         </header>
 
         <div className="prose prose-lg dark:prose-invert max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: study.body.html }} />
+          <pre className="whitespace-pre-wrap">{study.body.raw}</pre>
         </div>
       </div>
     </article>
