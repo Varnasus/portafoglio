@@ -5,6 +5,8 @@ import { ArticleSchema, BreadcrumbSchema } from "@/components/schema"
 import { SocialShareButtons } from "@/components/social-sharing"
 import { Search } from "@/components/search"
 import { generateSocialMetaTags } from "@/components/social-sharing"
+import { BlogPost } from "@/lib/types"
+import { BlogPosts } from "@/components/blog-posts"
 
 export const metadata = {
   title: "Blog - Zach Varney",
@@ -31,7 +33,8 @@ export const metadata = {
   }
 }
 
-const blogPosts = [
+// Local blog posts (existing content)
+const localBlogPosts: BlogPost[] = [
   {
     title: "Shifting from Hype to Shipping: AI Agents that Actually Work",
     description: "How to move beyond AI demos and build agentic workflows that deliver real business value in production environments.",
@@ -39,7 +42,8 @@ const blogPosts = [
     readTime: "8 min read",
     tags: ["AI Agents", "Product Strategy", "Production"],
     slug: "ai-agents-that-actually-work",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop"
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop",
+    source: "local"
   },
   {
     title: "Agent Evaluation: Task Success Over Demos",
@@ -48,7 +52,8 @@ const blogPosts = [
     readTime: "6 min read",
     tags: ["Evaluation", "Testing", "AI Agents"],
     slug: "agent-evaluation-task-success",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
+    source: "local"
   },
   {
     title: "Cost Control for AI Products: Caching, Truncation, and Model Routing",
@@ -57,7 +62,8 @@ const blogPosts = [
     readTime: "10 min read",
     tags: ["Cost Optimization", "Performance", "LLM"],
     slug: "cost-control-ai-products",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop"
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop",
+    source: "local"
   },
   {
     title: "The PM's Guide to LLM Evaluation Frameworks",
@@ -66,7 +72,8 @@ const blogPosts = [
     readTime: "12 min read",
     tags: ["Evaluation", "LLM", "Frameworks"],
     slug: "pm-guide-llm-evaluation",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
+    source: "local"
   },
   {
     title: "Building Agentic Workflows: When to Use Multiple Models",
@@ -75,7 +82,8 @@ const blogPosts = [
     readTime: "7 min read",
     tags: ["Agentic Workflows", "Architecture", "Multi-Model"],
     slug: "agentic-workflows-multiple-models",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop"
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop",
+    source: "local"
   }
 ]
 
@@ -136,75 +144,7 @@ export default function BlogPage() {
       <section className="py-20">
         <Container>
           <div className="mx-auto max-w-4xl">
-            <div className="space-y-12">
-              {blogPosts.map((post, index) => (
-                <article key={index} className="border-b border-border pb-12 last:border-b-0">
-                  <div className="flex items-center gap-x-4 text-xs mb-4">
-                    <time className="text-muted-foreground" dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </time>
-                    <span className="text-muted-foreground">•</span>
-                    <span className="text-muted-foreground">{post.readTime}</span>
-                  </div>
-                  
-                  <div className="grid md:grid-cols-3 gap-6">
-                    {post.image && (
-                      <div className="md:col-span-1">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-48 object-cover rounded-lg"
-                          loading="lazy"
-                        />
-                      </div>
-                    )}
-                    
-                    <div className={`${post.image ? 'md:col-span-2' : 'md:col-span-3'}`}>
-                      <h2 className="text-2xl font-semibold mb-4">
-                        <Link href={`/blog/${post.slug}`} className="hover:underline">
-                          {post.title}
-                        </Link>
-                      </h2>
-                      
-                      <p className="text-muted-foreground mb-4">
-                        {post.description}
-                      </p>
-                      
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex gap-2">
-                          {post.tags.map((tag, i) => (
-                            <span key={i} className="text-xs bg-muted px-2 py-1 rounded">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <Button asChild variant="outline" size="sm">
-                          <Link href={`/blog/${post.slug}`}>
-                            Read More
-                          </Link>
-                        </Button>
-                      </div>
-                      
-                      {/* Social Share for Individual Posts */}
-                      <div className="mt-4">
-                        <SocialShareButtons
-                          url={`https://zvarney.com/blog/${post.slug}`}
-                          title={post.title}
-                          description={post.description}
-                          image={post.image}
-                          hashtags={[...post.tags, 'AI', 'ProductManagement']}
-                          className="justify-start"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <BlogPosts localPosts={localBlogPosts} />
           </div>
         </Container>
       </section>
