@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2, Twitter, Linkedin, Facebook, Link as LinkIcon, Mail } from 'lucide-react';
+import { Share2, Link as LinkIcon } from 'lucide-react';
 
 interface SocialShareProps {
   url: string;
@@ -27,38 +27,15 @@ export function SocialShareButtons({
     hashtags: hashtags.join(',')
   };
 
-  const handleShare = async (platform: string) => {
-    let shareUrl = '';
-    
-    switch (platform) {
-      case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}&hashtags=${hashtags.join(',')}`;
-        break;
-      case 'linkedin':
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        break;
-      case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        break;
-      case 'email':
-        shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`${description}\n\n${url}`)}`;
-        break;
-      case 'native':
-        if (navigator.share) {
-          try {
-            await navigator.share(shareData);
-            console.log('Shared via native API');
-            return;
-          } catch (error) {
-            console.log('Native sharing cancelled or failed');
-          }
-        }
-        break;
-    }
-
-    if (shareUrl) {
-      window.open(shareUrl, '_blank', 'width=600,height=400');
-      console.log(`Shared on ${platform}`);
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        console.log('Shared via native API');
+        return;
+      } catch (error) {
+        console.log('Native sharing cancelled or failed');
+      }
     }
   };
 
@@ -75,48 +52,12 @@ export function SocialShareButtons({
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       <button
-        onClick={() => handleShare('native')}
+        onClick={handleShare}
         className="flex items-center gap-2 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         aria-label="Share"
       >
         <Share2 className="w-4 h-4" />
         Share
-      </button>
-      
-      <button
-        onClick={() => handleShare('twitter')}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] transition-colors"
-        aria-label="Share on Twitter"
-      >
-        <Twitter className="w-4 h-4" />
-        Twitter
-      </button>
-      
-      <button
-        onClick={() => handleShare('linkedin')}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-[#0077B5] text-white rounded-lg hover:bg-[#006097] transition-colors"
-        aria-label="Share on LinkedIn"
-      >
-        <Linkedin className="w-4 h-4" />
-        LinkedIn
-      </button>
-      
-      <button
-        onClick={() => handleShare('facebook')}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-[#4267B2] text-white rounded-lg hover:bg-[#365899] transition-colors"
-        aria-label="Share on Facebook"
-      >
-        <Facebook className="w-4 h-4" />
-        Facebook
-      </button>
-      
-      <button
-        onClick={() => handleShare('email')}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-        aria-label="Share via Email"
-      >
-        <Mail className="w-4 h-4" />
-        Email
       </button>
       
       <button
