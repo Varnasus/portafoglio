@@ -35,56 +35,8 @@ export const metadata = {
 
 // Local blog posts (existing content)
 const localBlogPosts: BlogPost[] = [
-  {
-    title: "Shifting from Hype to Shipping: AI Agents that Actually Work",
-    description: "How to move beyond AI demos and build agentic workflows that deliver real business value in production environments.",
-    date: "2024-08-15",
-    readTime: "8 min read",
-    tags: ["AI Agents", "Product Strategy", "Production"],
-    slug: "ai-agents-that-actually-work",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop",
-    source: "local"
-  },
-  {
-    title: "Agent Evaluation: Task Success Over Demos",
-    description: "Why traditional demo-based evaluation fails for AI agents and how to build comprehensive testing frameworks.",
-    date: "2024-07-20",
-    readTime: "6 min read",
-    tags: ["Evaluation", "Testing", "AI Agents"],
-    slug: "agent-evaluation-task-success",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
-    source: "local"
-  },
-  {
-    title: "Cost Control for AI Products: Caching, Truncation, and Model Routing",
-    description: "Practical strategies for managing AI product costs while maintaining performance and user experience.",
-    date: "2024-06-10",
-    readTime: "10 min read",
-    tags: ["Cost Optimization", "Performance", "LLM"],
-    slug: "cost-control-ai-products",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop",
-    source: "local"
-  },
-  {
-    title: "The PM's Guide to LLM Evaluation Frameworks",
-    description: "A comprehensive guide to building evaluation frameworks that measure real-world LLM performance.",
-    date: "2024-05-25",
-    readTime: "12 min read",
-    tags: ["Evaluation", "LLM", "Frameworks"],
-    slug: "pm-guide-llm-evaluation",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
-    source: "local"
-  },
-  {
-    title: "Building Agentic Workflows: When to Use Multiple Models",
-    description: "Strategic decisions for choosing between single-model and multi-model architectures in agentic systems.",
-    date: "2024-04-15",
-    readTime: "7 min read",
-    tags: ["Agentic Workflows", "Architecture", "Multi-Model"],
-    slug: "agentic-workflows-multiple-models",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=630&fit=crop",
-    source: "local"
-  }
+  // Add your actual local blog posts here when you have them
+  // For now, we'll show only Medium posts
 ]
 
 export default function BlogPage() {

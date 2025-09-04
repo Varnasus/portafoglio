@@ -55,8 +55,27 @@ function extractImageFromContent(content: string): string {
     return imgMatch[1]
   }
   
+  // Try to extract from figure tags (Medium's format)
+  const figureMatch = content.match(/<figure[^>]*>.*?<img[^>]+src="([^"]+)"/is)
+  if (figureMatch) {
+    return figureMatch[1]
+  }
+  
   // Fallback to a default image
   return "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+}
+
+function extractFirstParagraph(content: string): string {
+  // Remove HTML tags and extract first paragraph
+  const cleanContent = content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  
+  // Find the first sentence or first 200 characters
+  const firstSentence = cleanContent.split('.')[0]
+  if (firstSentence.length > 200) {
+    return cleanContent.substring(0, 200) + '...'
+  }
+  
+  return firstSentence + (cleanContent.includes('.') ? '.' : '')
 }
 
 function extractTagsFromContent(content: string, categories?: string[]): string[] {
@@ -118,12 +137,16 @@ async function fetchMediumPosts(): Promise<MediumPost[]> {
       .slice(0, 10) // Limit to 10 most recent posts
       .map((item: any) => {
         const content = item.content || item.description || ''
-        const image = item.thumbnail || extractImageFromContent(content)
+        // Try multiple sources for the image
+        const image = item.thumbnail || 
+                     item.enclosure?.url || 
+                     extractImageFromContent(content) ||
+                     "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
         const tags = extractTagsFromContent(content, item.categories)
         
         return {
           title: item.title || 'Untitled',
-          description: item.description || content.substring(0, 200) + '...',
+          description: extractFirstParagraph(content),
           date: item.pubDate || new Date().toISOString(),
           readTime: extractReadTime(content),
           tags,
