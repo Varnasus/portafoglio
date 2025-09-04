@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { SocialShareButtons } from "@/components/social-sharing"
-import { BlogPost } from "@/lib/types"
+import { BlogPost, MediumPost } from "@/lib/types"
 
 interface BlogPostsProps {
   localPosts: BlogPost[]
@@ -85,8 +85,8 @@ export function BlogPosts({ localPosts }: BlogPostsProps) {
 
 function BlogPostCard({ post }: { post: BlogPost }) {
   const isMediumPost = post.source === 'medium'
-  const postUrl = isMediumPost ? (post.url || '#') : `/blog/${post.slug}`
-  const shareUrl = isMediumPost ? (post.url || '#') : `https://zvarney.com/blog/${post.slug}`
+  const postUrl = isMediumPost ? ((post as MediumPost).url || '#') : `/blog/${post.slug}`
+  const shareUrl = isMediumPost ? ((post as MediumPost).url || '#') : `https://zvarney.com/blog/${post.slug}`
 
   return (
     <article className="border-b border-border pb-12 last:border-b-0">
