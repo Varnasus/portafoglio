@@ -1,0 +1,5 @@
+[33m0b0620f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m plz fix
+[33mb57a803[m Fix remaining 404 errors: Add placeholder font files and update PWA manifest to prevent font and screenshot loading errors
+[33mc8c17b2[m Fix 404 errors: Add contentlayer build script, correct case study URLs, remove invalid font preloads, and fix contentlayer configuration for Windows compatibility
+[33m2cb21d1[m Fix case study slugs to match actual MDX filenames
+[33m792fcda[m Fix font loading errors and add missing case study dynamic routes

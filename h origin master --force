@@ -1,0 +1,3 @@
+[33mb4cd154[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Force redeploy with font fixes
+[33m0b0620f[m plz fix
+[33mb57a803[m Fix remaining 404 errors: Add placeholder font files and update PWA manifest to prevent font and screenshot loading errors
