@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SocialShareButtons } from "@/components/social-sharing"
 import { BlogPost, MediumPost } from "@/lib/types"
@@ -116,23 +117,26 @@ function BlogPostCard({ post }: { post: BlogPost }) {
       <div className="grid md:grid-cols-3 gap-6">
         {post.image && !imageError && (
           <div className="md:col-span-1">
-            {imageLoading && (
-              <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            )}
-            <img
-              src={post.image}
-              alt={post.title}
-              className={`w-full h-48 object-cover rounded-lg ${imageLoading ? 'hidden' : 'block'}`}
-              loading="lazy"
-              onLoad={() => setImageLoading(false)}
-              onError={() => {
-                setImageError(true)
-                setImageLoading(false)
-                console.error('Failed to load image:', post.image)
-              }}
-            />
+            <div className="relative w-full h-48 rounded-lg overflow-hidden">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className="object-cover"
+                onLoad={() => setImageLoading(false)}
+                onError={() => {
+                  setImageError(true)
+                  setImageLoading(false)
+                  console.error('Failed to load image:', post.image)
+                }}
+                unoptimized={true}
+              />
+              {imageLoading && (
+                <div className="absolute inset-0 bg-muted flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              )}
+            </div>
           </div>
         )}
         

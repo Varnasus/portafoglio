@@ -4,7 +4,14 @@ const { withContentlayer } = require('next-contentlayer')
 const nextConfig = {
   /* config options here */
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
+    domains: [
+      'images.unsplash.com', 
+      'via.placeholder.com',
+      'cdn-images-1.medium.com',
+      'miro.medium.com',
+      'medium.com',
+      'images.weserv.nl'
+    ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

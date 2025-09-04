@@ -71,10 +71,8 @@ function extractImageFromContent(content: string): string {
         imageUrl = imageUrl.replace(/w=\d+/, 'w=1200').replace(/h=\d+/, 'h=630')
       }
       
-      // Use a CORS proxy for Medium images to avoid CORS issues
-      if (imageUrl.includes('medium.com') || imageUrl.includes('cdn-images-1.medium.com')) {
-        imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&w=1200&h=630&fit=cover`
-      }
+      // For now, let's try without CORS proxy to see if images load directly
+      // If they don't work, we'll implement a different solution
       
       return imageUrl
     }
