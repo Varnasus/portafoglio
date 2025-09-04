@@ -7,15 +7,15 @@ export const siteConfig = {
   links: {
     twitter: "https://twitter.com/zvarney",
     github: "https://github.com/zvarney",
-    linkedin: "https://linkedin.com/in/zvarney",
+    linkedin: "https://www.linkedin.com/in/zach-varney/",
   },
   author: {
     name: "Zach Varney",
-    email: "zach@zvarney.com",
+    email: "z.varney.business@gmail.com",
     jobTitle: "AI Technical Product Manager",
     company: "Independent Consultant",
-    location: "San Francisco, CA",
-    bio: "AI Technical PM with 5+ years building LLM-powered products. Expert in agentic workflows, evaluation frameworks, and shipping AI products that actually work.",
+    location: "Kansas City, MO",
+    bio: "AI Technical PM with 1.5 years building LLM-powered products. Expert in agentic workflows, evaluation frameworks, and shipping AI products that actually work.",
   },
   navigation: [
     { title: "Home", href: "/" },

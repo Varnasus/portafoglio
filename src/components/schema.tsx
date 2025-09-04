@@ -12,7 +12,7 @@ export function PersonSchema({ additionalData = {} }: PersonSchemaProps) {
     "url": "https://zvarney.com",
     "sameAs": [
       "https://twitter.com/zvarney",
-      "https://linkedin.com/in/zvarney",
+      "https://www.linkedin.com/in/zach-varney/",
       "https://github.com/zvarney"
     ],
     "worksFor": {
@@ -35,7 +35,7 @@ export function PersonSchema({ additionalData = {} }: PersonSchemaProps) {
       "addressRegion": "CA",
       "addressCountry": "US"
     },
-    "email": "zach@zvarney.com",
+    "email": "z.varney.business@gmail.com",
     "image": "https://zvarney.com/og-image.jpg",
     "alumniOf": {
       "@type": "Organization",
@@ -70,19 +70,19 @@ export function OrganizationSchema({ additionalData = {} }: OrganizationSchemaPr
     "description": "AI Technical Product Manager portfolio showcasing LLM applications, case studies, and tools for AI product development.",
     "sameAs": [
       "https://twitter.com/zvarney",
-      "https://linkedin.com/in/zvarney",
+      "https://www.linkedin.com/in/zach-varney/",
       "https://github.com/zvarney"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "email": "zach@zvarney.com",
+      "email": "z.varney.business@gmail.com",
       "availableLanguage": "English"
     },
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "San Francisco",
-      "addressRegion": "CA",
+      "addressLocality": "Kansas City",
+      "addressRegion": "MO",
       "addressCountry": "US"
     },
     ...additionalData
