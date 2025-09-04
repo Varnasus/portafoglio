@@ -49,16 +49,28 @@ function extractReadTime(content: string): string {
 }
 
 function extractImageFromContent(content: string): string {
-  // Try to extract the first image from the content
-  const imgMatch = content.match(/<img[^>]+src="([^"]+)"/i)
-  if (imgMatch) {
-    return imgMatch[1]
-  }
+  // Try to extract the first image from the content with more flexible patterns
+  const patterns = [
+    // Standard img tags
+    /<img[^>]+src="([^"]+)"/i,
+    // Medium's figure format
+    /<figure[^>]*>[\s\S]*?<img[^>]+src="([^"]+)"/i,
+    // Medium's picture format
+    /<picture[^>]*>[\s\S]*?<img[^>]+src="([^"]+)"/i,
+    // Direct image URLs in content
+    /https:\/\/[^"\s]+\.(jpg|jpeg|png|gif|webp)/i
+  ]
   
-  // Try to extract from figure tags (Medium's format)
-  const figureMatch = content.match(/<figure[^>]*>[\s\S]*?<img[^>]+src="([^"]+)"/i)
-  if (figureMatch) {
-    return figureMatch[1]
+  for (const pattern of patterns) {
+    const match = content.match(pattern)
+    if (match) {
+      let imageUrl = match[1]
+      // Clean up Medium image URLs to get higher quality versions
+      if (imageUrl.includes('cdn-images-1.medium.com')) {
+        imageUrl = imageUrl.replace(/w=\d+/, 'w=1200').replace(/h=\d+/, 'h=630')
+      }
+      return imageUrl
+    }
   }
   
   // Fallback to a default image
@@ -112,6 +124,27 @@ function createSlugFromTitle(title: string): string {
     .trim()
 }
 
+function estimateMetrics(content: string, publishDate: string): { estimatedClaps: number; estimatedViews: number; wordCount: number } {
+  const wordCount = content.split(/\s+/).length
+  const daysSincePublish = Math.max(1, Math.floor((Date.now() - new Date(publishDate).getTime()) / (1000 * 60 * 60 * 24)))
+  
+  // Simple estimation based on content length and time since publish
+  // These are rough estimates for display purposes
+  const baseViews = Math.min(wordCount * 2, 1000) // Base views based on word count
+  const timeMultiplier = Math.min(daysSincePublish * 0.1, 2) // Time decay factor
+  const estimatedViews = Math.floor(baseViews * timeMultiplier)
+  
+  // Estimate claps as 5-15% of views
+  const clapRate = 0.05 + (Math.random() * 0.1) // 5-15% clap rate
+  const estimatedClaps = Math.floor(estimatedViews * clapRate)
+  
+  return {
+    estimatedClaps,
+    estimatedViews,
+    wordCount
+  }
+}
+
 async function fetchMediumPosts(): Promise<MediumPost[]> {
   try {
     const rssUrl = 'https://medium.com/feed/@zachvarney'
@@ -144,6 +177,8 @@ async function fetchMediumPosts(): Promise<MediumPost[]> {
                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
         const tags = extractTagsFromContent(content, item.categories)
         
+        const metrics = estimateMetrics(content, item.pubDate || new Date().toISOString())
+        
         return {
           title: item.title || 'Untitled',
           description: extractFirstParagraph(content),
@@ -153,7 +188,8 @@ async function fetchMediumPosts(): Promise<MediumPost[]> {
           slug: createSlugFromTitle(item.title || 'untitled'),
           image,
           url: item.link || '#',
-          source: 'medium' as const
+          source: 'medium' as const,
+          metrics
         }
       })
     

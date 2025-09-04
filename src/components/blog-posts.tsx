@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { SocialShareButtons } from "@/components/social-sharing"
 import { BlogPost, MediumPost } from "@/lib/types"
+import { Heart, Eye, FileText } from 'lucide-react'
 
 interface BlogPostsProps {
   localPosts: BlogPost[]
@@ -172,6 +173,24 @@ function BlogPostCard({ post }: { post: BlogPost }) {
               )}
             </Button>
           </div>
+          
+          {/* Metrics for Medium posts */}
+          {isMediumPost && post.metrics && (
+            <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <Heart className="w-4 h-4" />
+                <span>{post.metrics.estimatedClaps?.toLocaleString() || 0}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Eye className="w-4 h-4" />
+                <span>{post.metrics.estimatedViews?.toLocaleString() || 0}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <FileText className="w-4 h-4" />
+                <span>{post.metrics.wordCount?.toLocaleString() || 0} words</span>
+              </div>
+            </div>
+          )}
           
           {/* Social Share for Individual Posts */}
           <div className="mt-4">

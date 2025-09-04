@@ -7,6 +7,11 @@ export interface BlogPost {
   slug: string
   image: string
   source: 'local' | 'medium'
+  metrics?: {
+    estimatedClaps?: number
+    estimatedViews?: number
+    wordCount?: number
+  }
 }
 
 export interface MediumPost extends BlogPost {
