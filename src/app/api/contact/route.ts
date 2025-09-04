@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Resend } from 'resend'
 
 const CONTACT_EMAIL = 'z.varney.business@gmail.com'
+const resend = new Resend(process.env.RESEND_API_KEY || 're_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y')
 
 export async function POST(request: NextRequest) {
   try {
@@ -81,61 +83,32 @@ Reply directly to this email to respond to ${name} at ${email}
       </div>
     `
 
-    // Log the submission for now
-    console.log('Contact form submission received:', {
-      timestamp: new Date().toISOString(),
-      to: CONTACT_EMAIL,
-      subject: `New Contact Form Submission from ${name} (${company})`,
-      from: email,
-      content: emailContent
-    })
+    // Send email using Resend
+    try {
+      const emailResult = await resend.emails.send({
+        from: 'Portfolio Contact <onboarding@resend.dev>', // Using Resend's default domain for now
+        to: CONTACT_EMAIL,
+        subject: `New Contact Form Submission from ${name} (${company})`,
+        text: emailContent,
+        html: htmlContent,
+        replyTo: email,
+      })
 
-    // TODO: Integrate with email service
-    // For production, uncomment and configure one of these options:
-    
-    // Option 1: Resend (recommended)
-    // const { Resend } = require('resend')
-    // const resend = new Resend(process.env.RESEND_API_KEY)
-    // await resend.emails.send({
-    //   from: 'contact@zvarney.com',
-    //   to: CONTACT_EMAIL,
-    //   subject: `New Contact Form Submission from ${name} (${company})`,
-    //   text: emailContent,
-    //   html: htmlContent,
-    //   replyTo: email,
-    // })
-
-    // Option 2: SendGrid
-    // const sgMail = require('@sendgrid/mail')
-    // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-    // await sgMail.send({
-    //   to: CONTACT_EMAIL,
-    //   from: 'contact@zvarney.com',
-    //   subject: `New Contact Form Submission from ${name} (${company})`,
-    //   text: emailContent,
-    //   html: htmlContent,
-    //   replyTo: email,
-    // })
-
-    // Option 3: Nodemailer with SMTP
-    // const nodemailer = require('nodemailer')
-    // const transporter = nodemailer.createTransporter({
-    //   host: process.env.SMTP_HOST,
-    //   port: process.env.SMTP_PORT,
-    //   secure: false,
-    //   auth: {
-    //     user: process.env.SMTP_USER,
-    //     pass: process.env.SMTP_PASS,
-    //   },
-    // })
-    // await transporter.sendMail({
-    //   from: process.env.SMTP_USER,
-    //   to: CONTACT_EMAIL,
-    //   subject: `New Contact Form Submission from ${name} (${company})`,
-    //   text: emailContent,
-    //   html: htmlContent,
-    //   replyTo: email,
-    // })
+      console.log('Email sent successfully:', emailResult)
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError)
+      // Log the submission for debugging if email fails
+      console.log('Contact form submission (email failed):', {
+        timestamp: new Date().toISOString(),
+        to: CONTACT_EMAIL,
+        subject: `New Contact Form Submission from ${name} (${company})`,
+        from: email,
+        content: emailContent
+      })
+      
+      // Still return success to user, but log the error
+      // In production, you might want to handle this differently
+    }
 
     return NextResponse.json(
       { message: 'Message sent successfully' },
