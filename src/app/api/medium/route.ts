@@ -124,25 +124,10 @@ function createSlugFromTitle(title: string): string {
     .trim()
 }
 
-function estimateMetrics(content: string, publishDate: string): { estimatedClaps: number; estimatedViews: number; wordCount: number } {
-  const wordCount = content.split(/\s+/).length
-  const daysSincePublish = Math.max(1, Math.floor((Date.now() - new Date(publishDate).getTime()) / (1000 * 60 * 60 * 24)))
-  
-  // Simple estimation based on content length and time since publish
-  // These are rough estimates for display purposes
-  const baseViews = Math.min(wordCount * 2, 1000) // Base views based on word count
-  const timeMultiplier = Math.min(daysSincePublish * 0.1, 2) // Time decay factor
-  const estimatedViews = Math.floor(baseViews * timeMultiplier)
-  
-  // Estimate claps as 5-15% of views
-  const clapRate = 0.05 + (Math.random() * 0.1) // 5-15% clap rate
-  const estimatedClaps = Math.floor(estimatedViews * clapRate)
-  
-  return {
-    estimatedClaps,
-    estimatedViews,
-    wordCount
-  }
+// For now, let's remove the metrics fetching to avoid performance issues
+// We'll implement a separate endpoint for metrics if needed
+function getWordCount(content: string): number {
+  return content.split(/\s+/).length
 }
 
 async function fetchMediumPosts(): Promise<MediumPost[]> {
@@ -177,8 +162,6 @@ async function fetchMediumPosts(): Promise<MediumPost[]> {
                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
         const tags = extractTagsFromContent(content, item.categories)
         
-        const metrics = estimateMetrics(content, item.pubDate || new Date().toISOString())
-        
         return {
           title: item.title || 'Untitled',
           description: extractFirstParagraph(content),
@@ -189,7 +172,9 @@ async function fetchMediumPosts(): Promise<MediumPost[]> {
           image,
           url: item.link || '#',
           source: 'medium' as const,
-          metrics
+          metrics: {
+            wordCount: getWordCount(content)
+          }
         }
       })
     

@@ -8,8 +8,8 @@ export interface BlogPost {
   image: string
   source: 'local' | 'medium'
   metrics?: {
-    estimatedClaps?: number
-    estimatedViews?: number
+    claps?: number
+    responses?: number
     wordCount?: number
   }
 }
