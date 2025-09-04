@@ -56,7 +56,7 @@ function extractImageFromContent(content: string): string {
   }
   
   // Try to extract from figure tags (Medium's format)
-  const figureMatch = content.match(/<figure[^>]*>.*?<img[^>]+src="([^"]+)"/is)
+  const figureMatch = content.match(/<figure[^>]*>[\s\S]*?<img[^>]+src="([^"]+)"/i)
   if (figureMatch) {
     return figureMatch[1]
   }
