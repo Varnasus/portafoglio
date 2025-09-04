@@ -6,7 +6,6 @@ export interface BlogPost {
   tags: string[]
   slug: string
   image: string
-  url?: string
   source: 'local' | 'medium'
 }
 

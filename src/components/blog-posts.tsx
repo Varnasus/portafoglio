@@ -85,8 +85,8 @@ export function BlogPosts({ localPosts }: BlogPostsProps) {
 
 function BlogPostCard({ post }: { post: BlogPost }) {
   const isMediumPost = post.source === 'medium'
-  const postUrl = isMediumPost ? post.url : `/blog/${post.slug}`
-  const shareUrl = isMediumPost ? post.url : `https://zvarney.com/blog/${post.slug}`
+  const postUrl = isMediumPost ? (post.url || '#') : `/blog/${post.slug}`
+  const shareUrl = isMediumPost ? (post.url || '#') : `https://zvarney.com/blog/${post.slug}`
 
   return (
     <article className="border-b border-border pb-12 last:border-b-0">
