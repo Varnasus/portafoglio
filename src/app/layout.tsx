@@ -1,4 +1,3 @@
-// Force redeploy - Font fixes applied
 import type { Metadata } from "next";
 import "@/app/globals.css";
 import { Header } from "@/components/header";

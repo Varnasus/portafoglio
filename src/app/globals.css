@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TESTING: This should make the page background bright red if CSS is working */
-body {
-  background-color: red !important;
-}
-
 /* System font stack for optimal performance and no 404 errors */
 @layer base {
   * {
