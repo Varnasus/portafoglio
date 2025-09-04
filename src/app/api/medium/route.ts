@@ -65,10 +65,17 @@ function extractImageFromContent(content: string): string {
     const match = content.match(pattern)
     if (match) {
       let imageUrl = match[1]
+      
       // Clean up Medium image URLs to get higher quality versions
       if (imageUrl.includes('cdn-images-1.medium.com')) {
         imageUrl = imageUrl.replace(/w=\d+/, 'w=1200').replace(/h=\d+/, 'h=630')
       }
+      
+      // Use a CORS proxy for Medium images to avoid CORS issues
+      if (imageUrl.includes('medium.com') || imageUrl.includes('cdn-images-1.medium.com')) {
+        imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imageUrl)}&w=1200&h=630&fit=cover`
+      }
+      
       return imageUrl
     }
   }
@@ -156,10 +163,18 @@ async function fetchMediumPosts(): Promise<MediumPost[]> {
       .map((item: any) => {
         const content = item.content || item.description || ''
         // Try multiple sources for the image
+        const extractedImage = extractImageFromContent(content)
         const image = item.thumbnail || 
                      item.enclosure?.url || 
-                     extractImageFromContent(content) ||
+                     extractedImage ||
                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+        
+        // Debug logging
+        console.log('Post:', item.title)
+        console.log('Thumbnail:', item.thumbnail)
+        console.log('Enclosure:', item.enclosure?.url)
+        console.log('Extracted:', extractedImage)
+        console.log('Final image:', image)
         const tags = extractTagsFromContent(content, item.categories)
         
         return {

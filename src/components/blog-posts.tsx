@@ -88,6 +88,8 @@ function BlogPostCard({ post }: { post: BlogPost }) {
   const isMediumPost = post.source === 'medium'
   const postUrl = isMediumPost ? ((post as MediumPost).url || '#') : `/blog/${post.slug}`
   const shareUrl = isMediumPost ? ((post as MediumPost).url || '#') : `https://zvarney.com/blog/${post.slug}`
+  const [imageError, setImageError] = useState(false)
+  const [imageLoading, setImageLoading] = useState(true)
 
   return (
     <article className="border-b border-border pb-12 last:border-b-0">
@@ -112,13 +114,24 @@ function BlogPostCard({ post }: { post: BlogPost }) {
       </div>
       
       <div className="grid md:grid-cols-3 gap-6">
-        {post.image && (
+        {post.image && !imageError && (
           <div className="md:col-span-1">
+            {imageLoading && (
+              <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            )}
             <img
               src={post.image}
               alt={post.title}
-              className="w-full h-48 object-cover rounded-lg"
+              className={`w-full h-48 object-cover rounded-lg ${imageLoading ? 'hidden' : 'block'}`}
               loading="lazy"
+              onLoad={() => setImageLoading(false)}
+              onError={() => {
+                setImageError(true)
+                setImageLoading(false)
+                console.error('Failed to load image:', post.image)
+              }}
             />
           </div>
         )}
