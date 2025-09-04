@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const CONTACT_EMAIL = 'zvarney@gmail.com' // Temporarily using account email until domain is verified
+const CONTACT_EMAIL = 'z.varney.business@gmail.com'
 const resend = new Resend(process.env.RESEND_API_KEY || 're_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y')
 
 export async function POST(request: NextRequest) {
@@ -47,9 +47,6 @@ ${message}
 ---
 This message was sent from the contact form on zvarney.com
 Reply directly to this email to respond to ${name} at ${email}
-
-Note: This email is temporarily being sent to zvarney@gmail.com. 
-To receive emails at z.varney.business@gmail.com, please verify your domain at resend.com/domains
     `.trim()
 
     // Create HTML version for better formatting
@@ -89,7 +86,7 @@ To receive emails at z.varney.business@gmail.com, please verify your domain at r
     // Send email using Resend
     try {
       const emailResult = await resend.emails.send({
-        from: 'Portfolio Contact <onboarding@resend.dev>', // Using Resend's default domain for now
+        from: 'Portfolio Contact <onboarding@resend.dev>',
         to: CONTACT_EMAIL,
         subject: `New Contact Form Submission from ${name} (${company})`,
         text: emailContent,
@@ -100,17 +97,22 @@ To receive emails at z.varney.business@gmail.com, please verify your domain at r
       console.log('Email sent successfully:', emailResult)
     } catch (emailError) {
       console.error('Failed to send email:', emailError)
+      
       // Log the submission for debugging if email fails
       console.log('Contact form submission (email failed):', {
         timestamp: new Date().toISOString(),
         to: CONTACT_EMAIL,
         subject: `New Contact Form Submission from ${name} (${company})`,
         from: email,
-        content: emailContent
+        content: emailContent,
+        error: emailError
       })
       
-      // Still return success to user, but log the error
-      // In production, you might want to handle this differently
+      // Return error to user if email fails
+      return NextResponse.json(
+        { error: 'Failed to send message. Please try again or email me directly at z.varney.business@gmail.com' },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json(

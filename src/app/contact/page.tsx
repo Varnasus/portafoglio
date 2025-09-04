@@ -62,10 +62,12 @@ export default function ContactPage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError(null)
     
     try {
       const response = await fetch('/api/contact', {
@@ -76,15 +78,16 @@ export default function ContactPage() {
         body: JSON.stringify(formData),
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to send message')
+        throw new Error(result.error || 'Failed to send message')
       }
 
       setIsSubmitted(true)
     } catch (error) {
       console.error('Error sending message:', error)
-      // You could add error state handling here
-      alert('Failed to send message. Please try again or email me directly at z.varney.business@gmail.com')
+      setError(error instanceof Error ? error.message : 'Failed to send message. Please try again or email me directly at z.varney.business@gmail.com')
     } finally {
       setIsSubmitting(false)
     }
@@ -99,6 +102,7 @@ export default function ContactPage() {
 
   const resetForm = () => {
     setIsSubmitted(false)
+    setError(null)
     setFormData({
       name: "",
       email: "",
@@ -273,6 +277,13 @@ export default function ContactPage() {
                         />
                       </div>
                     </div>
+
+                    {/* Error Message */}
+                    {error && (
+                      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <p className="text-red-800 text-sm">{error}</p>
+                      </div>
+                    )}
 
                     {/* Submit Button */}
                     <div className="flex justify-center pt-6">
