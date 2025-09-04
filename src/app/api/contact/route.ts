@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const CONTACT_EMAIL = 'z.varney.business@gmail.com'
+const CONTACT_EMAIL = 'zvarney@gmail.com' // Temporarily using account email until domain is verified
 const resend = new Resend(process.env.RESEND_API_KEY || 're_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y')
 
 export async function POST(request: NextRequest) {
@@ -47,6 +47,9 @@ ${message}
 ---
 This message was sent from the contact form on zvarney.com
 Reply directly to this email to respond to ${name} at ${email}
+
+Note: This email is temporarily being sent to zvarney@gmail.com. 
+To receive emails at z.varney.business@gmail.com, please verify your domain at resend.com/domains
     `.trim()
 
     // Create HTML version for better formatting
