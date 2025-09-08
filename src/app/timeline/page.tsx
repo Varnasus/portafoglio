@@ -170,24 +170,6 @@ export default function TimelinePage() {
           }
         }}
       />
-      
-      {/* Hero Section */}
-      <section className="py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-4xl">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
-              Career Timeline
-            </h1>
-            <p className="mt-4 text-lg leading-8 text-muted-foreground">
-              Zach Varney&apos;s professional journey from early career to becoming an AI Technical Product Manager.
-            </p>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Navigate through each milestone using the controls below or keyboard arrows.
-            </p>
-          </div>
-        </Container>
-      </section>
-
             {/* Timeline Slideshow */}
       <TimelineSlideshow events={timelineData} />
 
