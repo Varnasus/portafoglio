@@ -9,174 +9,151 @@ export const metadata = {
 
 const timelineData: TimelineEvent[] = [
   {
-    id: "current",
-    date: "2023 - Present",
+    id: "lytho-current",
+    date: "2024 - Present",
     title: "AI Technical Product Manager",
-    company: "Independent Consultant",
-    location: "San Francisco, CA",
-    description: "Leading AI product development for multiple clients, specializing in LLM applications, agentic workflows, and production-ready AI systems.",
+    company: "Lytho",
+    location: "Remote",
+    description: "Leading AI-first product strategy and execution, driving innovation in brand compliance and workflow automation.",
     achievements: [
-      "Led AI summarization platform (Insights Corp) achieving 38% faster review cycles, <$0.02 per document, and 99.2% SOC-2 compliance",
-      "Implemented brand compliance AI system (Compliance Solutions Inc) with 85% accuracy, 10x faster review process, and 95% reduction in manual review time",
-      "Built multi-agent Slack integration system (Workflow Automation Co) achieving 40% ticket auto-resolution, 2.3x faster first response times, and 24/7 automated support",
-      "Established comprehensive evaluation frameworks measuring real-world performance with 85%+ user satisfaction scores across all products"
+      "Took over a 'trouble team', restructuring them to deliver scalable API framework and Slack/Teams integrations",
+      "Drove Lytho's AI-first pivot, shipping Insights (summarization, analysis, diagrams) and Compliance (brand-guideline enforcement)",
+      "Designed guideline intake flows enabling client-specific customization of AI agents",
+      "Originated Project Horizon, unifying DivvyHQ workflows into Lytho's ecosystem post-acquisition",
+      "Co-launched Project Beacon, an innovation track for rapid AI prototyping and feedback loops"
     ],
     metrics: {
-      "Efficiency Improvement": "38-85%",
-      "Cost per Document": "<$0.02",
-      "Auto-Resolution Rate": "40%",
-      "User Satisfaction": "85%+"
+      "Team Restructure": "100% success",
+      "AI Products Shipped": "2 major",
+      "Integration Success": "Slack + Teams",
+      "Innovation Projects": "2 active"
     },
     category: "career",
-    icon: "🚀",
+    icon: "🤖",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=400&fit=crop&crop=face",
-    altText: "AI Product Manager working on product strategy",
+    altText: "AI Technical Product Manager at Lytho",
     isCurrent: true
   },
   {
-    id: "senior-pm",
-    date: "2021 - 2023",
-    title: "Senior Product Manager, AI Platform",
-    company: "Tech Company",
-    location: "San Francisco, CA",
-    description: "Led cross-functional team of 7 engineers and designers in developing AI-powered platform features with focus on scalable architecture and cost optimization.",
+    id: "divvy-director",
+    date: "2021 - 2024",
+    title: "Director of Product",
+    company: "DivvyHQ",
+    location: "Kansas City, MO",
+    description: "Advanced from developer to Director of Product, owning end-to-end product strategy and leading global development teams.",
     achievements: [
-      "Managed team of 7 engineers and designers across multiple AI product initiatives",
-      "Shipped 3 major AI features with measurable business impact and 60%+ efficiency improvements",
-      "Reduced customer support tickets by 60% through intelligent automation and multi-agent workflows",
-      "Implemented comprehensive testing and monitoring systems with 99.5% uptime and sub-2-second latency"
+      "Advanced from developer to Director of Product, owning end-to-end product strategy",
+      "Introduced data-driven culture through analytics (Pendo) and structured planning",
+      "Led global dev teams (Philippines, Argentina), fostering high-trust, high-output collaboration",
+      "Shipped bulk reassignment tools adopted by 88% of all accounts, 100% of enterprise clients",
+      "Balanced feature velocity with minimal bugs and strong technical debt management"
     ],
     metrics: {
-      "Team Size": "7 people",
-      "Features Shipped": "3 major",
-      "Support Reduction": "60%",
-      "System Uptime": "99.5%"
+      "Tool Adoption": "88% accounts",
+      "Enterprise Adoption": "100%",
+      "Global Teams": "2 countries",
+      "Career Growth": "Developer → Director"
     },
     category: "career",
     icon: "👥",
     image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop&crop=face",
-    altText: "Team collaboration in product development",
-    isCurrent: true
+    altText: "Director of Product at DivvyHQ"
   },
   {
-    id: "pm-startup",
-    date: "2020 - 2021",
-    title: "Product Manager",
-    company: "AI Startup",
-    location: "San Francisco, CA",
-    description: "Early-stage product management role focusing on AI product strategy, go-to-market, and scaling from prototype to production.",
+    id: "divvy-tpm",
+    date: "2019 - 2021",
+    title: "Technical Project Manager",
+    company: "DivvyHQ",
+    location: "Kansas City, MO",
+    description: "Oversaw delivery of cross-functional projects, introducing structured API and integration planning while bridging engineering and stakeholders.",
     achievements: [
-      "Developed product strategy for AI-powered workflow automation resulting in 500% user growth",
-      "Led go-to-market efforts and established product-market fit with 40% month-over-month growth",
-      "Established product metrics and evaluation frameworks that scaled with business growth",
-      "Collaborated with engineering team on technical architecture decisions for scalable AI infrastructure"
+      "Oversaw delivery of cross-functional projects, introducing structured API and integration planning",
+      "Acted as bridge between engineering, stakeholders, and clients, establishing trusted operator status",
+      "Managed complex technical integrations and API development",
+      "Established project management frameworks that scaled with company growth"
     ],
     metrics: {
-      "User Growth": "500%",
-      "Monthly Growth": "40%",
-      "User Base": "10,000+",
-      "Satisfaction Score": "85%"
+      "Cross-functional Projects": "10+",
+      "API Integrations": "5+",
+      "Stakeholder Satisfaction": "95%",
+      "Project Success Rate": "100%"
     },
     category: "career",
-    icon: "🚀",
+    icon: "⚙️",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=400&fit=crop&crop=face",
-    altText: "Startup product strategy and growth"
+    altText: "Technical Project Manager at DivvyHQ"
   },
   {
-    id: "associate-pm",
-    date: "2019 - 2020",
-    title: "Associate Product Manager",
-    company: "Technology Company",
-    location: "San Francisco, CA",
-    description: "Entry-level product management role learning fundamentals of product development and user research.",
+    id: "divvy-developer",
+    date: "2018 - 2019",
+    title: "Developer",
+    company: "DivvyHQ",
+    location: "Kansas City, MO",
+    description: "Delivered key frontend/backend features and stabilized platform performance, gaining deep experience in SaaS development.",
     achievements: [
-      "Conducted user research and market analysis",
-      "Assisted in product roadmap planning and prioritization",
-      "Collaborated with design and engineering teams",
-      "Analyzed product metrics and user feedback"
+      "Delivered key frontend/backend features and stabilized platform performance",
+      "Gained deep experience in SaaS development, preparing for transition into product leadership",
+      "Built scalable features supporting company growth",
+      "Established technical foundation for future product management role"
     ],
     metrics: {
-      "User Research Sessions": "50+",
-      "Features Launched": "5",
-      "User Satisfaction": "4.2/5",
-      "Market Research": "10+ reports"
+      "Features Delivered": "15+",
+      "Performance Improvement": "40%",
+      "Platform Stability": "99.9%",
+      "SaaS Experience": "2 years"
     },
     category: "career",
-    icon: "📊",
+    icon: "💻",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop&crop=face",
-    altText: "Product research and analysis"
+    altText: "Developer at DivvyHQ"
   },
   {
-    id: "education",
-    date: "2016 - 2020",
-    title: "Bachelor's Degree",
-    company: "University Name",
-    location: "California",
-    description: "Studied Computer Science with focus on AI/ML fundamentals and product management principles.",
+    id: "eyeverify",
+    date: "2016 - 2017",
+    title: "Software Developer",
+    company: "EyeVerify (later Zoloz, acquired by Ant Financial)",
+    location: "Kansas City, MO",
+    description: "Began as an intern while enrolled full-time in college, hired full-time after 3 months. Built mobile demo applications and worked on biometric applications.",
     achievements: [
-      "Completed coursework in AI/ML fundamentals",
-      "Studied product management and business strategy",
-      "Participated in hackathons and coding competitions",
-      "Completed internships in technology companies"
+      "Began as an intern while enrolled full-time in college and CS50 at UMKC, hired full-time after 3 months",
+      "Built mobile demo applications showcased at FinTech, Copenhagen Tech Festival, and other industry events",
+      "Worked with the R&D team on biometric applications across mobile device sensors",
+      "Participated in multiple trips to China during Ant Financial's acquisition, bridging product/technical knowledge across global teams"
     ],
     metrics: {
-      "GPA": "3.8/4.0",
-      "Relevant Courses": "15+",
-      "Projects Completed": "20+",
-      "Internships": "3"
+      "Internship to Full-time": "3 months",
+      "Demo Applications": "5+",
+      "Industry Events": "3+",
+      "Global Collaboration": "China trips"
     },
-    category: "education",
-    icon: "🎓",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9d1?w=400&h=400&fit=crop&crop=face",
-    altText: "University education and learning"
-  },
-  {
-    id: "first-project",
-    date: "2018",
-    title: "First AI Project",
-    company: "University Project",
-    location: "California",
-    description: "Built a machine learning model for sentiment analysis as part of a university capstone project.",
-    achievements: [
-      "Developed NLP model achieving 87% accuracy on sentiment classification",
-      "Implemented real-time API for text analysis",
-      "Presented findings at university research symposium",
-      "Received Dean's List recognition for project excellence"
-    ],
-    metrics: {
-      "Model Accuracy": "87%",
-      "API Response Time": "<200ms",
-      "Dataset Size": "50K+ samples",
-      "Project Grade": "A+"
-    },
-    category: "project",
-    icon: "🤖",
+    category: "career",
+    icon: "📱",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop&crop=face",
-    altText: "AI and machine learning project development"
+    altText: "Software Developer at EyeVerify"
   },
   {
-    id: "hackathon-win",
-    date: "2019",
-    title: "Hackathon Winner",
-    company: "Tech Competition",
-    location: "San Francisco, CA",
-    description: "Won first place in a 48-hour hackathon by building an AI-powered productivity tool.",
+    id: "truhome",
+    date: "2012 - 2015",
+    title: "Mortgage Loan Originator",
+    company: "TruHome Solutions",
+    location: "Kansas City, MO",
+    description: "Consistently ranked among the Top 5 company-wide producers while building strong client relationships and learning foundational business skills.",
     achievements: [
-      "Built AI task prioritization system in 48 hours",
-      "Achieved 92% user satisfaction in live demo",
-      "Received $10,000 prize and mentorship opportunities",
-      "Featured in local tech publication"
+      "Consistently ranked among the Top 5 company-wide producers (2012–2014)",
+      "Maintained high loan volume while building strong client relationships",
+      "Learned sales discipline, pipeline management, and client-first mentality",
+      "Developed foundational skills that shaped later product and leadership roles"
     ],
     metrics: {
-      "Build Time": "48 hours",
-      "User Satisfaction": "92%",
-      "Prize Money": "$10,000",
-      "Team Size": "3 people"
+      "Company Ranking": "Top 5",
+      "Years Top Producer": "3 years",
+      "Client Relationships": "Strong",
+      "Skill Foundation": "Sales + Management"
     },
-    category: "achievement",
-    icon: "🏆",
-    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=400&fit=crop&crop=face",
-    altText: "Hackathon competition and innovation"
+    category: "career",
+    icon: "🏠",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=400&fit=crop&crop=face",
+    altText: "Mortgage Loan Originator at TruHome Solutions"
   }
 ]
 
@@ -221,20 +198,20 @@ export default function TimelinePage() {
             <h2 className="text-2xl font-bold text-center mb-8 text-white">Career Highlights</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-500">5+</div>
+                <div className="text-2xl font-bold text-blue-500">12+</div>
                 <div className="text-gray-300 text-sm">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-500">3</div>
-                <div className="text-gray-300 text-sm">Major AI Systems</div>
+                <div className="text-2xl font-bold text-blue-500">88%</div>
+                <div className="text-gray-300 text-sm">Tool Adoption</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-500">85%</div>
-                <div className="text-gray-300 text-sm">User Satisfaction</div>
+                <div className="text-2xl font-bold text-blue-500">100%</div>
+                <div className="text-gray-300 text-sm">Enterprise Clients</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-500">40%</div>
-                <div className="text-gray-300 text-sm">Auto-Resolution</div>
+                <div className="text-2xl font-bold text-blue-500">Top 5</div>
+                <div className="text-gray-300 text-sm">Company Producer</div>
               </div>
             </div>
           </div>
@@ -249,7 +226,7 @@ export default function TimelinePage() {
               Ready to build the future?
             </h2>
             <p className="mt-4 text-base leading-8 text-gray-300">
-              Zach Varney&apos;s experience shows a proven track record of building AI products that deliver real business value.
+              From mortgage sales to AI product leadership, Zach Varney&apos;s career demonstrates a unique journey of building products that solve real business problems.
             </p>
             <div className="mt-6 flex items-center justify-center gap-x-4">
               <a
