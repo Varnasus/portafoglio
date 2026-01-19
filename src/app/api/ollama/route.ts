@@ -1,11 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const OLLAMA_BASE_URL = 'http://localhost:11434'
+const ALLOWED_GET_ENDPOINTS = new Set(['tags', 'ps', 'show', 'version'])
+const ALLOWED_POST_ENDPOINTS = new Set(['generate', 'chat', 'embeddings'])
+
+function getEndpoint(rawEndpoint: string | null, allowed: Set<string>, fallback: string) {
+  const endpoint = rawEndpoint?.trim() || fallback
+  if (!allowed.has(endpoint)) {
+    return null
+  }
+  return endpoint
+}
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const endpoint = searchParams.get('endpoint') || 'tags'
+    const endpoint = getEndpoint(searchParams.get('endpoint'), ALLOWED_GET_ENDPOINTS, 'tags')
+    if (!endpoint) {
+      return NextResponse.json(
+        { error: 'Unsupported endpoint' },
+        { status: 400 }
+      )
+    }
     
     const response = await fetch(`${OLLAMA_BASE_URL}/api/${endpoint}`, {
       method: 'GET',
@@ -61,7 +77,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const endpoint = searchParams.get('endpoint') || 'generate'
+    const endpoint = getEndpoint(searchParams.get('endpoint'), ALLOWED_POST_ENDPOINTS, 'generate')
+    if (!endpoint) {
+      return NextResponse.json(
+        { error: 'Unsupported endpoint' },
+        { status: 400 }
+      )
+    }
     const body = await request.json()
     
     const response = await fetch(`${OLLAMA_BASE_URL}/api/${endpoint}`, {
