@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/ui/container"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -19,6 +19,7 @@ interface FormData {
   timeline: string
   budget: string
   message: string
+  honeypot: string // Hidden field to catch bots
 }
 
 const projectTypes = [
@@ -59,23 +60,53 @@ export default function ContactPage() {
     timeline: "",
     budget: "",
     message: "",
+    honeypot: "", // Should always be empty
   })
+  const [csrfToken, setCsrfToken] = useState<string>("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Fetch CSRF token on component mount
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch('/api/csrf-token')
+        const data = await response.json()
+        if (data.token) {
+          setCsrfToken(data.token)
+        }
+      } catch (error) {
+        console.error('Failed to fetch CSRF token:', error)
+        // Continue without CSRF token (will work in development)
+      }
+    }
+
+    fetchCsrfToken()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError(null)
-    
+
+    // Check honeypot field (should be empty)
+    if (formData.honeypot) {
+      // Silent fail for bots
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          csrfToken,
+        }),
       })
 
       const result = await response.json()
@@ -112,7 +143,17 @@ export default function ContactPage() {
       timeline: "",
       budget: "",
       message: "",
+      honeypot: "",
     })
+    // Fetch a new CSRF token
+    fetch('/api/csrf-token')
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          setCsrfToken(data.token)
+        }
+      })
+      .catch(err => console.error('Failed to fetch CSRF token:', err))
   }
 
   return (
@@ -276,6 +317,20 @@ export default function ContactPage() {
                           required
                         />
                       </div>
+                    </div>
+
+                    {/* Honeypot field - hidden from users, catches bots */}
+                    <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
+                      <Label htmlFor="website">Website</Label>
+                      <Input
+                        id="website"
+                        name="website"
+                        type="text"
+                        value={formData.honeypot}
+                        onChange={(e) => handleChange("honeypot", e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
                     </div>
 
                     {/* Error Message */}
