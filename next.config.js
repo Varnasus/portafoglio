@@ -20,10 +20,28 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react'],
   },
   async headers() {
+    // Content Security Policy
+    const cspHeader = `
+      default-src 'self';
+      script-src 'self' 'unsafe-eval' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' blob: data: https://images.unsplash.com https://via.placeholder.com https://cdn-images-1.medium.com https://miro.medium.com https://medium.com https://images.weserv.nl;
+      font-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    `.replace(/\s{2,}/g, ' ').trim()
+
     return [
       {
         source: '/(.*)',
         headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: cspHeader,
+          },
           {
             key: 'X-Frame-Options',
             value: 'DENY',
