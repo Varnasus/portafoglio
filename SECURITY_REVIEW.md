@@ -18,11 +18,11 @@ A comprehensive security review was conducted on the codebase to identify hardco
 
 **Issue:** The Resend API key was hardcoded as a fallback value:
 ```typescript
-const resend = new Resend(process.env.RESEND_API_KEY || 're_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y')
+const resend = new Resend(process.env.RESEND_API_KEY || 'REDACTED_RESEND_API_KEY')
 ```
 
 **Risk Level:** CRITICAL
-- The API key `re_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y` was publicly exposed in the source code
+- The API key was publicly exposed in the source code
 - This key is visible in the git repository and could be discovered by anyone with access
 - An attacker could use this key to send emails via your Resend account, potentially:
   - Sending spam from your domain
@@ -87,7 +87,7 @@ Good security headers are implemented:
 ### High Priority
 
 1. **Regenerate Resend API Key**
-   - ⚠️ The exposed key `re_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y` should be immediately revoked
+   - ⚠️ The exposed key should be immediately revoked
    - Create a new API key at https://resend.com/api-keys
    - Update your deployment environment with the new key
 
