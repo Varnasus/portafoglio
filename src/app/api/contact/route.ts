@@ -2,12 +2,75 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
 const CONTACT_EMAIL = 'z.varney.business@gmail.com'
-const resend = new Resend(process.env.RESEND_API_KEY || 're_g1qEcKrs_6AEeWSGvKnRmg5CEfWiPtE3y')
+const RESEND_API_KEY = process.env.RESEND_API_KEY
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const RATE_LIMIT_MAX = 5
+const MAX_MESSAGE_LENGTH = 2000
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>()
+
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null
+
+function getClientIp(request: NextRequest) {
+  const forwarded = request.headers.get('x-forwarded-for')
+  if (forwarded) {
+    return forwarded.split(',')[0]?.trim() || 'unknown'
+  }
+  return request.headers.get('x-real-ip') || 'unknown'
+}
+
+function checkRateLimit(ip: string) {
+  const now = Date.now()
+  const entry = rateLimitStore.get(ip)
+  if (!entry || entry.resetAt <= now) {
+    rateLimitStore.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
+    return { limited: false, resetAt: now + RATE_LIMIT_WINDOW_MS }
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return { limited: true, resetAt: entry.resetAt }
+  }
+
+  entry.count += 1
+  rateLimitStore.set(ip, entry)
+  return { limited: false, resetAt: entry.resetAt }
+}
+
+function normalizeString(value: unknown) {
+  return typeof value === 'string' ? value.trim() : ''
+}
 
 export async function POST(request: NextRequest) {
   try {
+    if (!resend) {
+      return NextResponse.json(
+        { error: 'Email service not configured. Please try again later.' },
+        { status: 500 }
+      )
+    }
+
+    const clientIp = getClientIp(request)
+    const rateLimit = checkRateLimit(clientIp)
+    if (rateLimit.limited) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil((rateLimit.resetAt - Date.now()) / 1000).toString()
+          }
+        }
+      )
+    }
+
     const body = await request.json()
-    const { name, email, company, projectType, teamSize, timeline, budget, message } = body
+    const name = normalizeString(body.name)
+    const email = normalizeString(body.email)
+    const company = normalizeString(body.company)
+    const projectType = normalizeString(body.projectType)
+    const teamSize = normalizeString(body.teamSize)
+    const timeline = normalizeString(body.timeline)
+    const budget = normalizeString(body.budget)
+    const message = normalizeString(body.message)
 
     // Validate required fields
     if (!name || !email || !company || !projectType || !message) {
@@ -22,6 +85,13 @@ export async function POST(request: NextRequest) {
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: 'Invalid email format' },
+        { status: 400 }
+      )
+    }
+
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      return NextResponse.json(
+        { error: `Message exceeds ${MAX_MESSAGE_LENGTH} characters` },
         { status: 400 }
       )
     }
