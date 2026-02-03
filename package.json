@@ -7,7 +7,9 @@
     "build": "contentlayer build && next build",
     "start": "next start",
     "lint": "eslint",
-    "contentlayer": "contentlayer"
+    "contentlayer": "contentlayer",
+    "security-audit": "npm audit --audit-level=moderate",
+    "security-audit:fix": "npm audit fix"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",

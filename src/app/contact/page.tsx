@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/ui/container"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -63,17 +63,43 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [csrfToken, setCsrfToken] = useState<string | null>(null)
+
+  // Fetch CSRF token on component mount
+  const fetchCsrfToken = useCallback(async () => {
+    try {
+      const response = await fetch('/api/csrf')
+      if (response.ok) {
+        const data = await response.json()
+        setCsrfToken(data.csrfToken)
+      }
+    } catch (err) {
+      console.error('Failed to fetch CSRF token:', err)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchCsrfToken()
+  }, [fetchCsrfToken])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError(null)
-    
+
+    // Ensure we have a CSRF token
+    if (!csrfToken) {
+      setError('Security token missing. Please refresh the page and try again.')
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify(formData),
       })
@@ -85,9 +111,13 @@ export default function ContactPage() {
       }
 
       setIsSubmitted(true)
+      // Refresh CSRF token after successful submission
+      fetchCsrfToken()
     } catch (error) {
       console.error('Error sending message:', error)
       setError(error instanceof Error ? error.message : 'Failed to send message. Please try again or email me directly at z.varney.business@gmail.com')
+      // Refresh CSRF token on error as well
+      fetchCsrfToken()
     } finally {
       setIsSubmitting(false)
     }
