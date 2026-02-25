@@ -19,7 +19,7 @@ export function Header() {
             </Link>
           </div>
           
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">
             {siteConfig.navigation.map((item) => (
               <Link
                 key={item.href}
