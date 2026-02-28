@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Zach Varney",
-  title: "Zach Varney - AI Technical Product Manager",
-  description: "AI Technical Product Manager specializing in LLM-powered applications, agentic workflows, and scalable AI solutions. Expert in product discovery, evaluation frameworks, and shipping AI products that actually work.",
+  title: "Zach Varney — AI-First Product Strategist Who Ships Code",
+  description: "AI-first product strategist with a developer background. I don't just build roadmaps — I build products. 12K+ lines shipped, 2 working interactive tools, 3 production AI case studies. Currently at Lytho driving AI-first product strategy.",
   url: "https://zvarney.com",
   ogImage: "https://zvarney.com/og.jpg",
   links: {
@@ -12,18 +12,16 @@ export const siteConfig = {
   author: {
     name: "Zach Varney",
     email: "z.varney.business@gmail.com",
-    jobTitle: "AI Technical Product Manager",
-    company: "Independent Consultant",
+    jobTitle: "AI-First Product Strategist",
+    company: "Lytho",
     location: "Kansas City, MO",
-    bio: "AI Technical PM with 1.5 years building LLM-powered products. Expert in agentic workflows, evaluation frameworks, and shipping AI products that actually work.",
+    bio: "AI-first product strategist with a developer background. I ship code, not just strategy docs. 12+ years B2B SaaS, currently driving AI product strategy at Lytho.",
   },
   navigation: [
     { title: "Home", href: "/" },
     { title: "About", href: "/about" },
     { title: "Timeline", href: "/timeline" },
-    { title: "Case Studies", href: "/case-studies" },
-    { title: "Blog", href: "/blog" },
-    // { title: "Tools", href: "/tools" },
+    { title: "Tools", href: "/tools" },
     { title: "FAQ", href: "/faq" },
     { title: "Resume", href: "/resume" },
   ],

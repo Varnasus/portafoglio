@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zach Varney — AI-First Product Strategist Who Ships Code</title>
+<meta name="description" content="AI-first product strategist and builder. 12K+ lines shipped. 2 working tools. 3 case studies. Built entirely with Claude Code.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #ffffff;
+  --bg-muted: #f8f8fb;
+  --bg-dark: #0a0a12;
+  --fg: #0a0a0f;
+  --fg-muted: #6b7280;
+  --fg-light: #9ca3af;
+  --primary: #1a1a2e;
+  --accent: #3b82f6;
+  --accent-green: #10b981;
+  --accent-purple: #8b5cf6;
+  --accent-orange: #f59e0b;
+  --accent-red: #ef4444;
+  --border: #e5e7eb;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08);
+  --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--fg); line-height: 1.6; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; }
+.section-muted { background: var(--bg-muted); }
+
+/* Nav */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.2s;
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; max-width: 1200px; margin: 0 auto; padding: 0 24px;
+}
+.nav-brand { font-size: 1rem; font-weight: 800; color: var(--fg); text-decoration: none; letter-spacing: -0.02em; }
+.nav-brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-link {
+  padding: 6px 12px; font-size: 0.85rem; font-weight: 500;
+  color: var(--fg-muted); text-decoration: none; border-radius: var(--radius);
+  transition: background 0.15s, color 0.15s; cursor: pointer; border: none; background: none;
+}
+.nav-link:hover { background: var(--bg-muted); color: var(--fg); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-size: 0.9rem; font-weight: 600; border-radius: var(--radius); text-decoration: none; cursor: pointer; border: none; transition: all 0.15s; font-family: var(--font); }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #2d2d4e; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.btn-outline { background: transparent; color: var(--fg); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+.btn-sm { padding: 7px 14px; font-size: 0.8rem; }
+.btn-accent { background: var(--accent); color: white; }
+.btn-accent:hover { background: #2563eb; transform: translateY(-1px); }
+
+/* Hero */
+.hero { min-height: calc(100vh - 56px); display: flex; flex-direction: column; justify-content: center; padding: 80px 0 60px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px; background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2); border-radius: 100px;
+  font-size: 0.75rem; font-weight: 700; color: var(--accent);
+  margin-bottom: 24px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 800;
+  line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 24px;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-sub { font-size: 1.15rem; color: var(--fg-muted); max-width: 620px; margin-bottom: 36px; line-height: 1.7; }
+.hero-proof {
+  display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 36px;
+  font-size: 0.85rem; font-family: var(--mono); color: var(--fg-light);
+}
+.hero-proof-item { display: flex; align-items: center; gap: 6px; }
+.hero-proof-item::before { content: "◆"; font-size: 0.6em; color: var(--accent); }
+.hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 64px; }
+
+/* Stats bar */
+.stats-bar {
+  display: flex; gap: 0; border-top: 1px solid var(--border); padding-top: 32px;
+}
+.stat-item {
+  flex: 1; min-width: 130px; padding: 0 24px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:first-child { padding-left: 0; }
+.stat-item:last-child { border-right: none; }
+.stat-number { font-size: 2rem; font-weight: 800; color: var(--fg); font-family: var(--mono); line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 0.8rem; color: var(--fg-muted); font-weight: 600; margin-bottom: 2px; }
+.stat-sub { font-size: 0.7rem; color: var(--fg-light); }
+
+/* Section headers */
+.section-label { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+.section-desc { font-size: 1rem; color: var(--fg-muted); max-width: 640px; line-height: 1.7; }
+.mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; } .mb-6 { margin-bottom: 24px; } .mb-8 { margin-bottom: 32px; }
+
+/* Grids */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+/* Cards */
+.card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); }
+.card-accent-blue { border-left: 3px solid var(--accent); }
+.card-accent-green { border-left: 3px solid var(--accent-green); }
+.card-accent-purple { border-left: 3px solid var(--accent-purple); }
+
+/* Case studies */
+.cs-badge { font-size: 0.72rem; font-weight: 700; color: var(--fg-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+.cs-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+.cs-desc { font-size: 0.875rem; color: var(--fg-muted); margin-bottom: 18px; line-height: 1.6; }
+.cs-metrics { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.cs-metric { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--bg-muted); border-radius: 6px; }
+.cs-metric-val { font-size: 1.05rem; font-weight: 800; font-family: var(--mono); }
+.cs-metric-label { font-size: 0.78rem; color: var(--fg-muted); }
+.cs-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.cs-tag { padding: 3px 9px; background: rgba(59,130,246,0.08); color: var(--accent); border-radius: 100px; font-size: 0.72rem; font-weight: 600; }
+
+/* ROI Calculator */
+.roi-layout { display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: start; }
+.roi-inputs { display: flex; flex-direction: column; gap: 18px; }
+.slider-group { display: flex; flex-direction: column; gap: 8px; }
+.slider-header { display: flex; justify-content: space-between; align-items: center; }
+.slider-label { font-size: 0.85rem; font-weight: 600; }
+.slider-value { font-size: 0.82rem; font-weight: 700; font-family: var(--mono); color: var(--accent); background: rgba(59,130,246,0.08); padding: 2px 10px; border-radius: 100px; }
+input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 2px; background: var(--border); outline: none; cursor: pointer; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); transition: box-shadow 0.15s; }
+input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px rgba(59,130,246,0.2); }
+.roi-results { display: flex; flex-direction: column; gap: 20px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.kpi-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.kpi-val { font-size: 1.6rem; font-weight: 800; font-family: var(--mono); line-height: 1; margin-bottom: 4px; }
+.kpi-label { font-size: 0.75rem; color: var(--fg-muted); font-weight: 500; }
+.chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.chart-box { position: relative; height: 200px; margin-top: 8px; }
+.chart-full { position: relative; height: 200px; margin-top: 8px; }
+.chart-label { font-size: 0.72rem; font-weight: 700; color: var(--fg-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.roi-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Canvas */
+.canvas-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); border-radius: var(--radius); margin-bottom: 16px; }
+.canvas-status-text { font-size: 0.78rem; font-weight: 600; color: var(--accent-orange); display: flex; align-items: center; gap: 6px; }
+.canvas-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.canvas-tab { padding: 8px 18px; font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border); background: transparent; color: var(--fg-muted); transition: all 0.15s; font-family: var(--font); }
+.canvas-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+.chat-window { height: 380px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; scroll-behavior: smooth; }
+.msg { display: flex; gap: 10px; }
+.msg-user { flex-direction: row-reverse; align-self: flex-end; max-width: 80%; }
+.msg-bot { max-width: 85%; }
+.msg-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+.msg-user .msg-avatar { background: var(--accent); color: white; }
+.msg-bot .msg-avatar { background: var(--bg-muted); color: var(--fg-muted); border: 1px solid var(--border); font-size: 0.65rem; }
+.msg-bubble { padding: 10px 14px; border-radius: 12px; font-size: 0.875rem; line-height: 1.55; }
+.msg-user .msg-bubble { background: var(--accent); color: white; border-radius: 12px 2px 12px 12px; }
+.msg-bot .msg-bubble { background: var(--bg-muted); color: var(--fg); border-radius: 2px 12px 12px 12px; }
+.typing-dots { display: flex; gap: 4px; padding: 4px 0; }
+.dot { width: 6px; height: 6px; background: var(--fg-light); border-radius: 50%; animation: bounce 1.2s infinite; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 0.875rem; font-family: var(--font); outline: none; transition: border-color 0.15s; background: var(--bg); color: var(--fg); }
+.chat-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.08); }
+.canvas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.canvas-field { display: flex; flex-direction: column; gap: 6px; }
+.canvas-field label { font-size: 0.78rem; font-weight: 700; color: var(--fg); }
+.canvas-field textarea { padding: 10px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.8rem; font-family: var(--font); resize: none; background: var(--bg); color: var(--fg); transition: border-color 0.15s; line-height: 1.5; }
+.canvas-field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.08); }
+.progress-header { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; }
+.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-green)); border-radius: 3px; transition: width 0.4s ease; }
+.canvas-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+/* Timeline */
+.timeline-wrap { overflow-x: auto; padding: 16px 0 8px; position: relative; }
+.timeline-line { position: absolute; top: 38px; left: 0; right: 0; height: 2px; background: var(--border); z-index: 0; }
+.timeline-events { display: flex; position: relative; z-index: 1; min-width: 680px; }
+.t-event { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 8px; cursor: default; position: relative; }
+.t-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--border); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--border); margin-bottom: 10px; flex-shrink: 0; transition: all 0.2s; }
+.t-event.current .t-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.25); animation: glow 2s ease-in-out infinite; }
+@keyframes glow { 0%,100% { box-shadow: 0 0 0 3px rgba(59,130,246,0.2); } 50% { box-shadow: 0 0 0 7px rgba(59,130,246,0.08); } }
+.t-label { font-size: 0.72rem; font-weight: 700; text-align: center; color: var(--fg); margin-bottom: 2px; line-height: 1.3; }
+.t-company { font-size: 0.68rem; color: var(--fg-muted); text-align: center; margin-bottom: 2px; }
+.t-year { font-size: 0.62rem; color: var(--fg-light); text-align: center; font-family: var(--mono); }
+.t-tooltip { display: none; position: absolute; bottom: calc(100% + 16px); left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 10px 14px; border-radius: 8px; font-size: 0.78rem; white-space: nowrap; z-index: 20; box-shadow: var(--shadow-lg); max-width: 220px; white-space: normal; text-align: center; }
+.t-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--primary); }
+.t-event:hover .t-tooltip { display: block; }
+.t-event:hover .t-dot { transform: scale(1.3); }
+
+/* Career stats grid */
+.career-kpi { text-align: center; }
+.career-kpi-val { font-size: 1.6rem; font-weight: 800; font-family: var(--mono); margin-bottom: 4px; }
+.career-kpi-label { font-size: 0.78rem; color: var(--fg-muted); font-weight: 500; }
+
+/* Footer */
+footer { background: var(--bg-dark); color: rgba(255,255,255,0.75); padding: 64px 0 32px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-eyebrow { font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.footer-title { font-size: 1.5rem; font-weight: 800; color: white; line-height: 1.25; margin-bottom: 10px; letter-spacing: -0.02em; }
+.footer-sub { font-size: 0.875rem; color: rgba(255,255,255,0.4); margin-bottom: 24px; line-height: 1.6; }
+.footer-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--accent); color: white; border-radius: var(--radius); font-weight: 700; text-decoration: none; font-size: 0.9rem; transition: all 0.15s; }
+.footer-cta:hover { background: #2563eb; transform: translateY(-1px); }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-link { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.875rem; transition: color 0.15s; }
+.footer-link:hover { color: white; }
+.footer-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 20px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+.footer-mono { font-family: var(--mono); font-size: 0.7rem; }
+
+/* Animations */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.fu1 { animation: fadeUp 0.5s ease both; }
+.fu2 { animation: fadeUp 0.5s ease 0.1s both; }
+.fu3 { animation: fadeUp 0.5s ease 0.2s both; }
+.fu4 { animation: fadeUp 0.5s ease 0.3s both; }
+.fu5 { animation: fadeUp 0.5s ease 0.4s both; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Responsive */
+@media (max-width: 1024px) { .roi-layout { grid-template-columns: 1fr; } .chart-pair { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .section { padding: 48px 0; }
+  .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .stats-bar { flex-direction: column; gap: 20px; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 0 0 20px; }
+  .stat-item:last-child { border-bottom: none; }
+  .nav-links .nav-link:not(:last-child) { display: none; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .canvas-grid { grid-template-columns: 1fr 1fr; }
+  .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+}
+@media (max-width: 480px) { .canvas-grid { grid-template-columns: 1fr; } .hero-proof { flex-direction: column; gap: 8px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-inner">
+    <a href="https://zvarney.com" class="nav-brand">Zach<span>Varney</span></a>
+    <div class="nav-links">
+      <button class="nav-link" onclick="scrollTo('roi')">ROI Calculator</button>
+      <button class="nav-link" onclick="scrollTo('canvas')">Discovery Canvas</button>
+      <button class="nav-link" onclick="scrollTo('career')">Timeline</button>
+      <button class="nav-link" onclick="scrollTo('contact')">Contact</button>
+      <a href="https://zvarney.com" class="btn btn-primary btn-sm" style="margin-left:8px;">Full Site ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="fu1">
+      <div class="hero-badge">◆ AI-First Product Strategist</div>
+    </div>
+    <h1 class="fu2">I don't just build<br>roadmaps. I build<br><em>products.</em></h1>
+    <p class="hero-sub fu3">
+      Technical PM background meets AI-native workflow. Every tool below is real and interactive —
+      built with Claude Code. Shipping code is how I validate strategy.
+    </p>
+    <div class="hero-proof fu4">
+      <span class="hero-proof-item">Kansas City, MO (Remote-friendly)</span>
+      <span class="hero-proof-item">AI Technical PM at Lytho</span>
+      <span class="hero-proof-item">Developer background since 2016</span>
+    </div>
+    <div class="hero-buttons fu4">
+      <button class="btn btn-primary" onclick="scrollTo('roi')">Try the ROI Calculator</button>
+      <button class="btn btn-outline" onclick="scrollTo('canvas')">Open Discovery Canvas</button>
+      <a href="https://zvarney.com/case-studies" class="btn btn-outline">View Case Studies ↗</a>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar fu5">
+      <div class="stat-item">
+        <div class="stat-number">12K+</div>
+        <div class="stat-label">Lines Shipped</div>
+        <div class="stat-sub">This portfolio alone</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">38</div>
+        <div class="stat-label">Git Commits</div>
+        <div class="stat-sub">AI-assisted, every one</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Working Tools</div>
+        <div class="stat-sub">Below — try them now</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Case Studies</div>
+        <div class="stat-sub">Real shipped products</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~2M</div>
+        <div class="stat-label">AI Tokens Used</div>
+        <div class="stat-sub">Building this with Claude</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="case-studies" class="section section-muted">
+  <div class="container">
+    <div class="section-label">Shipped. Measured. Real.</div>
+    <h2 class="section-title">AI Products I've Built</h2>
+    <p class="section-desc">These aren't concepts or strategy docs. These are production AI systems with measurable outcomes.</p>
+
+    <div class="grid-3 mt-8">
+      <!-- Insights -->
+      <div class="card card-accent-blue">
+        <div class="cs-badge">Insights Corp · Lead PM · 12 weeks · 7 people</div>
+        <div class="cs-title">AI Summarization Platform</div>
+        <div class="cs-desc">LLM-powered document processing. Multi-model routing, Redis caching, SOC-2 compliant. 50K+ docs/month in production.</div>
+        <div class="cs-metrics">
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="38" data-suffix="%">—</span>
+            <span class="cs-metric-label">Faster review cycles</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="0.02" data-prefix="$" data-decimal="true">—</span>
+            <span class="cs-metric-label">Per document processed</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="99.2" data-suffix="%" data-decimal="true">—</span>
+            <span class="cs-metric-label">SOC-2 compliance score</span>
+          </div>
+        </div>
+        <div class="cs-tags">
+          <span class="cs-tag">GPT-4</span><span class="cs-tag">Claude</span>
+          <span class="cs-tag">Redis</span><span class="cs-tag">AWS Lambda</span>
+        </div>
+      </div>
+
+      <!-- Compliance -->
+      <div class="card card-accent-green">
+        <div class="cs-badge">Lytho · Senior PM · 6 weeks · 5 people</div>
+        <div class="cs-title">Brand Compliance AI</div>
+        <div class="cs-desc">Computer vision + LLM for automated brand guideline enforcement. Configurable per client. 1000+ assets reviewed daily.</div>
+        <div class="cs-metrics">
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="85" data-suffix="%">—</span>
+            <span class="cs-metric-label">Detection accuracy</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="10" data-suffix="x">—</span>
+            <span class="cs-metric-label">Faster review process</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="95" data-suffix="%">—</span>
+            <span class="cs-metric-label">Reduction in manual review</span>
+          </div>
+        </div>
+        <div class="cs-tags">
+          <span class="cs-tag">Computer Vision</span><span class="cs-tag">Claude</span><span class="cs-tag">Multi-modal</span>
+        </div>
+      </div>
+
+      <!-- Agentic -->
+      <div class="card card-accent-purple">
+        <div class="cs-badge">Agentic Workflow · Technical PM · 8 weeks · 6 people</div>
+        <div class="cs-title">Multi-Agent Support Automation</div>
+        <div class="cs-desc">Multi-agent system with Slack integration. Orchestrator routes to specialized agents. Human-in-loop escalation built in from day one.</div>
+        <div class="cs-metrics">
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="40" data-suffix="%">—</span>
+            <span class="cs-metric-label">Tickets auto-resolved</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="2.3" data-suffix="x" data-decimal="true">—</span>
+            <span class="cs-metric-label">Faster first response</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-val" data-counter="85" data-suffix="%">—</span>
+            <span class="cs-metric-label">Customer satisfaction</span>
+          </div>
+        </div>
+        <div class="cs-tags">
+          <span class="cs-tag">LangChain</span><span class="cs-tag">Multi-agent</span><span class="cs-tag">Slack API</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;text-align:center;">
+      <a href="https://zvarney.com/contact" class="btn btn-outline">Work With Me ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section id="roi" class="section">
+  <div class="container">
+    <div class="section-label">Interactive Tool #1 — Try it now</div>
+    <h2 class="section-title">AI ROI Calculator</h2>
+    <p class="section-desc mb-8">Move the sliders. Charts update live. Copy or share your results in one click.</p>
+
+    <div class="roi-layout">
+      <!-- Inputs -->
+      <div class="card roi-inputs">
+        <div style="font-size:0.72rem;font-weight:700;color:var(--fg-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:18px;">Project Parameters</div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Team Size</span>
+            <span class="slider-value" id="val-team">10 people</span>
+          </div>
+          <input type="range" id="s-team" min="1" max="200" value="10" step="1">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Hours Saved / Week</span>
+            <span class="slider-value" id="val-hours">5.0 hrs</span>
+          </div>
+          <input type="range" id="s-hours" min="0.5" max="20" value="5" step="0.5">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Cost per Hour</span>
+            <span class="slider-value" id="val-rate">$50</span>
+          </div>
+          <input type="range" id="s-rate" min="10" max="300" value="50" step="5">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Implementation Cost</span>
+            <span class="slider-value" id="val-cost">$50,000</span>
+          </div>
+          <input type="range" id="s-cost" min="1000" max="500000" value="50000" step="1000">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-label">Timeline</span>
+            <span class="slider-value" id="val-months">12 months</span>
+          </div>
+          <input type="range" id="s-months" min="3" max="36" value="12" step="1">
+        </div>
+
+        <div class="roi-actions" style="margin-top:8px;">
+          <button class="btn btn-outline btn-sm" id="copyBtn" onclick="copyROI()">📋 Copy Results</button>
+          <button class="btn btn-outline btn-sm" onclick="shareROI()">🔗 Share</button>
+          <a href="https://zvarney.com/tools/roi-calculator" class="btn btn-outline btn-sm" target="_blank">Full Tool ↗</a>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="roi-results">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi-weekly" style="color:var(--accent-green);">$2,166</div>
+            <div class="kpi-label">Weekly Savings</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi-monthly" style="color:var(--accent);">$9,381</div>
+            <div class="kpi-label">Monthly Savings</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi-payback" style="color:var(--accent-orange);">5.3 mo</div>
+            <div class="kpi-label">Payback Period</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpi-roi" style="color:var(--accent-purple);">125.6%</div>
+            <div class="kpi-label">Total ROI (Yr 1)</div>
+          </div>
+        </div>
+
+        <div class="chart-pair">
+          <div class="card" style="padding:16px;">
+            <div class="chart-label">ROI Over Time</div>
+            <div class="chart-box"><canvas id="chartLine"></canvas></div>
+          </div>
+          <div class="card" style="padding:16px;">
+            <div class="chart-label">Cost vs Net Savings</div>
+            <div class="chart-box"><canvas id="chartDonut"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:16px;">
+          <div class="chart-label">Cumulative Savings by Month</div>
+          <div class="chart-full"><canvas id="chartBar"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCOVERY CANVAS -->
+<section id="canvas" class="section section-muted">
+  <div class="container">
+    <div class="section-label">Interactive Tool #2 — Try it now</div>
+    <h2 class="section-title">Product Discovery Canvas</h2>
+    <p class="section-desc mb-6">The framework I use for every AI product. Chat with the AI assistant or fill out the canvas directly. Export your work anytime.</p>
+
+    <div class="canvas-status-bar">
+      <span class="canvas-status-text">◆ Demo Mode — Simulated AI responses (full version uses local Ollama)</span>
+      <a href="https://zvarney.com/tools/discovery-canvas" class="btn btn-sm btn-outline" style="font-size:0.75rem;">Full Version ↗</a>
+    </div>
+
+    <div class="canvas-tabs">
+      <button class="canvas-tab active" id="tab-chat" onclick="switchTab('chat')">💬 AI Assistant</button>
+      <button class="canvas-tab" id="tab-grid" onclick="switchTab('grid')">📋 Canvas Grid</button>
+    </div>
+
+    <!-- Chat -->
+    <div id="view-chat">
+      <div class="chat-window" id="chatWindow">
+        <div class="msg msg-bot">
+          <div class="msg-avatar">ZV</div>
+          <div class="msg-bubble">👋 Welcome to your AI Product Discovery Canvas.<br><br>Tell me about a product idea or a problem you want to solve with AI — I'll guide you through the discovery process.<br><br>Try asking about: problem definition, target users, success metrics, model selection, or ethical considerations.</div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Tell me about your AI product idea..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="btn btn-primary btn-sm" onclick="sendMsg()">Send</button>
+      </div>
+    </div>
+
+    <!-- Canvas Grid -->
+    <div id="view-grid" style="display:none;">
+      <div class="canvas-grid" id="canvasGrid"></div>
+      <div style="margin-top:20px;">
+        <div class="progress-header">
+          <span>Canvas Completion</span>
+          <span id="progPct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progFill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="canvas-actions">
+        <button class="btn btn-outline btn-sm" onclick="exportCanvas()">📄 Export as .txt</button>
+        <button class="btn btn-outline btn-sm" onclick="clearCanvas()">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER TIMELINE -->
+<section id="career" class="section">
+  <div class="container">
+    <div class="section-label">The Arc</div>
+    <h2 class="section-title">From Mortgage Sales<br>to AI Product Leadership</h2>
+    <p class="section-desc mb-8">A career built on shipping things and solving hard problems. Hover each milestone.</p>
+
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
+      <div class="timeline-events" id="timelineEl"></div>
+    </div>
+
+    <div class="grid-4 mt-8">
+      <div class="card career-kpi">
+        <div class="career-kpi-val" style="color:var(--accent);">12+</div>
+        <div class="career-kpi-label">Years B2B SaaS</div>
+      </div>
+      <div class="card career-kpi">
+        <div class="career-kpi-val" style="color:var(--accent-green);">88%</div>
+        <div class="career-kpi-label">Feature adoption rate</div>
+      </div>
+      <div class="card career-kpi">
+        <div class="career-kpi-val" style="color:var(--accent-purple);">Dev→Dir</div>
+        <div class="career-kpi-label">Career arc at DivvyHQ</div>
+      </div>
+      <div class="card career-kpi">
+        <div class="career-kpi-val" style="color:var(--accent-orange);">Top 5</div>
+        <div class="career-kpi-label">Early career producer</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px;">
+      <a href="https://zvarney.com/timeline" class="btn btn-outline">Full Career Timeline ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-eyebrow">Let's Build</div>
+        <div class="footer-title">Ready to ship an AI product that actually works?</div>
+        <div class="footer-sub">Available for senior AI PM roles and strategic consulting. Kansas City, MO (remote-friendly).</div>
+        <a href="mailto:z.varney.business@gmail.com" class="footer-cta">Let's Build Something →</a>
+      </div>
+      <div>
+        <div class="footer-eyebrow">Connect</div>
+        <div class="footer-links">
+          <a href="mailto:z.varney.business@gmail.com" class="footer-link">z.varney.business@gmail.com</a>
+          <a href="https://www.linkedin.com/in/zach-varney/" target="_blank" class="footer-link">LinkedIn ↗</a>
+          <a href="https://github.com/zvarney" target="_blank" class="footer-link">GitHub ↗</a>
+          <a href="https://twitter.com/zvarney" target="_blank" class="footer-link">X / Twitter ↗</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-eyebrow">Portfolio</div>
+        <div class="footer-links">
+          <a href="https://zvarney.com" class="footer-link">Full Site ↗</a>
+          <a href="https://zvarney.com/timeline" class="footer-link">Career Timeline ↗</a>
+          <a href="https://zvarney.com/resume" class="footer-link">Resume ↗</a>
+          <a href="https://zvarney.com/tools/roi-calculator" class="footer-link">Full ROI Tool ↗</a>
+          <a href="https://zvarney.com/tools/discovery-canvas" class="footer-link">Discovery Canvas ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>© <span id="yr"></span> Zach Varney · Built AI-first with Claude Code</span>
+      <span class="footer-mono">12,257 lines · 38 commits · ~2M tokens</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Utilities ──────────────────────────────────────────────────
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+window.addEventListener('scroll', () => {
+  document.getElementById('topnav').style.boxShadow =
+    window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
+});
+
+// ── ROI CALCULATOR ─────────────────────────────────────────────
+const roi = { team: 10, hours: 5, rate: 50, cost: 50000, months: 12 };
+const charts = { line: null, donut: null, bar: null };
+
+function calcROI() {
+  const weekly = roi.team * roi.hours * roi.rate;
+  const monthly = weekly * 4.33;
+  const yearly = monthly * 12;
+  const payback = roi.cost / monthly;
+  const totalROI = ((yearly - roi.cost) / roi.cost) * 100;
+  const data = [];
+  for (let m = 1; m <= roi.months; m++) {
+    const cum = monthly * m - roi.cost;
+    data.push({ m, cum, roi: cum > 0 ? (cum / roi.cost) * 100 : 0 });
+  }
+  return { weekly, monthly, yearly, payback, totalROI, data };
+}
+
+function fmtMoney(n) {
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+  return '$' + n.toFixed(0);
+}
+
+function renderROI() {
+  const r = calcROI();
+  document.getElementById('kpi-weekly').textContent = fmtMoney(r.weekly);
+  document.getElementById('kpi-monthly').textContent = fmtMoney(r.monthly);
+  document.getElementById('kpi-payback').textContent = r.payback.toFixed(1) + ' mo';
+  document.getElementById('kpi-roi').textContent = r.totalROI.toFixed(1) + '%';
+  rebuildCharts(r);
+}
+
+function destroyCharts() {
+  ['line','donut','bar'].forEach(k => { if (charts[k]) { charts[k].destroy(); charts[k] = null; } });
+}
+
+function rebuildCharts(r) {
+  destroyCharts();
+  const base = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+
+  charts.line = new Chart(document.getElementById('chartLine').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: r.data.map(d => `M${d.m}`),
+      datasets: [{ data: r.data.map(d => +d.roi.toFixed(1)), borderColor: '#8884d8', backgroundColor: 'rgba(136,132,216,0.07)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.35 }]
+    },
+    options: { ...base, scales: {
+      y: { ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }, plugins: { ...base.plugins, tooltip: { callbacks: { label: c => c.raw.toFixed(1) + '% ROI' } } } }
+  });
+
+  const net = Math.max(0, r.yearly - roi.cost);
+  charts.donut = new Chart(document.getElementById('chartDonut').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Implementation', 'Net Year-1 Savings'],
+      datasets: [{ data: [roi.cost, net], backgroundColor: ['#0088FE', '#00C49F'], borderWidth: 0 }]
+    },
+    options: { ...base, cutout: '65%', plugins: {
+      legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12, padding: 12 } },
+      tooltip: { callbacks: { label: c => '$' + Math.round(c.raw).toLocaleString() } }
+    } }
+  });
+
+  charts.bar = new Chart(document.getElementById('chartBar').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: r.data.map(d => `M${d.m}`),
+      datasets: [{ data: r.data.map(d => Math.round(d.cum)), backgroundColor: r.data.map(d => d.cum >= 0 ? 'rgba(0,196,159,0.8)' : 'rgba(239,68,68,0.7)'), borderRadius: 3 }]
+    },
+    options: { ...base, scales: {
+      y: { ticks: { callback: v => '$' + (Math.abs(v) >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }, plugins: { ...base.plugins, tooltip: { callbacks: { label: c => '$' + Math.round(c.raw).toLocaleString() } } } }
+  });
+}
+
+function copyROI() {
+  const r = calcROI();
+  const txt = `AI ROI Calculator — Zach Varney (zvarney.com)\n\nInputs:\nTeam Size: ${roi.team}\nHours Saved/Week: ${roi.hours}\nCost/Hour: $${roi.rate}\nImplementation: $${roi.cost.toLocaleString()}\nTimeline: ${roi.months} months\n\nResults:\nWeekly Savings: ${fmtMoney(r.weekly)}\nMonthly Savings: ${fmtMoney(r.monthly)}\nPayback Period: ${r.payback.toFixed(1)} months\nTotal ROI: ${r.totalROI.toFixed(1)}%\n\nCalculate yours: https://zvarney.com/tools/roi-calculator`;
+  navigator.clipboard.writeText(txt).then(() => {
+    const b = document.getElementById('copyBtn');
+    b.textContent = '✓ Copied!';
+    setTimeout(() => b.textContent = '📋 Copy Results', 2000);
+  });
+}
+
+function shareROI() {
+  const r = calcROI();
+  const url = 'https://zvarney.com/tools/roi-calculator';
+  if (navigator.share) {
+    navigator.share({ title: 'AI ROI Calculator', text: `AI ROI: ${r.totalROI.toFixed(0)}% over ${roi.months} months`, url });
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('Link copied!');
+  }
+}
+
+function initSliders() {
+  const defs = [
+    { id: 's-team', key: 'team', disp: 'val-team', fmt: v => v + ' people' },
+    { id: 's-hours', key: 'hours', disp: 'val-hours', fmt: v => parseFloat(v).toFixed(1) + ' hrs' },
+    { id: 's-rate', key: 'rate', disp: 'val-rate', fmt: v => '$' + v },
+    { id: 's-cost', key: 'cost', disp: 'val-cost', fmt: v => '$' + Number(v).toLocaleString() },
+    { id: 's-months', key: 'months', disp: 'val-months', fmt: v => v + ' months' },
+  ];
+  defs.forEach(d => {
+    const el = document.getElementById(d.id);
+    el.addEventListener('input', () => {
+      roi[d.key] = parseFloat(el.value);
+      document.getElementById(d.disp).textContent = d.fmt(el.value);
+      renderROI();
+    });
+  });
+}
+
+// ── DISCOVERY CANVAS ───────────────────────────────────────────
+const fields = [
+  { key: 'problem', label: 'Problem Statement', ph: "What specific problem? What's the user pain and its frequency/magnitude?", rows: 3 },
+  { key: 'users', label: 'Target Users', ph: 'Who are your primary users? Their role, goals, daily context?', rows: 3 },
+  { key: 'journey', label: 'User Journey', ph: 'Map the flow from problem awareness → solution adoption.', rows: 4 },
+  { key: 'assumptions', label: 'Key Assumptions', ph: 'What are you assuming about users, technology, market?', rows: 3 },
+  { key: 'experiments', label: 'Validation Experiments', ph: 'How will you test your assumptions? Specific experiments.', rows: 3 },
+  { key: 'metrics', label: 'Success Metrics', ph: 'Leading + lagging indicators. What moves by 20% = success?', rows: 3 },
+  { key: 'constraints', label: 'Technical Constraints', ph: 'Latency, cost ceiling, compliance, data privacy?', rows: 3 },
+  { key: 'ethics', label: 'Ethical Considerations', ph: 'Bias, privacy, explainability, fairness implications?', rows: 3 },
+  { key: 'model', label: 'Model Selection Criteria', ph: 'Performance vs cost vs latency tradeoffs?', rows: 3 },
+  { key: 'data', label: 'Data Requirements', ph: 'Quality, quantity, sources, labeling, privacy?', rows: 3 },
+  { key: 'eval', label: 'Evaluation Framework', ph: 'How will you measure real-world performance?', rows: 3 },
+  { key: 'timeline', label: 'Timeline', ph: 'Key milestones, decision points, dependencies?', rows: 3 },
+];
+const cData = Object.fromEntries(fields.map(f => [f.key, '']));
+
+const responses = {
+  'problem|pain|challenge|issue|broken|slow': `Good starting point. Let's pressure-test the problem statement — the most common failure mode I see is PMs solving for a symptom rather than the root cause.\n\nAsk yourself: if this problem disappeared tomorrow, would someone notice in a week or a year? Frequency and magnitude both matter. What's the concrete user behavior you're trying to change, and how are users coping without a solution today?`,
+  'user|who|audience|customer|persona|person|team|role': `User definition is where most AI products go wrong before a line of code is written. Enterprise AI tools often have three distinct user types: the end user who interacts daily, the buyer who approves the budget, and the admin who configures it. These often have conflicting needs.\n\nWhich persona are you optimizing for first? What does success look like specifically from their perspective — in concrete, measurable terms?`,
+  'metric|success|kpi|measure|goal|outcome|result|impact': `I think about metrics in two layers: leading indicators (things you can measure weekly that predict success) and lagging indicators (the business outcome you actually care about).\n\nFor AI products: common leading indicators are accuracy rate, task completion time, adoption. Common lagging indicators are revenue impact, cost reduction, or churn. What's the one metric that, if you moved it 20%, would make this product a clear win?`,
+  'model|llm|gpt|claude|openai|anthropic|mistral|gemini|ai model': `Model selection should come after you've locked in evaluation criteria — not before. I've seen too many teams anchor on GPT-4 because it's familiar, then discover it's 10x overpriced for their use case.\n\nQuestions to answer first: What's your latency requirement? What's the cost ceiling per API call? Do you need deterministic outputs? For 80% of enterprise use cases, a well-prompted smaller model outperforms a poorly-prompted frontier model. What are your hard constraints?`,
+  'data|training|dataset|label|sample|finetune': `Data requirements are often the biggest hidden risk. Before committing to any architecture, I'd want to know: Do you have labeled examples of the task you want AI to perform? How were they created? What's the quality and recency?\n\nAnd critically — will you have infrastructure to continuously improve the model with production feedback? Cold-start problems are real and often kill AI products in their first 90 days.`,
+  'ethic|bias|privacy|fair|trust|safe|compliance': `Ethical considerations for AI products aren't a checklist — they're an architecture decision. Who is most likely to be disadvantaged by a false positive versus a false negative?\n\nPrivacy is especially important to nail early because retrofitting it post-launch is extremely expensive. I ask: would you be comfortable if a journalist described exactly how this AI uses user data? That test cuts through most ethical ambiguity.`,
+  'cost|budget|expensive|cheap|price|spend|token': `Cost control is one of the most underrated PM skills in AI. The two levers I always reach for first: caching (even 30% cache hit rate cuts costs dramatically) and model routing (use a small model for simple tasks, large model only when needed).\n\nFor the product I shipped at Insights Corp, we hit $0.02/doc — 60% under budget — primarily through Redis caching and intelligent model selection. What's your cost ceiling per interaction?`,
+};
+
+function getResponse(input) {
+  const low = input.toLowerCase();
+  for (const [pat, res] of Object.entries(responses)) {
+    if (pat.split('|').some(k => low.includes(k))) return res;
+  }
+  return `Tell me more about the problem space you're working in. The most productive discovery conversations start with a specific user frustration — not a feature idea.\n\nWhat's the thing that's broken, slow, or missing that made someone greenlight this project? And who's the one person who would be most impacted if you got this right?`;
+}
+
+let chatLocked = false;
+
+function addMsg(role, text) {
+  const win = document.getElementById('chatWindow');
+  const d = document.createElement('div');
+  d.className = `msg msg-${role}`;
+  d.innerHTML = `<div class="msg-avatar">${role === 'user' ? '▶' : 'ZV'}</div><div class="msg-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+  win.appendChild(d);
+  win.scrollTop = win.scrollHeight;
+}
+
+function showTyping() {
+  const win = document.getElementById('chatWindow');
+  const d = document.createElement('div');
+  d.className = 'msg msg-bot';
+  d.id = 'typing';
+  d.innerHTML = `<div class="msg-avatar">ZV</div><div class="msg-bubble"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  win.appendChild(d);
+  win.scrollTop = win.scrollHeight;
+}
+
+function sendMsg() {
+  if (chatLocked) return;
+  const inp = document.getElementById('chatInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  chatLocked = true;
+  addMsg('user', text);
+  showTyping();
+  setTimeout(() => {
+    document.getElementById('typing')?.remove();
+    addMsg('bot', getResponse(text));
+    chatLocked = false;
+    document.getElementById('chatInput').focus();
+  }, 700 + Math.random() * 500);
+}
+
+function switchTab(t) {
+  document.getElementById('view-chat').style.display = t === 'chat' ? 'block' : 'none';
+  document.getElementById('view-grid').style.display = t === 'grid' ? 'block' : 'none';
+  document.getElementById('tab-chat').className = 'canvas-tab' + (t === 'chat' ? ' active' : '');
+  document.getElementById('tab-grid').className = 'canvas-tab' + (t === 'grid' ? ' active' : '');
+}
+
+function updateProgress() {
+  const filled = Object.values(cData).filter(v => v.trim()).length;
+  const pct = Math.round((filled / fields.length) * 100);
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progFill').style.width = pct + '%';
+}
+
+function buildCanvasGrid() {
+  document.getElementById('canvasGrid').innerHTML = fields.map(f => `
+    <div class="canvas-field card" style="padding:14px;">
+      <label>${f.label}</label>
+      <textarea rows="${f.rows}" placeholder="${f.ph}" data-key="${f.key}" oninput="cData[this.dataset.key]=this.value;updateProgress()">${cData[f.key]}</textarea>
+    </div>`).join('');
+}
+
+function exportCanvas() {
+  const txt = `PRODUCT DISCOVERY CANVAS\nGenerated: ${new Date().toLocaleDateString()}\nTool by Zach Varney — zvarney.com\n\n` +
+    fields.map(f => `${f.label.toUpperCase()}\n${cData[f.key] || '(not filled)'}`).join('\n\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' }));
+  a.download = `discovery-canvas-${new Date().toISOString().split('T')[0]}.txt`;
+  a.click();
+}
+
+function clearCanvas() {
+  if (!confirm('Reset all canvas fields?')) return;
+  fields.forEach(f => cData[f.key] = '');
+  buildCanvasGrid();
+  updateProgress();
+}
+
+// ── CAREER TIMELINE ────────────────────────────────────────────
+const milestones = [
+  { year: '2012–15', label: 'Loan Originator', co: 'TruHome', tip: '🏠 Top 5 producer company-wide · Built sales discipline + pipeline management' },
+  { year: '2016–17', label: 'Software Dev', co: 'EyeVerify', tip: '📱 Hired FT from intern in 3 months · Demoed at FinTech events · Ant Financial acquisition' },
+  { year: '2018–21', label: 'Developer → TPM', co: 'DivvyHQ', tip: '⚙️ Built cross-functional API frameworks · Engineering + stakeholder bridge' },
+  { year: '2021–24', label: 'Director of Product', co: 'DivvyHQ', tip: '👥 88% adoption on bulk reassignment · Led global teams across Philippines + Argentina' },
+  { year: '2024–Now', label: 'AI Technical PM', co: 'Lytho', tip: '🤖 Shipped Insights + Compliance AI · Driving AI-first product pivot', current: true },
+];
+
+function buildTimeline() {
+  document.getElementById('timelineEl').innerHTML = milestones.map(m => `
+    <div class="t-event ${m.current ? 'current' : ''}">
+      <div class="t-dot"></div>
+      <div class="t-tooltip">${m.tip}</div>
+      <div class="t-label">${m.label}</div>
+      <div class="t-company">${m.co}</div>
+      <div class="t-year">${m.year}</div>
+    </div>`).join('');
+}
+
+// ── COUNTER ANIMATIONS ─────────────────────────────────────────
+function animateCount(el) {
+  const target = parseFloat(el.dataset.counter);
+  const decimal = el.dataset.decimal === 'true';
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const dur = 1300;
+  const start = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const val = target * eased;
+    el.textContent = prefix + (decimal ? val.toFixed(target < 1 ? 2 : 1) : Math.round(val)) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  })(start);
+}
+
+function initCounters() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.target.textContent === '—') {
+        animateCount(e.target);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-counter]').forEach(el => obs.observe(el));
+}
+
+// ── INIT ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initSliders();
+  renderROI();
+  buildCanvasGrid();
+  buildTimeline();
+  initCounters();
+});
+</script>
+</body>
+</html>
