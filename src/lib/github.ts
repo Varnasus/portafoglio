@@ -98,6 +98,67 @@ export function timeAgo(dateStr: string): string {
   return `${Math.floor(days / 30)}mo ago`
 }
 
+export interface ContributionDay {
+  date: string
+  count: number
+  level: 0 | 1 | 2 | 3 | 4
+}
+
+export async function getContributions(): Promise<ContributionDay[]> {
+  if (!process.env.GITHUB_TOKEN) {
+    // GraphQL API requires auth — return empty if no token
+    return []
+  }
+
+  const query = `query {
+    user(login: "${GITHUB_USERNAME}") {
+      contributionsCollection {
+        contributionCalendar {
+          weeks {
+            contributionDays {
+              date
+              contributionCount
+              contributionLevel
+            }
+          }
+        }
+      }
+    }
+  }`
+
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query }),
+    next: { revalidate: 3600 },
+  })
+
+  if (!res.ok) return []
+
+  const json = await res.json()
+  const weeks =
+    json?.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? []
+
+  const levelMap: Record<string, 0 | 1 | 2 | 3 | 4> = {
+    NONE: 0,
+    FIRST_QUARTILE: 1,
+    SECOND_QUARTILE: 2,
+    THIRD_QUARTILE: 3,
+    FOURTH_QUARTILE: 4,
+  }
+
+  return weeks.flatMap((w: { contributionDays: { date: string; contributionCount: number; contributionLevel: string }[] }) =>
+    w.contributionDays.map((d) => ({
+      date: d.date,
+      count: d.contributionCount,
+      level: levelMap[d.contributionLevel] ?? 0,
+    }))
+  )
+}
+
 export function daysSinceLastPush(repos: GitHubRepo[]): number {
   if (!repos.length) return 0
   const latest = repos.reduce((a, b) =>

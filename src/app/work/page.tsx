@@ -1,9 +1,9 @@
-import { Suspense } from "react"
 import { Container } from "@/components/ui/container"
 import { WorkCard } from "@/components/work-card"
-import { ActivityFeed } from "@/components/activity-feed"
-import { GitHubStats } from "@/components/github-stats"
+import { GitHubStatsClient } from "@/components/github-stats"
+import { ContributionGraph } from "@/components/contribution-graph"
 import { projects } from "@/lib/projects"
+import { getRepos, getContributions, daysSinceLastPush } from "@/lib/github"
 
 export const metadata = {
   title: "Work",
@@ -11,34 +11,18 @@ export const metadata = {
     "Client systems, personal infrastructure, and open source. Each project is real — running in production or published for others to use.",
 }
 
-function StatsSkeleton() {
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="text-center animate-pulse">
-          <div className="h-8 w-12 bg-muted rounded mx-auto" />
-          <div className="h-3 w-16 bg-muted rounded mx-auto mt-2" />
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function FeedSkeleton() {
-  return (
-    <div className="space-y-3 animate-pulse">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="flex justify-between">
-          <div className="h-4 bg-muted rounded w-3/4" />
-          <div className="h-4 bg-muted rounded w-12" />
-        </div>
-      ))}
-    </div>
-  )
-}
-
-export default function WorkPage() {
+export default async function WorkPage() {
   const sorted = [...projects].sort((a, b) => a.order - b.order)
+
+  const [repos, contributions] = await Promise.all([
+    getRepos(),
+    getContributions(),
+  ])
+
+  const totalRepos = repos.length
+  const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0)
+  const daysSince = daysSinceLastPush(repos)
+  const totalContributions = contributions.reduce((sum, d) => sum + d.count, 0)
 
   return (
     <section className="py-20 md:py-32">
@@ -56,11 +40,14 @@ export default function WorkPage() {
             others to use.
           </p>
 
-          {/* GitHub Stats */}
-          <div className="mb-16 p-6 bg-muted/50 rounded-xl border">
-            <Suspense fallback={<StatsSkeleton />}>
-              <GitHubStats />
-            </Suspense>
+          {/* Stats — split-flap counters */}
+          <div className="mb-16 p-8 bg-muted/50 rounded-xl border">
+            <GitHubStatsClient
+              repos={totalRepos}
+              stars={totalStars}
+              daysSince={daysSince}
+              contributions={totalContributions}
+            />
           </div>
 
           {/* Featured Projects */}
@@ -70,17 +57,17 @@ export default function WorkPage() {
             ))}
           </div>
 
-          {/* Activity Feed */}
-          <div>
-            <h2 className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
-              Recent Activity
-            </h2>
-            <div className="p-6 bg-background rounded-xl border">
-              <Suspense fallback={<FeedSkeleton />}>
-                <ActivityFeed />
-              </Suspense>
+          {/* Contribution Graph */}
+          {contributions.length > 0 && (
+            <div>
+              <h2 className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
+                Contributions
+              </h2>
+              <div className="p-6 bg-background rounded-xl border overflow-x-auto">
+                <ContributionGraph data={contributions} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </Container>
     </section>

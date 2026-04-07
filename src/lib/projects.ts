@@ -12,20 +12,6 @@ export interface ProjectMeta {
 
 export const projects: ProjectMeta[] = [
   {
-    slug: "lytho-ai-middleware",
-    title: "Lytho AI Middleware",
-    tag: "CLIENT WORK \u00b7 ACTIVE",
-    stack: ["Python", "FastAPI", "Slack API", "LLM APIs"],
-    description:
-      "Production middleware connecting LLM APIs to enterprise content workflows via Slack. I designed and built the integration layer that enables AI-powered features inside the tools teams already use \u2014 at a company that was not previously AI-enabled.",
-    outcomes: [
-      "Shipped Insights (AI summarization, analysis, diagrams) and Compliance (brand-guideline enforcement) as production features used by enterprise clients",
-      "Restructured an underperforming team to deliver a scalable API framework and Slack/Teams integrations",
-      "Designed guideline intake flows enabling per-client AI agent customization across enterprise accounts",
-    ],
-    order: 1,
-  },
-  {
     slug: "avha",
     title: "AVHA \u2014 A Very Helpful Assistant",
     tag: "PERSONAL BUILD \u00b7 FLAGSHIP",
@@ -37,7 +23,7 @@ export const projects: ProjectMeta[] = [
       "Multi-layer memory system with vector search for persistent, context-aware conversations",
       "Live and in daily personal use \u2014 not a demo, a working system I depend on",
     ],
-    order: 2,
+    order: 1,
   },
   {
     slug: "react-split-flap-display",
@@ -53,7 +39,7 @@ export const projects: ProjectMeta[] = [
     ],
     github: "https://github.com/Varnasus/react-split-flap-display",
     npm: "https://www.npmjs.com/package/react-split-flap-display",
-    order: 3,
+    order: 2,
   },
   {
     slug: "this-site",
@@ -67,6 +53,6 @@ export const projects: ProjectMeta[] = [
       "Integrates a custom open-source React component (the split-flap display) as a signature UI element",
       "Designed as a consulting storefront, not a job-seeker portfolio \u2014 every element exists to build trust with a prospective client",
     ],
-    order: 4,
+    order: 3,
   },
 ]

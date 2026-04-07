@@ -1,35 +1,45 @@
-import { getRepos, daysSinceLastPush } from "@/lib/github"
+"use client"
 
-export async function GitHubStats() {
-  const repos = await getRepos()
+import SplitFlapDisplay from "react-split-flap-display"
+import { NUMERIC } from "react-split-flap-display/constants"
+import "../../node_modules/react-split-flap-display/dist/index.css"
 
-  const totalRepos = repos.length
-  const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0)
-  const daysSince = daysSinceLastPush(repos)
-  const topLanguages = [...new Set(repos.map((r) => r.language).filter(Boolean))].slice(0, 4)
+interface StatsProps {
+  repos: number
+  stars: number
+  daysSince: number
+  contributions: number
+}
 
-  const stats = [
-    { label: "Public Repos", value: String(totalRepos) },
-    { label: "Stars", value: String(totalStars) },
-    {
-      label: "Last Push",
-      value: daysSince === 0 ? "Today" : `${daysSince}d ago`,
-    },
-    { label: "Languages", value: topLanguages.join(", ") || "—" },
-  ]
-
+function StatFlap({ value, label }: { value: string; label: string }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-      {stats.map((stat) => (
-        <div key={stat.label} className="text-center">
-          <p className="text-2xl font-bold font-mono text-primary">
-            {stat.value}
-          </p>
-          <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">
-            {stat.label}
-          </p>
-        </div>
-      ))}
+    <div className="flex flex-col items-center gap-2">
+      <SplitFlapDisplay
+        characterSet={[" ", ...NUMERIC]}
+        value={value}
+        minLength={value.length}
+        fontSize="1.75rem"
+        textColor="hsl(135, 50%, 65%)"
+        background="hsl(220, 18%, 8%)"
+        borderColor="hsl(220, 12%, 16%)"
+        borderWidth="1px"
+        step={60}
+        withSound={false}
+      />
+      <p className="text-xs text-muted-foreground uppercase tracking-widest">
+        {label}
+      </p>
+    </div>
+  )
+}
+
+export function GitHubStatsClient({ repos, stars, daysSince, contributions }: StatsProps) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
+      <StatFlap value={String(repos)} label="Repos" />
+      <StatFlap value={String(stars)} label="Stars" />
+      <StatFlap value={daysSince === 0 ? "0" : String(daysSince)} label="Days Since Push" />
+      <StatFlap value={String(contributions)} label="Contributions" />
     </div>
   )
 }
