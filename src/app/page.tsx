@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/ui/container"
+import { Headline } from "@/components/headline"
 
 export default function Home() {
   return (
@@ -9,172 +10,93 @@ export default function Home() {
       <section className="py-24 md:py-36">
         <Container>
           <div className="mx-auto max-w-4xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full text-xs font-bold tracking-widest uppercase text-blue-600 bg-blue-50 border border-blue-100">
-              <span className="text-blue-400">◆</span>
-              AI-First Product Strategist
-            </div>
-
-            <h1 className="text-5xl font-extrabold tracking-tight sm:text-7xl leading-[1.05] mb-6">
-              I don&apos;t just build<br />
-              roadmaps. I build{" "}
-              <span className="text-blue-600">products.</span>
-            </h1>
-
-            <p className="text-xl leading-8 text-muted-foreground max-w-2xl mb-4">
-              Technical PM background meets AI-native workflow. Every tool on this site is real and
-              interactive — built with Claude Code. Shipping code is how I validate strategy.
+            <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6">
+              Ranger Ventures LLC
             </p>
 
-            <div className="flex flex-wrap gap-4 text-sm font-mono text-muted-foreground mb-10">
-              <span className="flex items-center gap-1.5">
-                <span className="text-blue-400 text-xs">◆</span>
-                Kansas City, MO (Remote-friendly)
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="text-blue-400 text-xs">◆</span>
-                AI Technical PM at Lytho
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="text-blue-400 text-xs">◆</span>
-                Developer background since 2016
-              </span>
-            </div>
+            <Headline />
 
-            <div className="flex flex-wrap items-center gap-4 mb-16">
+            <p className="text-xl leading-8 text-muted-foreground max-w-2xl mb-10">
+              AI consulting &amp; development for B2B SaaS companies. I design middleware,
+              integrations, and intelligent workflows &mdash; then I build them.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4">
               <Button asChild size="lg">
-                <Link href="/tools/roi-calculator">Try the ROI Calculator</Link>
+                <Link href="/contact">Start a Conversation</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href="/tools/discovery-canvas">Open Discovery Canvas</Link>
+                <Link href="/work">See My Work &rarr;</Link>
               </Button>
-              <Button asChild variant="ghost" size="lg">
-                <Link href="/demo.html" target="_blank">Interactive Demo ↗</Link>
-              </Button>
-            </div>
-
-            {/* Stats Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-0 border-t pt-8">
-              {[
-                { num: "12K+", label: "Lines Shipped", sub: "This portfolio alone" },
-                { num: "38", label: "Git Commits", sub: "AI-assisted, every one" },
-                { num: "2", label: "Working Tools", sub: "Try them — they're live" },
-                { num: "12+", label: "Years B2B SaaS", sub: "Developer to Director" },
-                { num: "~2M", label: "AI Tokens Used", sub: "Building this with Claude" },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="px-6 border-r last:border-r-0 first:pl-0"
-                  style={{ borderColor: "var(--border)" }}
-                >
-                  <div className="text-2xl font-extrabold font-mono tracking-tight mb-1">{s.num}</div>
-                  <div className="text-xs font-semibold text-foreground mb-0.5">{s.label}</div>
-                  <div className="text-xs text-muted-foreground">{s.sub}</div>
-                </div>
-              ))}
             </div>
           </div>
         </Container>
       </section>
 
-      {/* What I Do Differently */}
+      {/* What I Do */}
       <section className="py-20 bg-muted/50">
         <Container>
-          <div className="mx-auto max-w-2xl text-center mb-16">
-            <div className="text-xs font-bold tracking-widest uppercase text-blue-600 mb-3">The Difference</div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Strategy without code is just guessing
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-muted-foreground">
-              Most PMs write specs and hand them to engineers. I write the spec, prototype it, and ship it.
-            </p>
-          </div>
           <div className="mx-auto max-w-none grid grid-cols-1 gap-8 lg:grid-cols-3">
             {[
               {
-                icon: "◆",
-                name: "I Build the Tools I Recommend",
-                description:
-                  "The ROI Calculator and Discovery Canvas on this site are real, working tools — built in Next.js, TypeScript, and Chart.js. Not mockups. Not Figma frames.",
+                tag: "ACTIVE CLIENT WORK",
+                title: "Middleware & Integrations",
+                body: "Connecting LLM APIs to the tools your team already uses \u2014 Slack, Teams, internal platforms. Production systems, not proof-of-concept demos.",
               },
               {
-                icon: "◆",
-                name: "AI-Native Workflow",
-                description:
-                  "This entire portfolio was built AI-first using Claude Code. ~2M tokens, 38 commits, 12K+ lines. That's not a talking point — it's the proof.",
+                tag: "CORE EXPERTISE",
+                title: "AI Product Architecture",
+                body: "Model routing, prompt orchestration, memory systems, and evaluation frameworks. Designed for reliability and cost efficiency at scale.",
               },
               {
-                icon: "◆",
-                name: "Technical Enough to Challenge Engineers",
-                description:
-                  "Developer background since 2016. I can review PRs, write evals, and debug LLM pipelines. Strategic enough to lead executives, technical enough to earn engineering trust.",
+                tag: "HOW I WORK",
+                title: "Rapid Prototyping to Production",
+                body: "From concept to working system in weeks, not quarters. Architecture first, then fast iteration with real feedback loops.",
               },
-            ].map((f) => (
-              <div key={f.name} className="flex flex-col p-6 bg-background rounded-xl border">
-                <div className="text-blue-500 text-lg mb-3 font-mono">{f.icon}</div>
-                <dt className="text-lg font-semibold leading-7 mb-3">{f.name}</dt>
-                <dd className="text-sm leading-7 text-muted-foreground">{f.description}</dd>
+            ].map((col) => (
+              <div key={col.title} className="flex flex-col p-6 bg-background rounded-xl border">
+                <span className="text-xs font-bold tracking-widest uppercase text-primary/70 mb-3 font-mono">
+                  {col.tag}
+                </span>
+                <h3 className="text-lg font-semibold leading-7 mb-3">{col.title}</h3>
+                <p className="text-sm leading-7 text-muted-foreground">{col.body}</p>
               </div>
             ))}
           </div>
         </Container>
       </section>
 
-      {/* Interactive Tools */}
-      <section className="py-20">
+      {/* Proof Strip */}
+      <section className="py-12 border-y">
         <Container>
-          <div className="mx-auto max-w-4xl text-center mb-12">
-            <div className="text-xs font-bold tracking-widest uppercase text-blue-600 mb-3">Interactive</div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-              Try the tools I built
-            </h2>
-            <p className="text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">
-              The ROI Calculator and Product Discovery Canvas aren&apos;t screenshots — they&apos;re working
-              applications you can interact with right now.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <div className="p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
-              <div className="text-2xl mb-3">⚡</div>
-              <h3 className="font-semibold mb-2">AI ROI Calculator</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Real-time ROI calculations with interactive chart visualizations. Adjust sliders, copy and share results.
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              "10+ Years in B2B SaaS",
+              "Production AI Systems Live",
+              "PM Background \u2192 Builder",
+              "Kansas City, MO \u00b7 Remote",
+            ].map((point) => (
+              <p key={point} className="text-sm font-medium text-muted-foreground font-mono tracking-tight">
+                {point}
               </p>
-              <Button asChild size="sm">
-                <Link href="/tools/roi-calculator">Try Calculator →</Link>
-              </Button>
-            </div>
-            <div className="p-6 bg-background rounded-xl border hover:shadow-md transition-shadow">
-              <div className="text-2xl mb-3">🗺️</div>
-              <h3 className="font-semibold mb-2">Product Discovery Canvas</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                12-section AI product discovery framework with AI assistant, auto-save, and text export.
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/tools/discovery-canvas">Open Canvas →</Link>
-              </Button>
-            </div>
+            ))}
           </div>
         </Container>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-muted/50">
+      {/* Bottom CTA */}
+      <section className="py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Ready to ship an AI product that actually works?
+              Have an AI problem that needs solving?
             </h2>
             <p className="mt-4 text-lg leading-8 text-muted-foreground">
-              Available for senior AI PM roles and strategic consulting engagements.
-              Kansas City, MO — remote-friendly.
+              I take on a small number of engagements and prioritize long-term partnerships.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <div className="mt-10">
               <Button asChild size="lg">
-                <Link href="/contact">Start a Conversation</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/resume">View Resume</Link>
+                <Link href="/contact">Get in Touch</Link>
               </Button>
             </div>
           </div>

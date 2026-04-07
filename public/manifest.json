@@ -1,16 +1,16 @@
 {
-  "name": "Zach Varney - AI Technical Product Manager",
+  "name": "Zach Varney — AI Consulting & Development",
   "short_name": "Zach Varney",
-  "description": "AI Technical Product Manager portfolio showcasing LLM applications, case studies, and tools for AI product development.",
+  "description": "AI consulting & development for B2B SaaS. Middleware, integrations, and intelligent workflows.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#3b82f6",
+  "background_color": "#0f1117",
+  "theme_color": "#2d5a27",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["productivity", "business", "education"],
+  "categories": ["business"],
   "icons": [
     {
       "src": "/favicon.ico",
@@ -21,44 +21,22 @@
   ],
   "shortcuts": [
     {
-      "name": "Case Studies",
-      "short_name": "Cases",
-      "description": "View my case studies and projects",
-      "url": "/case-studies"
+      "name": "Work",
+      "short_name": "Work",
+      "description": "See what I've built",
+      "url": "/work"
     },
     {
-      "name": "Tools",
-      "short_name": "Tools",
-      "description": "Access AI product management tools",
-      "url": "/tools"
-    },
-    {
-      "name": "Resume",
-      "short_name": "Resume",
-      "description": "View my resume and experience",
-      "url": "/resume"
+      "name": "About",
+      "short_name": "About",
+      "description": "The short version",
+      "url": "/about"
     },
     {
       "name": "Contact",
       "short_name": "Contact",
-      "description": "Get in touch with me",
+      "description": "Start a conversation",
       "url": "/contact"
-    }
-  ],
-  "screenshots": [],
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "handle_links": "preferred",
-  "protocol_handlers": [
-    {
-      "protocol": "web+contact",
-      "url": "/contact?email=%s"
     }
   ]
 }

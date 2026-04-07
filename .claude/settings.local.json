@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(xargs wc -l)",
-      "Bash(node -e \"const fs=require\\(''fs''\\);const h=fs.readFileSync\\(''public/demo.html'',''utf8''\\);console.log\\(''demo.html size:'', Math.round\\(h.length/1024\\)+''KB''\\);console.log\\(''Has Chart.js CDN:'', h.includes\\(''chart.js''\\)\\);console.log\\(''Has ROI calc:'', h.includes\\(''calcROI''\\)\\);console.log\\(''Has canvas chat:'', h.includes\\(''sendMsg''\\)\\);console.log\\(''Has counters:'', h.includes\\(''data-counter''\\)\\);console.log\\(''Has timeline:'', h.includes\\(''milestones''\\)\\);console.log\\(''Sections found:'', [''case-studies'',''roi'',''canvas'',''career'',''contact''].filter\\(s=>h.includes\\(''id=\"\"''+s+''\"\"''\\)\\).join\\('', ''\\)\\)\")"
+      "Bash(node -e \"const fs=require\\(''fs''\\);const h=fs.readFileSync\\(''public/demo.html'',''utf8''\\);console.log\\(''demo.html size:'', Math.round\\(h.length/1024\\)+''KB''\\);console.log\\(''Has Chart.js CDN:'', h.includes\\(''chart.js''\\)\\);console.log\\(''Has ROI calc:'', h.includes\\(''calcROI''\\)\\);console.log\\(''Has canvas chat:'', h.includes\\(''sendMsg''\\)\\);console.log\\(''Has counters:'', h.includes\\(''data-counter''\\)\\);console.log\\(''Has timeline:'', h.includes\\(''milestones''\\)\\);console.log\\(''Sections found:'', [''case-studies'',''roi'',''canvas'',''career'',''contact''].filter\\(s=>h.includes\\(''id=\"\"''+s+''\"\"''\\)\\).join\\('', ''\\)\\)\")",
+      "Bash(npm run build)",
+      "Bash(npx next build)",
+      "Bash(npm install)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(netstat -ano)",
+      "Bash(wc -l /c/Users/zvarn/Projects/zach-varney-portfolio/src/**/*.tsx)",
+      "Bash(ls \"C:/Users/zvarn/Projects/zach-varney-portfolio/.env\"*)",
+      "Bash(git:*)",
+      "Bash(npm run:*)",
+      "Bash(npx next:*)",
+      "Bash(find /c/Users/zvarn/Projects/zach-varney-portfolio/src -type f -name *blog* -o -name *case* -o -name *tool* -o -name *timeline*)",
+      "Bash(ls:*)"
     ]
   }
 }

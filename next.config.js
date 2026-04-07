@@ -1,15 +1,9 @@
-const { withContentlayer } = require('next-contentlayer')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   images: {
     domains: [
-      'images.unsplash.com', 
+      'images.unsplash.com',
       'via.placeholder.com',
-      'cdn-images-1.medium.com',
-      'miro.medium.com',
-      'medium.com',
       'images.weserv.nl'
     ],
     formats: ['image/webp', 'image/avif'],
@@ -50,7 +44,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self'; connect-src 'self' https://plausible.io http://localhost:11434; frame-ancestors 'none';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';",
           },
         ],
       },
@@ -85,6 +79,21 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: '/faq', destination: '/', permanent: true },
+      { source: '/timeline', destination: '/about', permanent: true },
+      { source: '/resume', destination: '/about', permanent: true },
+      { source: '/tools', destination: '/work', permanent: true },
+      { source: '/tools/:path*', destination: '/work', permanent: true },
+      { source: '/case-studies', destination: '/work', permanent: true },
+      { source: '/case-studies/:path*', destination: '/work', permanent: true },
+      { source: '/blog', destination: '/', permanent: true },
+      { source: '/blog/:path*', destination: '/', permanent: true },
+      { source: '/projects', destination: '/work', permanent: true },
+      { source: '/projects/:path*', destination: '/work', permanent: true },
+    ];
+  },
 };
 
-module.exports = withContentlayer(nextConfig);
+module.exports = nextConfig;

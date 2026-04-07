@@ -13,18 +13,18 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "AI Product Manager",
+    "AI Consulting",
+    "AI Development",
     "LLM Applications",
-    "Product Management",
-    "AI Technical PM",
+    "AI Middleware",
+    "B2B SaaS",
     "Zach Varney",
-    "Agentic Workflows",
-    "AI Evaluation",
-    "Product Strategy",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "Product Development",
-    "Technical Product Management"
+    "Ranger Ventures",
+    "AI Integrations",
+    "Production AI Systems",
+    "FastAPI",
+    "Python",
+    "TypeScript",
   ],
   authors: [
     {
@@ -60,14 +60,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage],
-    creator: "@zvarney",
-    site: "@zvarney",
-  },
   robots: {
     index: true,
     follow: true,
@@ -79,14 +71,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-    yandex: "your-yandex-verification-code",
-    yahoo: "your-yahoo-verification-code",
-  },
   other: {
-    "msapplication-TileColor": "#3b82f6",
-    "theme-color": "#3b82f6",
+    "msapplication-TileColor": "#2d5a27",
+    "theme-color": "#2d5a27",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": siteConfig.name,
@@ -106,38 +93,9 @@ export default function RootLayout({
         <PersonSchema />
         <OrganizationSchema />
         <WebSiteSchema />
-        {/* Custom Analytics - No external script needed */}
-        
-        {/* Preload critical resources */}
-        
-        {/* DNS prefetch for external domains */}
-        <link rel="dns-prefetch" href="//plausible.io" />
-        <link rel="dns-prefetch" href="//images.unsplash.com" />
-        
-        {/* Manifest for PWA */}
+
         <link rel="manifest" href="/manifest.json" />
-        
-        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
-        
-        {/* Structured data for breadcrumbs */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": siteConfig.url
-                }
-              ]
-            })
-          }}
-        />
       </head>
       <body
         className={`antialiased min-h-screen bg-background font-sans`}
@@ -149,35 +107,16 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
-          
-          {/* Blue glow effect at bottom */}
-          <div 
+
+          {/* Forest green glow effect at bottom */}
+          <div
             className="fixed bottom-0 left-0 right-0 h-10 pointer-events-none z-40"
             style={{
-              background: 'linear-gradient(to top, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.4) 40%, rgba(59, 130, 246, 0.1) 70%, transparent 100%)',
-              boxShadow: '0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1)'
+              background: 'linear-gradient(to top, rgba(45, 90, 39, 0.8) 0%, rgba(45, 90, 39, 0.4) 40%, rgba(45, 90, 39, 0.1) 70%, transparent 100%)',
+              boxShadow: '0 0 20px rgba(45, 90, 39, 0.6), 0 0 40px rgba(45, 90, 39, 0.3), 0 0 60px rgba(45, 90, 39, 0.1)'
             }}
           />
         </AccessibilityProvider>
-        
-        {/* Service Worker Registration */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                      console.log('SW registered: ', registration);
-                    })
-                    .catch(function(registrationError) {
-                      console.log('SW registration failed: ', registrationError);
-                    });
-                });
-              }
-            `
-          }}
-        />
       </body>
     </html>
   );
