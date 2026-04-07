@@ -235,6 +235,14 @@
   }
 }
 
+/* Fix split-flap: the half-character gradient compositing breaks when
+   overlapping halves use background-clip:text. Override to show full
+   characters — the ::after dividing line provides the split-flap look. */
+[class*="_wrapper_kx11q"] {
+  -webkit-text-fill-color: var(--color, currentColor) !important;
+  background-image: none !important;
+}
+
 @layer utilities {
   .content-visibility-auto {
     content-visibility: auto;
