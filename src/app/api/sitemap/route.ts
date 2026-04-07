@@ -7,8 +7,9 @@ export async function GET() {
   const pages = [
     { url: '/', changeFrequency: 'weekly', priority: 1.0 },
     { url: '/work', changeFrequency: 'monthly', priority: 0.9 },
-    { url: '/about', changeFrequency: 'monthly', priority: 0.8 },
-    { url: '/contact', changeFrequency: 'monthly', priority: 0.7 },
+    { url: '/blog', changeFrequency: 'weekly', priority: 0.8 },
+    { url: '/about', changeFrequency: 'monthly', priority: 0.7 },
+    { url: '/contact', changeFrequency: 'monthly', priority: 0.6 },
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

@@ -14,6 +14,7 @@ Disallow: /_next/
 
 # Allow important pages
 Allow: /work
+Allow: /blog
 Allow: /about
 Allow: /contact
 

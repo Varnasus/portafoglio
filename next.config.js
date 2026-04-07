@@ -91,8 +91,6 @@ const nextConfig = {
       { source: '/tools/:path*', destination: '/work', permanent: true },
       { source: '/case-studies', destination: '/work', permanent: true },
       { source: '/case-studies/:path*', destination: '/work', permanent: true },
-      { source: '/blog', destination: '/', permanent: true },
-      { source: '/blog/:path*', destination: '/', permanent: true },
       { source: '/projects', destination: '/work', permanent: true },
       { source: '/projects/:path*', destination: '/work', permanent: true },
     ];
