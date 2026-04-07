@@ -40,6 +40,15 @@ export default async function WorkPage() {
             others to use.
           </p>
 
+          {/* Contribution Graph */}
+          {contributions.length > 0 && (
+            <div className="mb-16">
+              <div className="p-6 bg-background rounded-xl border overflow-x-auto">
+                <ContributionGraph data={contributions} />
+              </div>
+            </div>
+          )}
+
           {/* Stats — split-flap counters */}
           <div className="mb-16 p-8 bg-muted/50 rounded-xl border">
             <GitHubStatsClient
@@ -51,23 +60,11 @@ export default async function WorkPage() {
           </div>
 
           {/* Featured Projects */}
-          <div className="grid grid-cols-1 gap-6 mb-16">
+          <div className="grid grid-cols-1 gap-6">
             {sorted.map((project) => (
               <WorkCard key={project.slug} project={project} />
             ))}
           </div>
-
-          {/* Contribution Graph */}
-          {contributions.length > 0 && (
-            <div>
-              <h2 className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
-                Contributions
-              </h2>
-              <div className="p-6 bg-background rounded-xl border overflow-x-auto">
-                <ContributionGraph data={contributions} />
-              </div>
-            </div>
-          )}
         </div>
       </Container>
     </section>
