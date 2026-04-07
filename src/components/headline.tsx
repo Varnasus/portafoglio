@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import SplitFlapDisplay from "react-split-flap-display"
-import { ALPHA, PUNCTUATION } from "react-split-flap-display/constants"
+import { ALPHA } from "react-split-flap-display/constants"
 import "../../node_modules/react-split-flap-display/dist/index.css"
 
 const MESSAGES = [
@@ -13,8 +13,8 @@ const MESSAGES = [
   "YOUR BUILDER",
 ]
 
-const CHARACTER_SET = [" ", ...ALPHA, ...PUNCTUATION]
-const CYCLE_INTERVAL = 4000
+const CHARACTER_SET = ALPHA
+const CYCLE_INTERVAL = 5000
 
 function useResponsiveFontSize() {
   const [fontSize, setFontSize] = useState("2.5rem")
@@ -55,11 +55,11 @@ export function Headline() {
         value={MESSAGES[index]}
         minLength={14}
         fontSize={fontSize}
-        textColor="hsl(135, 30%, 45%)"
+        textColor="hsl(135, 50%, 65%)"
         background="hsl(220, 18%, 8%)"
         borderColor="hsl(220, 12%, 16%)"
         borderWidth="1px"
-        step={3}
+        step={40}
         withSound={false}
       />
     </div>
