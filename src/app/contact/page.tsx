@@ -113,7 +113,7 @@ export default function ContactPage() {
 
               <div className="space-y-4">
                 <div>
-                  <span className="text-xs font-mono tracking-widest text-primary/70">EMAIL</span>
+                  <span className="text-xs font-mono tracking-widest text-primary">EMAIL</span>
                   <p className="mt-1">
                     <a
                       href={`mailto:${siteConfig.author.email}`}
@@ -124,7 +124,7 @@ export default function ContactPage() {
                   </p>
                 </div>
                 <div>
-                  <span className="text-xs font-mono tracking-widest text-primary/70">LINKEDIN</span>
+                  <span className="text-xs font-mono tracking-widest text-primary">LINKEDIN</span>
                   <p className="mt-1">
                     <Link
                       href={siteConfig.links.linkedin}
@@ -137,7 +137,7 @@ export default function ContactPage() {
                   </p>
                 </div>
                 <div>
-                  <span className="text-xs font-mono tracking-widest text-primary/70">GITHUB</span>
+                  <span className="text-xs font-mono tracking-widest text-primary">GITHUB</span>
                   <p className="mt-1">
                     <Link
                       href={siteConfig.links.github}

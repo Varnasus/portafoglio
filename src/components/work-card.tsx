@@ -6,7 +6,7 @@ export function WorkCard({ project }: { project: ProjectMeta }) {
     <div className="p-6 bg-background rounded-xl border">
       <div className="flex flex-col gap-4">
         {/* Tag */}
-        <span className="text-xs font-bold tracking-widest uppercase text-primary/70 font-mono">
+        <span className="text-xs font-bold tracking-widest uppercase text-primary font-mono">
           {project.tag}
         </span>
 
@@ -32,7 +32,7 @@ export function WorkCard({ project }: { project: ProjectMeta }) {
         <ul className="space-y-2">
           {project.outcomes.map((outcome, i) => (
             <li key={i} className="flex gap-3 text-sm text-muted-foreground">
-              <span className="text-primary/70 mt-1 flex-shrink-0">&bull;</span>
+              <span className="text-primary mt-1 flex-shrink-0">&bull;</span>
               <span>{outcome}</span>
             </li>
           ))}
@@ -46,7 +46,7 @@ export function WorkCard({ project }: { project: ProjectMeta }) {
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm font-medium text-primary/70 hover:text-foreground transition-colors"
+                className="text-sm font-medium text-primary hover:text-foreground transition-colors"
               >
                 GitHub &rarr;
               </Link>
@@ -56,7 +56,7 @@ export function WorkCard({ project }: { project: ProjectMeta }) {
                 href={project.npm}
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm font-medium text-primary/70 hover:text-foreground transition-colors"
+                className="text-sm font-medium text-primary hover:text-foreground transition-colors"
               >
                 npm &rarr;
               </Link>

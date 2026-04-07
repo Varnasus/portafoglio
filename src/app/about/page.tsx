@@ -65,7 +65,7 @@ export default function AboutPage() {
                 <div className="space-y-3">
                   {stack.map((s) => (
                     <div key={s.category} className="flex gap-4 text-sm">
-                      <span className="font-mono text-xs text-primary/70 tracking-widest w-24 flex-shrink-0 pt-0.5">
+                      <span className="font-mono text-xs text-primary tracking-widest w-24 flex-shrink-0 pt-0.5">
                         {s.category}
                       </span>
                       <span className="text-muted-foreground">{s.items}</span>

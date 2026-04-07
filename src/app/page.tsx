@@ -55,7 +55,7 @@ export default function Home() {
               },
             ].map((col) => (
               <div key={col.title} className="flex flex-col p-6 bg-background rounded-xl border">
-                <span className="text-xs font-bold tracking-widest uppercase text-primary/70 mb-3 font-mono">
+                <span className="text-xs font-bold tracking-widest uppercase text-primary mb-3 font-mono">
                   {col.tag}
                 </span>
                 <h3 className="text-lg font-semibold leading-7 mb-3">{col.title}</h3>
