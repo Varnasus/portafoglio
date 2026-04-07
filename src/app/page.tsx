@@ -39,19 +39,19 @@ export default function Home() {
           <div className="mx-auto max-w-none grid grid-cols-1 gap-8 lg:grid-cols-3">
             {[
               {
-                tag: "ACTIVE CLIENT WORK",
-                title: "Middleware & Integrations",
-                body: "Connecting LLM APIs to the tools your team already uses \u2014 Slack, Teams, internal platforms. Production systems, not proof-of-concept demos.",
+                tag: "HANDS-ON DEVELOPMENT",
+                title: "AI Development",
+                body: "Custom AI tools, agents, and integrations. I build the middleware that connects LLMs to the systems your team already uses \u2014 Slack, internal platforms, APIs.",
               },
               {
-                tag: "CORE EXPERTISE",
-                title: "AI Product Architecture",
-                body: "Model routing, prompt orchestration, memory systems, and evaluation frameworks. Designed for reliability and cost efficiency at scale.",
+                tag: "STRATEGY & ARCHITECTURE",
+                title: "Technical Consulting",
+                body: "Architecture reviews, implementation planning, and strategy for teams building with AI. I\u2019ve shipped enough systems to know what works and what doesn\u2019t.",
               },
               {
-                tag: "HOW I WORK",
-                title: "Rapid Prototyping to Production",
-                body: "From concept to working system in weeks, not quarters. Architecture first, then fast iteration with real feedback loops.",
+                tag: "COMMUNITY",
+                title: "Open Source",
+                body: "NPM packages, public tools, and community contributions. Everything I build is designed to be reused \u2014 by clients, by other developers, or by me on the next project.",
               },
             ].map((col) => (
               <div key={col.title} className="flex flex-col p-6 bg-background rounded-xl border">

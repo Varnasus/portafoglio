@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container"
 
 export const metadata = {
   title: "About",
-  description: "AI consultant and developer building production systems for B2B SaaS companies. Ranger Ventures LLC.",
+  description: "AI developer and founder building production systems for B2B SaaS companies. Ranger Ventures LLC.",
 }
 
 const stack = [
@@ -29,22 +29,21 @@ export default function AboutPage() {
             {/* Left column — Story */}
             <div className="space-y-6">
               <p className="text-lg leading-8 text-muted-foreground">
-                I run Ranger Ventures LLC, an AI consulting practice focused on building
-                production systems for B2B SaaS companies. I design and ship middleware,
-                integrations, and intelligent workflows &mdash; the connective tissue
-                between LLMs and the tools teams actually use.
+                I run Ranger Ventures LLC. I build AI-powered tools and ship
+                production code &mdash; middleware, integrations, agents, and the
+                connective tissue between LLMs and the systems teams actually use.
               </p>
               <p className="text-lg leading-8 text-muted-foreground">
-                My path was non-linear. I started in mortgage lending, taught myself to
-                code, spent nearly eight years at DivvyHQ growing from developer to
-                Director of Product, then moved into AI-focused product management at
-                Lytho. In 2025 I went independent because I was done talking about AI
+                My path was non-linear. I started in mortgage lending, taught myself
+                to code, spent nearly eight years at DivvyHQ growing from developer
+                to Director of Product, then moved into AI-focused product work.
+                In 2025 I went independent because I was done talking about AI
                 strategy and ready to build it.
               </p>
               <p className="text-lg leading-8 text-muted-foreground">
-                The through-line: I&apos;ve always been the person who bridges the gap
-                between what leadership wants and what engineering can deliver. The
-                difference now is I also write the code.
+                Now I write code every day &mdash; Claude Code and Cursor are my
+                primary tools. I publish open-source packages, ship client systems,
+                and build my own infrastructure. Based in Kansas City, working remote.
               </p>
             </div>
 
