@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathfinder v2 — Revised Palette + Hidden Trail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Warm stone base — earthy, not blue-shifted */
+    --bg: #13110E;
+    --bg-elevated: #1B1814;
+    --bg-surface: #23201A;
+    --fg: #E4DDD2;
+    --fg-muted: #9B9285;
+    --fg-dim: #6B6358;
+
+    /* Primary: deep amber-bronze (whiskey/copper) */
+    --accent: #B8813E;
+    --accent-light: #D09A55;
+    --accent-dim: #7A5528;
+    --accent-glow: rgba(184, 129, 62, 0.12);
+
+    /* Secondary: dusty sage (subtle ranger pine nod) */
+    --sage: #6E8262;
+    --sage-light: #8AA07C;
+    --sage-dim: #3D4A35;
+
+    --border: #2A2520;
+    --border-light: #38322A;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ============================================
+     HIDDEN TRAIL BACKGROUND
+     Topographic contour lines with ranger easter
+     eggs woven into the SVG. Look closely at the
+     text elements and coordinates...
+     ============================================ */
+  .trail-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .trail-bg svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150%;
+    height: 150%;
+    opacity: 0.03;
+  }
+  /* Warm atmospheric glow */
+  .trail-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 45% at 20% 15%, rgba(184, 129, 62, 0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 45% 55% at 80% 80%, rgba(110, 130, 98, 0.035) 0%, transparent 60%);
+  }
+
+  /* Nearly invisible text scattered in background */
+  .hidden-message {
+    position: fixed;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--fg);
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+  }
+  .hm-1 { top: 15%; left: 6%; font-size: 11px; opacity: 0.02; transform: rotate(-8deg); letter-spacing: 0.5em; }
+  .hm-2 { top: 45%; right: 4%; font-size: 9px; opacity: 0.016; transform: rotate(6deg); letter-spacing: 0.4em; }
+  .hm-3 { top: 72%; left: 10%; font-size: 10px; opacity: 0.022; transform: rotate(-3deg); letter-spacing: 0.6em; }
+  .hm-4 { top: 88%; right: 12%; font-size: 8px; opacity: 0.013; transform: rotate(12deg); letter-spacing: 0.3em; }
+  .hm-5 { top: 32%; left: 52%; font-size: 7px; opacity: 0.015; transform: rotate(-18deg); letter-spacing: 0.7em; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+  /* --- HEADER --- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 1.25rem 0;
+    background: rgba(19, 17, 14, 0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  header .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+  nav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 2.5rem;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  nav a:hover, nav a.active { color: var(--accent); }
+  .header-cta {
+    padding: 0.5rem 1.25rem;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background 0.2s;
+  }
+  .header-cta:hover { background: var(--accent-light); }
+
+  /* --- HERO --- */
+  .hero {
+    padding: 8rem 0 6rem;
+    position: relative;
+  }
+  /* Decorative contour circle */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 3rem;
+    right: -2rem;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 5rem;
+    right: 0rem;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--fg);
+    margin-bottom: 1.5rem;
+    max-width: 700px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* Split-flap mockup */
+  .split-flap {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 2rem;
+    padding: 5px;
+    background: var(--bg-elevated);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .flap {
+    width: 42px;
+    height: 56px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    position: relative;
+  }
+  .flap::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bg-elevated);
+  }
+  .flap.space { border-color: transparent; background: transparent; }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--fg-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.75rem 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 0 24px var(--accent-glow);
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); box-shadow: 0 0 32px var(--accent-glow); }
+  .btn-outline {
+    padding: 0.75rem 2rem;
+    background: transparent;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--fg-dim); color: var(--fg); }
+
+  /* --- SERVICES --- */
+  .services {
+    padding: 5rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .service-card {
+    padding: 2rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card:hover { border-color: var(--accent-dim); }
+  /* Subtle corner accent on hover */
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    transition: height 0.4s ease;
+  }
+  .service-card:nth-child(1)::before { background: var(--accent); }
+  .service-card:nth-child(2)::before { background: var(--sage); }
+  .service-card:nth-child(3)::before { background: var(--fg-dim); }
+  .service-card:hover::before { height: 100%; }
+
+  .service-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1rem;
+  }
+  .service-card h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--fg);
+  }
+  .service-card p {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    line-height: 1.65;
+  }
+
+  /* --- PROOF STRIP --- */
+  .proof {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    text-align: center;
+  }
+  .proof-item .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+  .proof-item .label {
+    font-size: 0.7rem;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* --- CTA --- */
+  .cta {
+    padding: 6rem 0;
+    text-align: center;
+  }
+  .cta h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .cta h2 em { font-style: italic; color: var(--accent); }
+  .cta p {
+    color: var(--fg-muted);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    margin-inline: auto;
+  }
+
+  /* --- FOOTER --- */
+  footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--fg-dim);
+  }
+  footer a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--accent); }
+
+  /* --- BOTTOM GLOW — warm amber trail --- */
+  .glow {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to top, rgba(184, 129, 62, 0.5) 0%, rgba(184, 129, 62, 0.15) 50%, transparent 100%);
+    box-shadow: 0 0 24px rgba(184, 129, 62, 0.2);
+    pointer-events: none;
+    z-index: 40;
+  }
+
+  .design-label {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.35rem 1rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    z-index: 100;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2.25rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: repeat(2, 1fr); }
+    nav { display: none; }
+    .split-flap { gap: 2px; padding: 3px; }
+    .flap { width: 28px; height: 38px; font-size: 1rem; }
+    .hero::after, .hero::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="design-label">PATHFINDER v2 — REVISED PALETTE + HIDDEN TRAIL</div>
+
+<!-- ====================================================
+     HIDDEN TRAIL BACKGROUND
+     Topographic contour lines with ranger easter eggs.
+     Some text is nearly invisible — inspect source or
+     squint very hard to find the trail markers.
+     ==================================================== -->
+<div class="trail-bg">
+  <svg viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Topographic contour lines — organic, flowing elevation -->
+    <path d="M-80 150 Q120 130 280 170 Q440 210 600 155 Q760 100 920 150 Q1080 200 1280 165" stroke="#B8813E" stroke-width="0.6" fill="none" opacity="0.5"/>
+    <path d="M-80 220 Q160 190 320 235 Q480 280 640 215 Q800 150 960 210 Q1120 270 1280 230" stroke="#6E8262" stroke-width="0.5" fill="none" opacity="0.45"/>
+    <path d="M-80 300 Q100 275 280 310 Q460 345 620 290 Q780 235 920 295 Q1060 355 1280 310" stroke="#B8813E" stroke-width="0.45" fill="none" opacity="0.38"/>
+    <path d="M-80 375 Q180 345 340 385 Q500 425 660 365 Q820 305 980 370 Q1100 420 1280 385" stroke="#6E8262" stroke-width="0.4" fill="none" opacity="0.3"/>
+    <path d="M-80 460 Q140 435 320 470 Q500 505 660 445 Q820 385 960 455 Q1100 520 1280 465" stroke="#B8813E" stroke-width="0.35" fill="none" opacity="0.25"/>
+    <path d="M-80 540 Q200 510 380 550 Q560 590 720 530 Q880 470 1020 540 Q1120 580 1280 545" stroke="#6E8262" stroke-width="0.3" fill="none" opacity="0.2"/>
+    <path d="M-80 620 Q150 600 330 640 Q510 680 680 620 Q850 560 1000 625 Q1120 670 1280 635" stroke="#B8813E" stroke-width="0.25" fill="none" opacity="0.16"/>
+    <path d="M-80 700 Q200 680 420 720 Q580 745 740 690 Q900 635 1050 700 Q1140 730 1280 710" stroke="#6E8262" stroke-width="0.2" fill="none" opacity="0.12"/>
+    <path d="M-80 780 Q180 760 380 800 Q540 830 700 770 Q860 710 1020 775 Q1120 810 1280 790" stroke="#B8813E" stroke-width="0.18" fill="none" opacity="0.08"/>
+
+    <!-- Trail marker dots along contours -->
+    <circle cx="280" cy="170" r="2.5" fill="#B8813E" opacity="0.3"/>
+    <circle cx="640" cy="215" r="2" fill="#6E8262" opacity="0.25"/>
+    <circle cx="920" cy="295" r="2.5" fill="#B8813E" opacity="0.22"/>
+    <circle cx="380" cy="550" r="2" fill="#6E8262" opacity="0.18"/>
+    <circle cx="1000" cy="625" r="2" fill="#B8813E" opacity="0.14"/>
+
+    <!-- Coordinates — KC, of course -->
+    <text x="870" y="115" font-family="JetBrains Mono" font-size="6" fill="#6E8262" opacity="0.3">39.0997° N</text>
+    <text x="870" y="123" font-family="JetBrains Mono" font-size="6" fill="#6E8262" opacity="0.3">94.5786° W</text>
+
+    <!-- Hidden text woven into the topography -->
+    <text x="120" y="248" font-family="JetBrains Mono" font-size="5.5" fill="#B8813E" opacity="0.22" transform="rotate(-4 120 248)">TRAILHEAD</text>
+    <text x="470" y="408" font-family="JetBrains Mono" font-size="5" fill="#6E8262" opacity="0.18" transform="rotate(2 470 408)">FIND YOUR OWN PATH</text>
+    <text x="750" y="555" font-family="JetBrains Mono" font-size="4.5" fill="#B8813E" opacity="0.14" transform="rotate(-3 750 555)">ELEVATION 1024FT</text>
+    <text x="180" y="660" font-family="JetBrains Mono" font-size="4.5" fill="#6E8262" opacity="0.12" transform="rotate(4 180 660)">RANGER STATION</text>
+    <text x="880" y="730" font-family="JetBrains Mono" font-size="4" fill="#B8813E" opacity="0.09" transform="rotate(-2 880 730)">NOT ALL WHO WANDER ARE LOST</text>
+    <text x="350" y="790" font-family="JetBrains Mono" font-size="3.5" fill="#6E8262" opacity="0.07" transform="rotate(1 350 790)">BLAZE MARKER // 2026</text>
+  </svg>
+</div>
+
+<!-- Additional ghost text in the HTML -->
+<div class="hidden-message hm-1">BLAZE YOUR TRAIL</div>
+<div class="hidden-message hm-2">STAY THE COURSE</div>
+<div class="hidden-message hm-3">VENTURE FURTHER</div>
+<div class="hidden-message hm-4">39.0997 -94.5786</div>
+<div class="hidden-message hm-5">SUMMIT</div>
+
+<header>
+  <div class="container">
+    <div class="logo">Zach Varney</div>
+    <div style="display:flex;align-items:center;">
+      <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#">Work</a>
+        <a href="#">Blog</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+      <a href="#" class="header-cta" style="margin-left:2.5rem;">Start a Conversation</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Ranger Ventures LLC</div>
+
+    <div class="split-flap">
+      <div class="flap">A</div><div class="flap">I</div><div class="flap space"></div>
+      <div class="flap">S</div><div class="flap">O</div><div class="flap">L</div><div class="flap">U</div><div class="flap">T</div><div class="flap">I</div><div class="flap">O</div><div class="flap">N</div><div class="flap">S</div>
+    </div>
+
+    <p class="hero-sub">
+      I build AI-powered tools and ship production code. Contracting, consulting,
+      and hands-on development for teams that need AI done right.
+    </p>
+
+    <div class="btn-group">
+      <a href="#" class="btn-primary">Start a Conversation</a>
+      <a href="#" class="btn-outline">See My Work &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="container">
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-tag">Hands-on Development</div>
+        <h3>AI Development</h3>
+        <p>Custom AI tools, agents, and integrations. I build the middleware that connects LLMs to the systems your team already uses.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-tag">Strategy & Architecture</div>
+        <h3>Technical Consulting</h3>
+        <p>Architecture reviews, implementation planning, and strategy for teams building with AI. I've shipped enough systems to know what works.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-tag">Community</div>
+        <h3>Open Source</h3>
+        <p>NPM packages, public tools, and community contributions. Everything I build is designed to be reused.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="container">
+    <div class="proof-grid">
+      <div class="proof-item">
+        <div class="value">10+</div>
+        <div class="label">Years in B2B SaaS</div>
+      </div>
+      <div class="proof-item">
+        <div class="value">Live</div>
+        <div class="label">Production Systems</div>
+      </div>
+      <div class="proof-item">
+        <div class="value">706</div>
+        <div class="label">Contributions</div>
+      </div>
+      <div class="proof-item">
+        <div class="value">KC</div>
+        <div class="label">Kansas City, Remote</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Have an AI problem that needs <em>solving?</em></h2>
+    <p>I take on a small number of engagements and prioritize long-term partnerships.</p>
+    <a href="#" class="btn-primary">Get in Touch</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>&copy; 2026 Ranger Ventures LLC</span>
+    <div>
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<div class="glow"></div>
+
+</body>
+</html>

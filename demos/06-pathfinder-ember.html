@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathfinder: Ember</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #110F0D;
+    --bg-elevated: #1A1715;
+    --bg-surface: #22201C;
+    --fg: #E8E2D8;
+    --fg-muted: #A09686;
+    --fg-dim: #655C50;
+
+    /* Ember — warm terracotta/burnt orange */
+    --accent: #C4693A;
+    --accent-light: #D88050;
+    --accent-dim: #7A422A;
+    --accent-glow: rgba(196, 105, 58, 0.1);
+
+    /* Charcoal olive */
+    --olive: #787A5C;
+    --olive-light: #969875;
+    --olive-dim: #454730;
+
+    --border: #282420;
+    --border-light: #35302A;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .trail-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .trail-bg svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150%;
+    height: 150%;
+    opacity: 0.03;
+  }
+  .trail-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 45% at 10% 8%, rgba(196, 105, 58, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 50% at 90% 85%, rgba(120, 122, 92, 0.035) 0%, transparent 55%);
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 1.25rem 0;
+    background: rgba(17, 15, 13, 0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  header .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--fg);
+    position: relative;
+    cursor: pointer;
+  }
+  .logo::after {
+    content: '39.0997°N 94.5786°W';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: all 0.3s ease;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .logo:hover::after { opacity: 0.5; transform: translateY(2px); }
+
+  nav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 2.5rem;
+    transition: color 0.2s;
+    position: relative;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  nav a:hover::after, nav a.active::after { width: 100%; }
+  nav a:hover, nav a.active { color: var(--accent); }
+
+  .header-cta {
+    padding: 0.5rem 1.25rem;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-cta::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: left 0.5s;
+  }
+  .header-cta:hover { background: var(--accent-light); }
+  .header-cta:hover::before { left: 100%; }
+
+  .hero { padding: 8rem 0 6rem; position: relative; }
+  /* Asymmetric contour rings */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 2.5rem;
+    right: -3rem;
+    width: 340px;
+    height: 280px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.25;
+    pointer-events: none;
+    transform: rotate(-15deg);
+    transition: opacity 0.5s;
+  }
+  .hero:hover::after { opacity: 0.4; }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 6rem;
+    right: 1rem;
+    width: 220px;
+    height: 180px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    opacity: 0.12;
+    pointer-events: none;
+    transform: rotate(-15deg);
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+
+  .split-flap {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 2rem;
+    padding: 5px;
+    background: var(--bg-elevated);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .flap {
+    width: 42px;
+    height: 56px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .flap:hover { border-color: var(--accent-dim); }
+  .flap::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--bg-elevated);
+  }
+  .flap.space { border-color: transparent; background: transparent; }
+
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--fg);
+    margin-bottom: 1.5rem;
+    max-width: 700px;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--fg-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.75rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    box-shadow: 0 0 24px var(--accent-glow);
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 4px 32px var(--accent-glow); }
+  .btn-outline {
+    padding: 0.75rem 2rem;
+    background: transparent;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  .btn-outline:hover { border-color: var(--fg-dim); color: var(--fg); transform: translateY(-1px); }
+
+  .services { padding: 5rem 0; border-top: 1px solid var(--border); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .service-card {
+    padding: 2rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:nth-child(1)::before { background: var(--accent); }
+  .service-card:nth-child(2)::before { background: var(--olive); }
+  .service-card:nth-child(3)::before { background: var(--fg-dim); }
+  .service-card:hover { border-color: var(--border-light); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin-bottom: 1rem;
+  }
+  .service-card h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--fg);
+  }
+  .service-card p { font-size: 0.85rem; color: var(--fg-muted); line-height: 1.65; }
+
+  .proof {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+  .proof-item { transition: transform 0.2s; }
+  .proof-item:hover { transform: scale(1.05); }
+  .proof-item .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+  .proof-item .label { font-size: 0.7rem; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.15em; }
+
+  .cta { padding: 6rem 0; text-align: center; }
+  .cta h2 { font-family: 'Libre Baskerville', serif; font-size: 2rem; margin-bottom: 1rem; }
+  .cta h2 em { font-style: italic; color: var(--accent); }
+  .cta p { color: var(--fg-muted); margin-bottom: 2.5rem; max-width: 500px; margin-inline: auto; }
+
+  footer { padding: 2rem 0; border-top: 1px solid var(--border); }
+  footer .container { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--fg-dim); }
+  footer a { color: var(--fg-muted); text-decoration: none; margin-left: 1.5rem; transition: color 0.2s; }
+  footer a:hover { color: var(--accent); }
+
+  .glow {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(to top, rgba(196, 105, 58, 0.55) 0%, rgba(196, 105, 58, 0.12) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 40;
+  }
+
+  .design-label {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #fff;
+    padding: 0.35rem 1rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    z-index: 100;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2.25rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: repeat(2, 1fr); }
+    nav { display: none; }
+    .split-flap { gap: 2px; padding: 3px; }
+    .flap { width: 28px; height: 38px; font-size: 1rem; }
+    .hero::after, .hero::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="design-label">PATHFINDER: EMBER</div>
+
+<div class="trail-bg">
+  <svg viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-80 150 Q120 130 280 170 Q440 210 600 155 Q760 100 920 150 Q1080 200 1280 165" stroke="#C4693A" stroke-width="0.6" fill="none" opacity="0.45"/>
+    <path d="M-80 220 Q160 190 320 235 Q480 280 640 215 Q800 150 960 210 Q1120 270 1280 230" stroke="#787A5C" stroke-width="0.5" fill="none" opacity="0.38"/>
+    <path d="M-80 300 Q100 275 280 310 Q460 345 620 290 Q780 235 920 295 Q1060 355 1280 310" stroke="#C4693A" stroke-width="0.45" fill="none" opacity="0.3"/>
+    <path d="M-80 375 Q180 345 340 385 Q500 425 660 365 Q820 305 980 370 Q1100 420 1280 385" stroke="#787A5C" stroke-width="0.4" fill="none" opacity="0.24"/>
+    <path d="M-80 460 Q140 435 320 470 Q500 505 660 445 Q820 385 960 455 Q1100 520 1280 465" stroke="#C4693A" stroke-width="0.35" fill="none" opacity="0.2"/>
+    <path d="M-80 540 Q200 510 380 550 Q560 590 720 530 Q880 470 1020 540 Q1120 580 1280 545" stroke="#787A5C" stroke-width="0.3" fill="none" opacity="0.15"/>
+    <path d="M-80 620 Q150 600 330 640 Q510 680 680 620 Q850 560 1000 625 Q1120 670 1280 635" stroke="#C4693A" stroke-width="0.25" fill="none" opacity="0.11"/>
+    <!-- Hidden elevation = HTTP status codes -->
+    <text x="850" y="115" font-family="JetBrains Mono" font-size="5" fill="#787A5C" opacity="0.22">EL. 200</text>
+    <text x="250" y="330" font-family="JetBrains Mono" font-size="4.5" fill="#C4693A" opacity="0.14">EL. 404</text>
+    <text x="650" y="480" font-family="JetBrains Mono" font-size="4" fill="#787A5C" opacity="0.1">EL. 418</text>
+    <circle cx="280" cy="170" r="2" fill="#C4693A" opacity="0.22"/>
+    <circle cx="640" cy="215" r="1.5" fill="#787A5C" opacity="0.18"/>
+    <circle cx="920" cy="295" r="2" fill="#C4693A" opacity="0.15"/>
+  </svg>
+</div>
+
+<header>
+  <div class="container">
+    <div class="logo">Zach Varney</div>
+    <div style="display:flex;align-items:center;">
+      <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#">Work</a>
+        <a href="#">Blog</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+      <a href="#" class="header-cta" style="margin-left:2.5rem;">Start a Conversation</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Ranger Ventures LLC</div>
+    <div class="split-flap">
+      <div class="flap">A</div><div class="flap">I</div><div class="flap space"></div>
+      <div class="flap">S</div><div class="flap">O</div><div class="flap">L</div><div class="flap">U</div><div class="flap">T</div><div class="flap">I</div><div class="flap">O</div><div class="flap">N</div><div class="flap">S</div>
+    </div>
+    <p class="hero-sub">I build AI-powered tools and ship production code. Contracting, consulting, and hands-on development for teams that need AI done right.</p>
+    <div class="btn-group">
+      <a href="#" class="btn-primary">Start a Conversation</a>
+      <a href="#" class="btn-outline">See My Work &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="container">
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-tag">Hands-on Development</div>
+        <h3>AI Development</h3>
+        <p>Custom AI tools, agents, and integrations. I build the middleware that connects LLMs to the systems your team already uses.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-tag">Strategy & Architecture</div>
+        <h3>Technical Consulting</h3>
+        <p>Architecture reviews, implementation planning, and strategy for teams building with AI. I've shipped enough systems to know what works.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-tag">Community</div>
+        <h3>Open Source</h3>
+        <p>NPM packages, public tools, and community contributions. Everything I build is designed to be reused.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="container">
+    <div class="proof-grid">
+      <div class="proof-item"><div class="value">10+</div><div class="label">Years in B2B SaaS</div></div>
+      <div class="proof-item"><div class="value">Live</div><div class="label">Production Systems</div></div>
+      <div class="proof-item"><div class="value">706</div><div class="label">Contributions</div></div>
+      <div class="proof-item"><div class="value">KC</div><div class="label">Kansas City, Remote</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Have an AI problem that needs <em>solving?</em></h2>
+    <p>I take on a small number of engagements and prioritize long-term partnerships.</p>
+    <a href="#" class="btn-primary">Get in Touch</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>&copy; 2026 Ranger Ventures LLC</span>
+    <div><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+  </div>
+</footer>
+
+<div class="glow"></div>
+
+<script>
+// Console easter egg
+console.log('%c\n  ◆ RANGER VENTURES LLC\n  ◆ 39.0997°N 94.5786°W\n  ◆ You found the trailhead.\n', 'color: #C4693A; font-family: monospace; font-size: 12px; line-height: 1.6;');
+// Hidden: the topo "elevations" are HTTP status codes (200, 404, 418 = I'm a teapot)
+</script>
+
+</body>
+</html>
