@@ -17,8 +17,8 @@ export default function Home() {
             <Headline />
 
             <p className="text-xl leading-8 text-muted-foreground max-w-2xl mb-10">
-              AI consulting &amp; development for B2B SaaS companies. I design middleware,
-              integrations, and intelligent workflows &mdash; then I build them.
+              I build AI-powered tools and ship production code. Contracting, consulting,
+              and hands-on development for teams that need AI done right.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -73,7 +73,7 @@ export default function Home() {
             {[
               "10+ Years in B2B SaaS",
               "Production AI Systems Live",
-              "PM Background \u2192 Builder",
+              "Builder & Founder",
               "Kansas City, MO \u00b7 Remote",
             ].map((point) => (
               <p key={point} className="text-sm font-medium text-muted-foreground font-mono tracking-tight">

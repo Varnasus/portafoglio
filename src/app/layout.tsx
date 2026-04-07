@@ -13,8 +13,12 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "AI Consulting",
     "AI Development",
+    "AI Contracting",
+    "AI Builder",
+    "Code Shipping",
+    "NPM Packages",
+    "Open Source",
     "LLM Applications",
     "AI Middleware",
     "B2B SaaS",

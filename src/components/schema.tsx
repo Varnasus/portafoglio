@@ -3,7 +3,7 @@ export function PersonSchema() {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Zach Varney",
-    "jobTitle": "AI Consultant & Developer",
+    "jobTitle": "AI Developer & Founder",
     "url": "https://zvarney.com",
     "sameAs": [
       "https://www.linkedin.com/in/zach-varney/",
@@ -14,16 +14,18 @@ export function PersonSchema() {
       "name": "Ranger Ventures LLC"
     },
     "knowsAbout": [
-      "AI Consulting",
+      "AI Development",
+      "AI Contracting",
       "LLM Applications",
       "Middleware & Integrations",
-      "AI Product Architecture",
+      "Open Source",
+      "NPM Packages",
       "Python",
       "TypeScript",
       "FastAPI",
       "Next.js"
     ],
-    "description": "AI consultant and developer building production systems for B2B SaaS companies. Middleware, integrations, and intelligent workflows.",
+    "description": "AI developer and founder building production systems and shipping code. Contracting, consulting, and hands-on development for B2B SaaS companies.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Kansas City",
@@ -49,7 +51,7 @@ export function OrganizationSchema() {
     "name": "Ranger Ventures LLC",
     "url": "https://zvarney.com",
     "logo": "https://zvarney.com/logo.png",
-    "description": "AI consulting & development for B2B SaaS. Middleware, integrations, and intelligent workflows.",
+    "description": "AI development and contracting practice. Building production systems, middleware, integrations, and open-source tools for B2B SaaS companies.",
     "sameAs": [
       "https://www.linkedin.com/in/zach-varney/",
       "https://github.com/Varnasus"
@@ -82,7 +84,7 @@ export function WebSiteSchema() {
     "@type": "WebSite",
     "name": "Ranger Ventures LLC",
     "url": "https://zvarney.com",
-    "description": "AI consulting & development for B2B SaaS companies.",
+    "description": "Portfolio and consulting storefront for Zach Varney — AI builder, developer, and founder of Ranger Ventures LLC.",
     "publisher": {
       "@type": "Person",
       "name": "Zach Varney"
