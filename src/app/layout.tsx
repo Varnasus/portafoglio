@@ -52,9 +52,6 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(siteConfig.url),
-  alternates: {
-    canonical: '/',
-  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -62,15 +59,6 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: siteConfig.name,
-        type: 'image/jpeg',
-      },
-    ],
   },
   robots: {
     index: true,
@@ -107,7 +95,6 @@ export default function RootLayout({
         <WebSiteSchema />
 
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
       </head>
       <body
         className={`antialiased min-h-screen bg-background font-sans`}

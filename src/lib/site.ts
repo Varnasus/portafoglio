@@ -3,7 +3,6 @@ export const siteConfig = {
   title: "Zach Varney — AI Builder & Founder of Ranger Ventures",
   description: "I build AI-powered tools and ship production code. Contracting, consulting, and hands-on development for teams that need AI done right.",
   url: "https://zvarney.com",
-  ogImage: "https://zvarney.com/og.jpg",
   links: {
     github: "https://github.com/Varnasus",
     linkedin: "https://www.linkedin.com/in/zach-varney/",
