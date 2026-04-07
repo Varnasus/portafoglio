@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
+import { JetBrains_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonSchema, OrganizationSchema, WebSiteSchema } from "@/components/schema";
 import { SkipNavigation, AccessibilityProvider } from "@/components/accessibility";
 import { siteConfig } from "@/lib/site";
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+  weight: ["400", "700"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -92,7 +100,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${jetbrainsMono.variable}`}>
       <head>
         <PersonSchema />
         <OrganizationSchema />
