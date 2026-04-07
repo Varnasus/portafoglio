@@ -1,10 +1,13 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: path.join(__dirname),
   images: {
-    domains: [
-      'images.unsplash.com',
-      'via.placeholder.com',
-      'images.weserv.nl'
+    remotePatterns: [
+      { hostname: 'images.unsplash.com' },
+      { hostname: 'via.placeholder.com' },
+      { hostname: 'images.weserv.nl' },
     ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
