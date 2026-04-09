@@ -18,7 +18,7 @@ export default function BlogPage() {
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
             Blog
           </p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-4">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-4 font-serif">
             Build logs.
           </h1>
           <p className="text-xl leading-8 text-muted-foreground mb-12 max-w-2xl">
@@ -31,7 +31,7 @@ export default function BlogPage() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="block p-6 bg-background rounded-xl border hover:border-primary/30 transition-colors"
+                className="hover-card block p-6 bg-background rounded-xl border hover:border-primary/30 transition-colors"
               >
                 <div className="flex items-baseline justify-between gap-4 mb-2">
                   <h2 className="text-lg font-bold">{post.title}</h2>

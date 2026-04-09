@@ -33,7 +33,7 @@ export function PersonSchema() {
       "addressCountry": "US"
     },
     "email": "z.varney.business@gmail.com",
-    "image": "https://zvarney.com/og-image.jpg"
+    "image": "https://zvarney.com/opengraph-image"
   }
 
   return (
@@ -50,7 +50,7 @@ export function OrganizationSchema() {
     "@type": "Organization",
     "name": "Ranger Ventures LLC",
     "url": "https://zvarney.com",
-    "logo": "https://zvarney.com/logo.png",
+    "logo": "https://zvarney.com/icon",
     "description": "AI development and contracting practice. Building production systems, middleware, integrations, and open-source tools for B2B SaaS companies.",
     "sameAs": [
       "https://www.linkedin.com/in/zach-varney/",

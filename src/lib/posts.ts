@@ -25,7 +25,7 @@ The rebuild had one goal: prove that I build things. Not talk about building thi
 
 Here's what's different:
 
-- **Split-flap display** — The hero uses react-split-flap-display, an open-source package I forked and published on npm. It cycles through headlines with a mechanical flip animation.
+- **Split-flap display** — The hero uses clackboard, an open-source NPM package I built from scratch. It renders a Vestaboard-style 2-row board with physics-based easing, staggered cascades, and 25 cycling messages.
 - **Live GitHub data** — The /work page pulls from the GitHub API. Repo counts, contribution graphs, and recent activity are all real-time, not screenshots.
 - **Three project cards** — Each one links to a live repo or a running system. No hypothetical case studies.
 - **AI-first build process** — The entire site was built using Claude Code as the primary development tool. Every commit in the git history reflects that workflow.

@@ -3,7 +3,7 @@ import type { ProjectMeta } from "@/lib/projects"
 
 export function WorkCard({ project }: { project: ProjectMeta }) {
   return (
-    <div className="p-6 bg-background rounded-xl border">
+    <div className="hover-card p-6 bg-background rounded-xl border">
       <div className="flex flex-col gap-4">
         {/* Tag */}
         <span className="text-xs font-bold tracking-widest uppercase text-primary font-mono">
@@ -27,6 +27,30 @@ export function WorkCard({ project }: { project: ProjectMeta }) {
 
         {/* Description */}
         <p className="text-sm leading-7 text-muted-foreground">{project.description}</p>
+
+        {/* Problem / Tradeoffs / Impact */}
+        {(project.problem || project.tradeoffs || project.impact) && (
+          <div className="space-y-3 pt-2 border-t border-border/50">
+            {project.problem && (
+              <div>
+                <span className="text-xs font-mono text-steel tracking-widest uppercase">Problem</span>
+                <p className="text-sm text-muted-foreground mt-1">{project.problem}</p>
+              </div>
+            )}
+            {project.tradeoffs && (
+              <div>
+                <span className="text-xs font-mono text-steel tracking-widest uppercase">Trade-offs</span>
+                <p className="text-sm text-muted-foreground mt-1">{project.tradeoffs}</p>
+              </div>
+            )}
+            {project.impact && (
+              <div>
+                <span className="text-xs font-mono text-steel tracking-widest uppercase">Impact</span>
+                <p className="text-sm text-muted-foreground mt-1">{project.impact}</p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Outcomes */}
         <ul className="space-y-2">

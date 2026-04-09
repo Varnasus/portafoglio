@@ -104,15 +104,29 @@ export interface ContributionDay {
   level: 0 | 1 | 2 | 3 | 4
 }
 
+export interface GitHubGraphQLData {
+  contributions: ContributionDay[]
+  publicRepos: number
+  privateRepos: number
+  totalCommits: number
+}
+
 export async function getContributions(): Promise<ContributionDay[]> {
+  const data = await getGraphQLData()
+  return data.contributions
+}
+
+export async function getGraphQLData(): Promise<GitHubGraphQLData> {
   if (!process.env.GITHUB_TOKEN) {
-    // GraphQL API requires auth — return empty if no token
-    return []
+    return { contributions: [], publicRepos: 0, privateRepos: 0, totalCommits: 0 }
   }
 
   const query = `query {
     user(login: "${GITHUB_USERNAME}") {
+      publicRepos: repositories(privacy: PUBLIC) { totalCount }
+      privateRepos: repositories(privacy: PRIVATE) { totalCount }
       contributionsCollection {
+        totalCommitContributions
         contributionCalendar {
           weeks {
             contributionDays {
@@ -136,11 +150,18 @@ export async function getContributions(): Promise<ContributionDay[]> {
     next: { revalidate: 3600 },
   })
 
-  if (!res.ok) return []
+  if (!res.ok) {
+    return { contributions: [], publicRepos: 0, privateRepos: 0, totalCommits: 0 }
+  }
 
   const json = await res.json()
+  const user = json?.data?.user
+  if (!user) {
+    return { contributions: [], publicRepos: 0, privateRepos: 0, totalCommits: 0 }
+  }
+
   const weeks =
-    json?.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? []
+    user.contributionsCollection?.contributionCalendar?.weeks ?? []
 
   const levelMap: Record<string, 0 | 1 | 2 | 3 | 4> = {
     NONE: 0,
@@ -150,13 +171,20 @@ export async function getContributions(): Promise<ContributionDay[]> {
     FOURTH_QUARTILE: 4,
   }
 
-  return weeks.flatMap((w: { contributionDays: { date: string; contributionCount: number; contributionLevel: string }[] }) =>
+  const contributions = weeks.flatMap((w: { contributionDays: { date: string; contributionCount: number; contributionLevel: string }[] }) =>
     w.contributionDays.map((d) => ({
       date: d.date,
       count: d.contributionCount,
       level: levelMap[d.contributionLevel] ?? 0,
     }))
   )
+
+  return {
+    contributions,
+    publicRepos: user.publicRepos?.totalCount ?? 0,
+    privateRepos: user.privateRepos?.totalCount ?? 0,
+    totalCommits: user.contributionsCollection?.totalCommitContributions ?? 0,
+  }
 }
 
 export function daysSinceLastPush(repos: GitHubRepo[]): number {

@@ -6,7 +6,7 @@ Consulting storefront for Ranger Ventures LLC. Built with Next.js 15, React 19, 
 
 - **Framework**: Next.js 15 (App Router), React 19, TypeScript
 - **Styling**: Tailwind CSS 4 (CSS-based `@theme` config), JetBrains Mono
-- **Components**: react-split-flap-display, react-activity-calendar
+- **Components**: clackboard, react-activity-calendar
 - **APIs**: GitHub REST + GraphQL (ISR revalidation)
 - **Deploy**: Vercel at [zvarney.com](https://zvarney.com)
 
@@ -20,7 +20,7 @@ Consulting storefront for Ranger Ventures LLC. Built with Next.js 15, React 19, 
 
 ## Features
 
-- **Split-flap display**: Cycling headline animation using react-split-flap-display
+- **Split-flap display**: Cycling headline animation using clackboard
 - **GitHub integration**: Live repo stats, contribution heatmap via GraphQL API
 - **Dynamic OG image**: Code-generated social preview card (Next.js ImageResponse)
 - **Dynamic favicon**: ZV monogram generated at build time

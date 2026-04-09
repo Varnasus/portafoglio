@@ -17,8 +17,11 @@ export function Header() {
       <Container>
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">Zach Varney</span>
+            <Link href="/" className="logo-link relative flex items-center space-x-2 group">
+              <span className="text-xl font-bold font-serif">Zach Varney</span>
+              <span className="logo-coords absolute -bottom-5 left-0 text-[10px] font-mono text-steel opacity-0 group-hover:opacity-60 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                39.0997°N 94.5786°W
+              </span>
             </Link>
           </div>
 
@@ -28,9 +31,9 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
+                  "nav-link text-sm font-medium transition-colors hover:text-primary",
                   pathname === item.href
-                    ? "text-foreground"
+                    ? "text-foreground nav-link-active"
                     : "text-muted-foreground"
                 )}
               >

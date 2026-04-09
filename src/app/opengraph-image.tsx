@@ -16,16 +16,16 @@ export default function OGImage() {
           alignItems: "flex-start",
           width: "100%",
           height: "100%",
-          backgroundColor: "hsl(220, 20%, 6%)",
+          backgroundColor: "hsl(210, 14%, 7%)",
           padding: "80px",
         }}
       >
-        {/* Green accent line */}
+        {/* Brass accent line */}
         <div
           style={{
             width: 80,
             height: 4,
-            backgroundColor: "hsl(135, 30%, 45%)",
+            backgroundColor: "hsl(40, 54%, 49%)",
             marginBottom: 40,
           }}
         />
@@ -35,7 +35,7 @@ export default function OGImage() {
           style={{
             fontSize: 72,
             fontWeight: 700,
-            color: "hsl(60, 5%, 90%)",
+            color: "hsl(216, 8%, 87%)",
             lineHeight: 1.1,
             marginBottom: 16,
           }}
@@ -47,7 +47,7 @@ export default function OGImage() {
         <div
           style={{
             fontSize: 32,
-            color: "hsl(135, 30%, 45%)",
+            color: "hsl(40, 54%, 49%)",
             marginBottom: 40,
           }}
         >
@@ -58,7 +58,7 @@ export default function OGImage() {
         <div
           style={{
             fontSize: 24,
-            color: "hsl(220, 8%, 56%)",
+            color: "hsl(215, 10%, 58%)",
             maxWidth: 800,
             lineHeight: 1.5,
           }}
@@ -81,7 +81,7 @@ export default function OGImage() {
           <div
             style={{
               fontSize: 18,
-              color: "hsl(220, 8%, 40%)",
+              color: "hsl(215, 10%, 40%)",
               fontFamily: "monospace",
             }}
           >
@@ -92,13 +92,13 @@ export default function OGImage() {
               width: 4,
               height: 4,
               borderRadius: 2,
-              backgroundColor: "hsl(220, 8%, 30%)",
+              backgroundColor: "hsl(215, 10%, 30%)",
             }}
           />
           <div
             style={{
               fontSize: 18,
-              color: "hsl(220, 8%, 40%)",
+              color: "hsl(215, 10%, 40%)",
               fontFamily: "monospace",
             }}
           >

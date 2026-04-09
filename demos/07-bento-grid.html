@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bento Grid — Slate & Brass Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F1215;
+    --bg-card: #161A1E;
+    --fg: #D8DBE0;
+    --brass: #C0963A;
+    --brass-light: #D4AD52;
+    --steel: #6B7D8D;
+    --muted: #8891A0;
+    --border: #222830;
+    --secondary: #1D2228;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* Mesh gradient pools */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 40% at 15% 10%, rgba(192, 150, 58, 0.04) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 50% at 85% 85%, rgba(107, 125, 141, 0.03) 0%, transparent 60%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15, 18, 21, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+  }
+
+  header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--fg);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .logo:hover .coords {
+    opacity: 0.6;
+  }
+
+  .coords {
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--steel);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  nav { display: flex; gap: 24px; align-items: center; }
+
+  nav a {
+    font-size: 0.875rem;
+    color: var(--muted);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background: var(--brass);
+    transition: width 0.3s;
+  }
+
+  nav a:hover { color: var(--brass); }
+  nav a:hover::after { width: 100%; }
+
+  .cta-btn {
+    background: var(--brass);
+    color: var(--bg);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+
+  .cta-btn:hover { background: var(--brass-light); }
+
+  .cta-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: left 0.5s;
+  }
+
+  .cta-btn:hover::before { left: 100%; }
+
+  /* ═══ BENTO GRID ═══ */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 16px;
+    padding: 48px 0 64px;
+  }
+
+  .bento-cell {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .bento-cell::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 0;
+    background: var(--brass);
+    transition: height 0.3s;
+  }
+
+  .bento-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
+  }
+
+  .bento-cell:hover::before {
+    height: 100%;
+  }
+
+  /* Grid placement — engineering view (no hero in grid, it's above) */
+  .cell-stats   { grid-column: 1 / -1; grid-row: 1; }
+  .cell-dev     { grid-column: 1 / 2; grid-row: 2; }
+  .cell-consult { grid-column: 2 / 3; grid-row: 2; }
+  .cell-oss     { grid-column: 3 / 5; grid-row: 2; }
+  .cell-graph   { grid-column: 1 / 3; grid-row: 3; }
+  .cell-proof   { grid-column: 3 / 5; grid-row: 3; }
+  .cell-cta     { grid-column: 1 / -1; grid-row: 4; text-align: center; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .cell-hero, .cell-stats, .cell-dev, .cell-consult,
+    .cell-oss, .cell-graph, .cell-proof, .cell-cta {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+  }
+
+  /* Typography */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 12px;
+  }
+
+  .eyebrow-line::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--brass);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .muted { color: var(--muted); }
+  .brass { color: var(--brass); }
+  .steel { color: var(--steel); }
+
+  /* Split-flap placeholder */
+  .flap-display {
+    display: flex;
+    gap: 4px;
+    margin: 16px 0;
+  }
+
+  .flap-char {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--brass-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.25rem, 3vw, 2.5rem);
+    width: clamp(1.5rem, 3.5vw, 2.75rem);
+    height: clamp(2rem, 4.5vw, 3.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .flap-char::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Stats cells */
+  .stat-item {
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .stat-item + .stat-item {
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--brass-light);
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Contribution graph placeholder */
+  .graph-grid {
+    display: grid;
+    grid-template-columns: repeat(52, 1fr);
+    gap: 3px;
+    margin-top: 16px;
+  }
+
+  .graph-cell {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    background: var(--secondary);
+  }
+
+  .graph-cell.l1 { background: hsl(40, 30%, 20%); }
+  .graph-cell.l2 { background: hsl(40, 40%, 30%); }
+  .graph-cell.l3 { background: hsl(40, 50%, 40%); }
+  .graph-cell.l4 { background: hsl(40, 54%, 52%); }
+
+  /* Proof items */
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .proof-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  /* CTA section */
+  .cta-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .cta-sub {
+    color: var(--muted);
+    margin-bottom: 24px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Service card content */
+  .service-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    margin-bottom: 8px;
+  }
+
+  .service-body {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* Description text */
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--brass);
+    color: var(--brass);
+  }
+
+  /* Bottom glow */
+  .bottom-glow {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    pointer-events: none;
+    z-index: 40;
+    background: linear-gradient(to top, rgba(192,150,58,0.6) 0%, rgba(192,150,58,0.25) 40%, rgba(192,150,58,0.06) 70%, transparent 100%);
+    box-shadow: 0 0 20px rgba(192,150,58,0.4), 0 0 40px rgba(192,150,58,0.15);
+  }
+
+  /* Layout label (dev helper) */
+  .layout-label {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--steel);
+    opacity: 0.4;
+    z-index: 60;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* View toggle */
+  .view-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 0;
+  }
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+  }
+
+  .toggle-btn:hover { border-color: rgba(192, 150, 58, 0.4); }
+
+  .toggle-opt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toggle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(136, 145, 160, 0.3);
+    transition: background 0.2s;
+  }
+
+  .toggle-dot.active { background: var(--brass); }
+
+  .toggle-label { transition: color 0.2s; }
+  .toggle-label.active { color: var(--fg); }
+  .toggle-label:not(.active) { color: var(--muted); }
+
+  .toggle-divider { color: var(--border); }
+
+  .toggle-comment {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(136, 145, 160, 0.5);
+  }
+
+  /* Professional view (stacked) */
+  .stacked { display: none; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .stacked.active { display: block; }
+
+  .stacked-services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 48px 0;
+  }
+
+  .stacked-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .stacked-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 2px; height: 0;
+    background: var(--brass);
+    transition: height 0.3s;
+  }
+
+  .stacked-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4); }
+  .stacked-card:hover::before { height: 100%; }
+
+  .proof-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    text-align: center;
+  }
+
+  .proof-strip p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .stacked-cta {
+    text-align: center;
+    padding: 64px 0;
+  }
+
+  @media (max-width: 768px) {
+    .stacked-services { grid-template-columns: 1fr; }
+    .proof-strip { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="#" class="logo">
+      Zach Varney
+      <span class="coords">39.0997°N 94.5786°W</span>
+    </a>
+    <nav>
+      <a href="#">Work</a>
+      <a href="#">Blog</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <button class="cta-btn">Start a Conversation</button>
+    </nav>
+  </div>
+</header>
+
+<div class="layout-label">
+  BENTO GRID PREVIEW<br>
+  Slate & Brass v1
+</div>
+
+<!-- Shared Hero -->
+<section class="container" style="padding-top: 48px; padding-bottom: 32px;">
+  <p class="eyebrow eyebrow-line">Ranger Ventures LLC</p>
+  <div class="flap-display" style="margin: 16px 0;">
+    <div class="flap-char">A</div>
+    <div class="flap-char">I</div>
+    <div class="flap-char"> </div>
+    <div class="flap-char">S</div>
+    <div class="flap-char">O</div>
+    <div class="flap-char">L</div>
+    <div class="flap-char">U</div>
+    <div class="flap-char">T</div>
+    <div class="flap-char">I</div>
+    <div class="flap-char">O</div>
+    <div class="flap-char">N</div>
+    <div class="flap-char">S</div>
+  </div>
+  <p class="hero-desc">
+    I build AI-powered tools and ship production code. Contracting, consulting,
+    and hands-on development for teams that need AI done right.
+  </p>
+  <div class="btn-row">
+    <button class="cta-btn">Start a Conversation</button>
+    <button class="btn-outline">See My Work &rarr;</button>
+  </div>
+</section>
+
+<!-- View Toggle -->
+<div class="view-toggle">
+  <button class="toggle-btn" id="toggleBtn" onclick="toggleView()">
+    <span class="toggle-opt">
+      <span class="toggle-dot active" id="dotStrategy"></span>
+      <span class="toggle-label active" id="lblStrategy">Strategy</span>
+    </span>
+    <span class="toggle-divider">|</span>
+    <span class="toggle-opt">
+      <span class="toggle-dot" id="dotEngineering"></span>
+      <span class="toggle-label" id="lblEngineering">Engineering</span>
+    </span>
+  </button>
+  <span class="toggle-comment" id="toggleComment">// the pitch</span>
+</div>
+
+<!-- PROFESSIONAL VIEW (stacked, default) -->
+<div class="stacked active" id="professionalView">
+  <div class="stacked-services">
+    <div class="stacked-card">
+      <p class="eyebrow">Hands-on Development</p>
+      <h3 class="service-title">AI Development</h3>
+      <p class="service-body">Custom AI tools, agents, and integrations. I build the middleware that connects LLMs to the systems your team already uses — Slack, internal platforms, APIs.</p>
+    </div>
+    <div class="stacked-card">
+      <p class="eyebrow">Strategy & Architecture</p>
+      <h3 class="service-title">Technical Consulting</h3>
+      <p class="service-body">Architecture reviews, implementation planning, and strategy for teams building with AI. I've shipped enough systems to know what works and what doesn't.</p>
+    </div>
+    <div class="stacked-card">
+      <p class="eyebrow">Community</p>
+      <h3 class="service-title">Open Source</h3>
+      <p class="service-body">NPM packages, public tools, and community contributions. Everything I build is designed to be reused — by clients, by other developers, or by me on the next project.</p>
+    </div>
+  </div>
+  <div class="proof-strip">
+    <p>10+ Years in B2B SaaS</p>
+    <p>Production AI Systems Live</p>
+    <p>Builder & Founder</p>
+    <p>Kansas City, MO</p>
+  </div>
+  <div class="stacked-cta">
+    <h2 class="cta-title">Have an AI problem that needs solving?</h2>
+    <p class="cta-sub">I take on a small number of engagements and prioritize long-term partnerships.</p>
+    <button class="cta-btn">Get in Touch</button>
+  </div>
+</div>
+
+<!-- ENGINEERING VIEW (bento grid) -->
+<main class="container" id="engineeringView" style="display: none;">
+  <div class="bento" style="padding-top: 16px;">
+
+    <!-- STATS — full width row with split-flap style numbers -->
+    <div class="bento-cell cell-stats" style="padding: 24px 32px;">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center;">
+        <div>
+          <div class="flap-display" style="justify-content: center; margin-bottom: 8px;">
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">2</div>
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">8</div>
+          </div>
+          <div class="stat-label">Public Repos</div>
+        </div>
+        <div>
+          <div class="flap-display" style="justify-content: center; margin-bottom: 8px;">
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">1</div>
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">4</div>
+          </div>
+          <div class="stat-label">Private Repos</div>
+        </div>
+        <div>
+          <div class="flap-display" style="justify-content: center; margin-bottom: 8px;">
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">0</div>
+          </div>
+          <div class="stat-label">Days Since Push</div>
+        </div>
+        <div>
+          <div class="flap-display" style="justify-content: center; margin-bottom: 8px;">
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">8</div>
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">4</div>
+            <div class="flap-char" style="font-size: 1.75rem; width: 2.2rem; height: 2.8rem;">7</div>
+          </div>
+          <div class="stat-label">Commits</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE: AI Development -->
+    <div class="bento-cell cell-dev">
+      <p class="eyebrow">Hands-on Development</p>
+      <h3 class="service-title">AI Development</h3>
+      <p class="service-body">
+        Custom AI tools, agents, and integrations. I build the middleware that connects LLMs
+        to the systems your team already uses.
+      </p>
+    </div>
+
+    <!-- SERVICE: Consulting -->
+    <div class="bento-cell cell-consult">
+      <p class="eyebrow">Strategy & Architecture</p>
+      <h3 class="service-title">Technical Consulting</h3>
+      <p class="service-body">
+        Architecture reviews, implementation planning, and strategy for teams building with AI.
+      </p>
+    </div>
+
+    <!-- SERVICE: Open Source (wider) -->
+    <div class="bento-cell cell-oss">
+      <p class="eyebrow">Community</p>
+      <h3 class="service-title">Open Source</h3>
+      <p class="service-body">
+        NPM packages, public tools, and community contributions. Everything I build
+        is designed to be reused — by clients, by other developers, or by me on the next project.
+      </p>
+    </div>
+
+    <!-- CONTRIBUTION GRAPH — 2 columns -->
+    <div class="bento-cell cell-graph">
+      <p class="eyebrow">Contributions — Last 12 Months</p>
+      <div class="graph-grid" id="graphGrid"></div>
+    </div>
+
+    <!-- PROOF STRIP — 2 columns -->
+    <div class="bento-cell cell-proof">
+      <p class="eyebrow">At a Glance</p>
+      <div class="proof-grid">
+        <div class="proof-item">10+ Years in B2B SaaS</div>
+        <div class="proof-item">Production AI Systems Live</div>
+        <div class="proof-item">Builder & Founder</div>
+        <div class="proof-item">Kansas City, MO</div>
+      </div>
+    </div>
+
+    <!-- CTA — Full width -->
+    <div class="bento-cell cell-cta">
+      <h2 class="cta-title">Have an AI problem that needs solving?</h2>
+      <p class="cta-sub">
+        I take on a small number of engagements and prioritize long-term partnerships.
+      </p>
+      <button class="cta-btn">Get in Touch</button>
+    </div>
+
+  </div>
+</main>
+
+<div class="bottom-glow"></div>
+
+<script>
+  // Generate contribution graph placeholder
+  const grid = document.getElementById('graphGrid');
+  const levels = ['', 'l1', 'l2', 'l3', 'l4'];
+  for (let week = 0; week < 52; week++) {
+    for (let day = 0; day < 7; day++) {
+      const cell = document.createElement('div');
+      cell.className = 'graph-cell';
+      // Weighted random: mostly empty, some activity
+      const r = Math.random();
+      if (r > 0.7) cell.classList.add(levels[1]);
+      if (r > 0.82) cell.classList.add(levels[2]);
+      if (r > 0.9) cell.classList.add(levels[3]);
+      if (r > 0.96) cell.classList.add(levels[4]);
+      grid.appendChild(cell);
+    }
+  }
+
+  // View toggle
+  let currentView = 'professional';
+  function toggleView() {
+    const pro = document.getElementById('professionalView');
+    const eng = document.getElementById('engineeringView');
+    const dotS = document.getElementById('dotStrategy');
+    const dotE = document.getElementById('dotEngineering');
+    const lblS = document.getElementById('lblStrategy');
+    const lblE = document.getElementById('lblEngineering');
+    const comment = document.getElementById('toggleComment');
+
+    if (currentView === 'professional') {
+      currentView = 'engineering';
+      pro.classList.remove('active');
+      pro.style.display = 'none';
+      eng.style.display = 'block';
+      dotS.classList.remove('active');
+      dotE.classList.add('active');
+      lblS.classList.remove('active');
+      lblE.classList.add('active');
+      comment.textContent = '// the proof';
+    } else {
+      currentView = 'professional';
+      pro.classList.add('active');
+      pro.style.display = 'block';
+      eng.style.display = 'none';
+      dotS.classList.add('active');
+      dotE.classList.remove('active');
+      lblS.classList.add('active');
+      lblE.classList.remove('active');
+      comment.textContent = '// the pitch';
+    }
+  }
+
+  // Console Easter egg
+  console.log("%cRANGER VENTURES LLC", "color: #C0963A; font-size: 14px; font-weight: bold;");
+  console.log("%c39.0997°N 94.5786°W — You found the trailhead.", "color: #6B7D8D; font-size: 11px;");
+</script>
+
+</body>
+</html>

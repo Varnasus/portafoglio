@@ -14,9 +14,8 @@ Portfolio and consulting storefront for Zach Varney / Ranger Ventures LLC. Deplo
 
 - **No CMS**: Blog posts are stored as TypeScript objects in `src/lib/posts.ts`. No MDX, no contentlayer.
 - **GitHub data**: `src/lib/github.ts` fetches from REST (repos, events) and GraphQL (contributions). ISR revalidation handles caching. Requires `GITHUB_TOKEN` env var for the contribution graph.
-- **Split-flap display**: Uses `react-split-flap-display` package. CSS override in `globals.css` fixes a `background-clip: text` compositing bug — see the comment there. The ALPHA character set already includes a leading space; do NOT prepend another or the animation loops infinitely.
+- **Split-flap display**: Uses `clackboard` package (our own NPM package). Hero uses `layout="board"` for Vestaboard-style 2-row messages with `easing="decelerate"` and staggered cascade. Stats use single-row `SplitFlap` with numeric chars. Custom brass palette defined in each component.
 - **Dynamic assets**: OG image (`src/app/opengraph-image.tsx`) and favicon (`src/app/icon.tsx`) are code-generated via Next.js `ImageResponse`. No static image files needed.
-- **Peer deps**: `.npmrc` has `legacy-peer-deps=true` because react-split-flap-display declares React 16-18 as peer dep but works with React 19.
 
 ## Project Structure
 
@@ -41,9 +40,10 @@ src/
 ## Conventions
 
 - Dark theme only (`.dark` class on `<html>`)
-- Forest green accent: `--primary: 135 30% 45%` (dark mode)
-- JetBrains Mono via `next/font/google` for `font-mono` elements
-- `font-mono` used for tags, labels, stats — not body text
+- Slate & Brass palette: `--primary: 40 54% 49%` (brass), `--background: 210 14% 7%` (slate)
+- Typography: Libre Baskerville (serif headings), Outfit (sans body), JetBrains Mono (mono labels/stats)
+- `font-serif` on all headings, `font-mono` for tags, labels, stats — not body text
+- Strategy/Engineering view toggle on home page
 - Identity framing: "builder/founder", NOT "consultant" or "PM"
 - Lytho is a client — do not reference as an employer
 

@@ -101,7 +101,7 @@ export default function ContactPage() {
               <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
                 Contact
               </p>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 font-serif">
                 Let&apos;s talk.
               </h1>
               <p className="text-lg leading-8 text-muted-foreground mb-10">
@@ -112,17 +112,6 @@ export default function ContactPage() {
               </p>
 
               <div className="space-y-4">
-                <div>
-                  <span className="text-xs font-mono tracking-widest text-primary">EMAIL</span>
-                  <p className="mt-1">
-                    <a
-                      href={`mailto:${siteConfig.author.email}`}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {siteConfig.author.email}
-                    </a>
-                  </p>
-                </div>
                 <div>
                   <span className="text-xs font-mono tracking-widest text-primary">LINKEDIN</span>
                   <p className="mt-1">
@@ -209,7 +198,7 @@ export default function ContactPage() {
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Check className="w-8 h-8 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold mb-4">Message Sent</h2>
+                  <h2 className="text-2xl font-bold mb-4 font-serif">Message Sent</h2>
                   <p className="text-muted-foreground mb-6">
                     Thanks for reaching out. I&apos;ll get back to you soon.
                   </p>

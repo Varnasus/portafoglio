@@ -21,7 +21,7 @@ export default function AboutPage() {
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
             About
           </p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-12">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-12 font-serif">
             The short version.
           </h1>
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
             {/* Right column — How I Work + Stack */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-lg font-semibold mb-4">How I Work</h2>
+                <h2 className="text-lg font-semibold mb-4 font-serif">How I Work</h2>
                 <p className="text-sm leading-7 text-muted-foreground">
                   Architecture first, then fast iteration. I scope deeply before writing
                   a line of code, then ship in tight cycles with real feedback. I&apos;d
@@ -61,7 +61,7 @@ export default function AboutPage() {
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold mb-4">Stack</h2>
+                <h2 className="text-lg font-semibold mb-4 font-serif">Stack</h2>
                 <div className="space-y-3">
                   {stack.map((s) => (
                     <div key={s.category} className="flex gap-4 text-sm">

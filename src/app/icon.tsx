@@ -14,7 +14,7 @@ export default function Icon() {
           justifyContent: "center",
           width: "100%",
           height: "100%",
-          backgroundColor: "hsl(220, 20%, 6%)",
+          backgroundColor: "hsl(210, 14%, 7%)",
           borderRadius: 4,
         }}
       >
@@ -22,7 +22,7 @@ export default function Icon() {
           style={{
             fontSize: 18,
             fontWeight: 700,
-            color: "hsl(135, 30%, 45%)",
+            color: "hsl(40, 54%, 49%)",
             fontFamily: "monospace",
           }}
         >

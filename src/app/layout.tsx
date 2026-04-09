@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Libre_Baskerville, Outfit } from "next/font/google";
 import "@/app/globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonSchema, OrganizationSchema, WebSiteSchema } from "@/components/schema";
 import { SkipNavigation, AccessibilityProvider } from "@/components/accessibility";
+import { TopoBackground } from "@/components/topo-background";
 import { siteConfig } from "@/lib/site";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -12,6 +13,21 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   display: "swap",
   weight: ["400", "700"],
+});
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  variable: "--font-baskerville",
+  display: "swap",
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -72,8 +88,8 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    "msapplication-TileColor": "#2d5a27",
-    "theme-color": "#2d5a27",
+    "msapplication-TileColor": "#0F1215",
+    "theme-color": "#0F1215",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": siteConfig.name,
@@ -88,17 +104,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`dark ${jetbrainsMono.variable} ${libreBaskerville.variable} ${outfit.variable}`}>
       <head>
         <PersonSchema />
         <OrganizationSchema />
         <WebSiteSchema />
 
         <link rel="manifest" href="/manifest.json" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `console.log("%cRANGER VENTURES LLC", "color: #C0963A; font-size: 14px; font-weight: bold;");console.log("%c39.0997°N 94.5786°W — You found the trailhead.", "color: #6B7D8D; font-size: 11px;");`,
+          }}
+        />
       </head>
       <body
         className={`antialiased min-h-screen bg-background font-sans`}
       >
+        <TopoBackground />
         <AccessibilityProvider>
           <SkipNavigation />
           <div className="relative flex min-h-screen flex-col">
@@ -107,14 +129,6 @@ export default function RootLayout({
             <Footer />
           </div>
 
-          {/* Forest green glow effect at bottom */}
-          <div
-            className="fixed bottom-0 left-0 right-0 h-10 pointer-events-none z-40"
-            style={{
-              background: 'linear-gradient(to top, rgba(45, 90, 39, 0.8) 0%, rgba(45, 90, 39, 0.4) 40%, rgba(45, 90, 39, 0.1) 70%, transparent 100%)',
-              boxShadow: '0 0 20px rgba(45, 90, 39, 0.6), 0 0 40px rgba(45, 90, 39, 0.3), 0 0 60px rgba(45, 90, 39, 0.1)'
-            }}
-          />
         </AccessibilityProvider>
       </body>
     </html>

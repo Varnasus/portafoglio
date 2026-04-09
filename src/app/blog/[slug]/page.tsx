@@ -57,18 +57,18 @@ export default async function BlogPostPage({
                 ))}
               </div>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-5xl font-serif">
               {post.title}
             </h1>
           </header>
 
-          <div className="prose prose-invert prose-green max-w-none">
+          <div className="prose prose-invert max-w-none">
             {post.body.split("\n\n").map((block, i) => {
               if (block.startsWith("## ")) {
                 return (
                   <h2
                     key={i}
-                    className="text-xl font-bold mt-10 mb-4"
+                    className="text-xl font-bold mt-10 mb-4 font-serif"
                   >
                     {block.replace("## ", "")}
                   </h2>

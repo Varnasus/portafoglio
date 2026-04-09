@@ -33,7 +33,7 @@ export default function NotFound() {
         </div>
 
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl font-bold text-foreground mb-4 font-serif">
             Page Not Found
           </h2>
           <p className="text-lg text-muted-foreground mb-8">

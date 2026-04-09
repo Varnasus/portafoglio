@@ -4,7 +4,7 @@ import { ActivityCalendar } from "react-activity-calendar"
 import type { ContributionDay } from "@/lib/github"
 
 const THEME = {
-  dark: ["hsl(220, 18%, 10%)", "hsl(135, 30%, 20%)", "hsl(135, 35%, 30%)", "hsl(135, 40%, 40%)", "hsl(135, 50%, 55%)"],
+  dark: ["hsl(210, 12%, 10%)", "hsl(40, 30%, 20%)", "hsl(40, 40%, 30%)", "hsl(40, 50%, 40%)", "hsl(40, 54%, 52%)"],
 }
 
 export function ContributionGraph({ data }: { data: ContributionDay[] }) {

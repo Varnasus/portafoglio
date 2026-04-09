@@ -3,7 +3,7 @@ import { WorkCard } from "@/components/work-card"
 import { GitHubStatsClient } from "@/components/github-stats"
 import { ContributionGraph } from "@/components/contribution-graph"
 import { projects } from "@/lib/projects"
-import { getRepos, getContributions, daysSinceLastPush } from "@/lib/github"
+import { getRepos, getGraphQLData, daysSinceLastPush } from "@/lib/github"
 
 export const metadata = {
   title: "Work",
@@ -14,15 +14,13 @@ export const metadata = {
 export default async function WorkPage() {
   const sorted = [...projects].sort((a, b) => a.order - b.order)
 
-  const [repos, contributions] = await Promise.all([
+  const [repos, graphql] = await Promise.all([
     getRepos(),
-    getContributions(),
+    getGraphQLData(),
   ])
 
-  const totalRepos = repos.length
-  const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0)
+  const { contributions, publicRepos, privateRepos, totalCommits } = graphql
   const daysSince = daysSinceLastPush(repos)
-  const totalContributions = contributions.reduce((sum, d) => sum + d.count, 0)
 
   return (
     <section className="py-20 md:py-32">
@@ -31,7 +29,7 @@ export default async function WorkPage() {
           <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-4">
             Selected Work
           </p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-4">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-4 font-serif">
             What I&apos;ve built.
           </h1>
           <p className="text-xl leading-8 text-muted-foreground mb-12 max-w-2xl">
@@ -43,7 +41,7 @@ export default async function WorkPage() {
           {/* Contribution Graph */}
           {contributions.length > 0 && (
             <div className="mb-16">
-              <div className="p-6 bg-background rounded-xl border overflow-x-auto">
+              <div className="p-6 bg-card rounded-xl border overflow-x-auto">
                 <ContributionGraph data={contributions} />
               </div>
             </div>
@@ -52,10 +50,10 @@ export default async function WorkPage() {
           {/* Stats — split-flap counters */}
           <div className="mb-16 p-8 bg-muted/50 rounded-xl border">
             <GitHubStatsClient
-              repos={totalRepos}
-              stars={totalStars}
+              publicRepos={publicRepos}
+              privateRepos={privateRepos}
               daysSince={daysSince}
-              contributions={totalContributions}
+              totalCommits={totalCommits}
             />
           </div>
 
