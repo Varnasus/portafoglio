@@ -90,7 +90,7 @@ export function Headline({ mode = "strategy" }: HeadlineProps) {
   const currentBoard = boards[index]
 
   return (
-    <div className="mb-6 overflow-hidden">
+    <div className="mb-6 overflow-x-auto -mx-2 px-2">
       <SplitFlap
         layout="board"
         rows={currentBoard}

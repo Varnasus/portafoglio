@@ -15,6 +15,13 @@ export function FadeIn({
     const el = ref.current
     if (!el) return
 
+    // If already in viewport on mount, show immediately
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add("visible")
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -22,7 +29,7 @@ export function FadeIn({
           observer.unobserve(el)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.05, rootMargin: "50px" }
     )
 
     observer.observe(el)

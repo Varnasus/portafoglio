@@ -52,7 +52,7 @@ function ViewToggle({
     <div className="flex items-center justify-center gap-3 py-6">
       <button
         onClick={onToggle}
-        className="group flex items-center gap-3 px-5 py-2.5 rounded-full border border-border/60 hover:border-primary/40 transition-all text-sm"
+        className="group flex items-center gap-4 px-6 py-3 rounded-full border border-border/60 hover:border-primary/40 transition-all text-sm min-h-[44px]"
       >
         <span className="flex items-center gap-2">
           <span
@@ -276,7 +276,7 @@ export function HomeViews({
   return (
     <>
       {/* Hero Section — shared, headline reacts to mode */}
-      <section className="py-24 md:py-36">
+      <section className="py-16 md:py-36">
         <Container>
           <div className="mx-auto max-w-4xl">
             <p className="eyebrow-line text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6">
