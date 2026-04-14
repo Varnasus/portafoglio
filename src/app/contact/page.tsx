@@ -34,8 +34,9 @@ export default function ContactPage() {
         const data = await response.json()
         setCsrfToken(data.csrfToken)
       }
-    } catch (err) {
-      console.error('Failed to fetch CSRF token:', err)
+    } catch {
+      // Swallow — a missing CSRF token will surface on submit with a
+      // user-visible error banner.
     }
   }, [])
 
@@ -73,7 +74,6 @@ export default function ContactPage() {
       setIsSubmitted(true)
       fetchCsrfToken()
     } catch (error) {
-      console.error('Error sending message:', error)
       setError(error instanceof Error ? error.message : 'Failed to send message. Please try again or email me directly.')
       fetchCsrfToken()
     } finally {
@@ -105,10 +105,11 @@ export default function ContactPage() {
                 Let&apos;s talk.
               </h1>
               <p className="text-lg leading-8 text-muted-foreground mb-10">
-                I&apos;m open to consulting engagements, technical partnerships, and
-                advisory roles. If you&apos;re building something with AI and need
-                someone who can go from architecture to working code, let&apos;s start
-                a conversation.
+                I work with companies and leaders who already know AI matters
+                and need someone who can actually get them there. If that&apos;s
+                you &mdash; data stuck in silos, tools half-implemented, an
+                idea blocked on engineering queues for months &mdash; tell me
+                what&apos;s bleeding and I&apos;ll tell you how to stop it.
               </p>
 
               <div className="space-y-4">
@@ -172,7 +173,7 @@ export default function ContactPage() {
                       id="message"
                       value={formData.message}
                       onChange={(e) => handleChange("message", e.target.value)}
-                      placeholder="Tell me about the problem you're trying to solve..."
+                      placeholder="What's broken? What's blocked? What do you need shipped?"
                       rows={6}
                       required
                     />
@@ -188,9 +189,9 @@ export default function ContactPage() {
                     type="submit"
                     size="lg"
                     disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
-                    className="w-full"
+                    className="w-full h-14 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 transition-all duration-200"
                   >
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? "Sending..." : "Send Message \u2192"}
                   </Button>
                 </form>
               ) : (
