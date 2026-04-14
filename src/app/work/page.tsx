@@ -8,7 +8,7 @@ import { getRepos, getGraphQLData, daysSinceLastPush } from "@/lib/github"
 export const metadata = {
   title: "Work",
   description:
-    "Client systems, personal infrastructure, and open source. Each project is real — running in production or published for others to use.",
+    "Client systems, personal infrastructure, and open source. Real systems running in production — not demos, not slides.",
 }
 
 export default async function WorkPage() {
@@ -33,9 +33,10 @@ export default async function WorkPage() {
             What I&apos;ve built.
           </h1>
           <p className="text-xl leading-8 text-muted-foreground mb-12 max-w-2xl">
-            Client systems, personal infrastructure, and open source. Each
-            project is real &mdash; running in production or published for
-            others to use.
+            Client systems, personal infrastructure, and open source. Real
+            systems running in production &mdash; not demos, not slides.
+            Every project here is either live, shipping, or published for
+            the next person to pick up.
           </p>
 
           {/* Contribution Graph */}
@@ -57,8 +58,8 @@ export default async function WorkPage() {
             />
           </div>
 
-          {/* Featured Projects */}
-          <div className="grid grid-cols-1 gap-6">
+          {/* Featured Projects — masonry columns, cards collapse by default */}
+          <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance]">
             {sorted.map((project) => (
               <WorkCard key={project.slug} project={project} />
             ))}
