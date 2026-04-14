@@ -2,6 +2,12 @@ import { HomeViews } from "@/components/home-views"
 import { DevPanel } from "@/components/dev-panel"
 import { getRepos, getGraphQLData, daysSinceLastPush } from "@/lib/github"
 
+export const metadata = {
+  title: "AI Builder & Founder",
+  description:
+    "Zach Varney builds AI-powered tools and middleware for teams that already know AI matters. Ranger Ventures LLC.",
+}
+
 export default async function Home() {
   const [repos, graphql] = await Promise.all([
     getRepos(),
