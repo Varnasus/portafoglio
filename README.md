@@ -15,12 +15,12 @@ Consulting storefront for Ranger Ventures LLC. Built with Next.js 15, React 19, 
 - `/` — Home (split-flap hero, services, proof strip)
 - `/work` — Contribution graph, stats, featured projects
 - `/blog` — Build logs
-- `/about` — Bio and stack
+- `/about` — Long-form founder essay
 - `/contact` — Contact form (Resend email)
 
 ## Features
 
-- **Split-flap display**: Cycling headline animation using clackboard
+- **Split-flap display**: Cycling 4-row headline animation using clackboard, with responsive board sets (18 columns desktop, 7 columns mobile) and sci-fi cameos every 5th rotation
 - **GitHub integration**: Live repo stats, contribution heatmap via GraphQL API
 - **Dynamic OG image**: Code-generated social preview card (Next.js ImageResponse)
 - **Dynamic favicon**: ZV monogram generated at build time
