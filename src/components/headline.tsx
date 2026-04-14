@@ -242,9 +242,15 @@ export function Headline({ mode = "strategy" }: HeadlineProps) {
   // toggles still don't restart the cascade.
   const splitFlapKey = isMobile ? "m" : "d"
 
+  // Readable sentence for screen readers — clackboard captures its
+  // own aria-label once on mount and doesn't re-announce when rows
+  // change, so we own the announcement ourselves via a sibling
+  // sr-only live region below.
+  const announcement = `${currentBoard[0]}. ${currentBoard[1]}.`
+
   return (
     <div className="mb-6">
-      <div className="-mx-2 px-2 flex justify-center">
+      <div className="-mx-2 px-2 flex justify-center" aria-hidden="true">
         {ready ? (
           <SplitFlap
             key={splitFlapKey}
@@ -272,11 +278,17 @@ export function Headline({ mode = "strategy" }: HeadlineProps) {
           // Hardcoded literals because Tailwind can't extract classes
           // from template strings.
           <div
-            aria-hidden
             style={{ height: `${BOARD_HEIGHT}px` }}
             className="w-[340px] sm:w-[879px] sm:max-w-full"
           />
         )}
+      </div>
+
+      {/* Screen-reader-only live region. Announces the current board
+          whenever `index` flips, since the visual SplitFlap is
+          aria-hidden. */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {announcement}
       </div>
 
       <div className="mt-3 flex justify-end">
@@ -286,7 +298,7 @@ export function Headline({ mode = "strategy" }: HeadlineProps) {
           disabled={!ready}
           aria-pressed={!muted}
           aria-label={muted ? "Unmute split-flap sound" : "Mute split-flap sound"}
-          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1.5 text-xs font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-50 transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1.5 text-xs font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           {muted ? (
             <>
