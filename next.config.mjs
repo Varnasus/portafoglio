@@ -1,7 +1,17 @@
-const path = require('path');
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Disabled because clackboard's SplitFlap has a bug where its mount
+  // effect mutates an internal ref without resetting it on cleanup.
+  // Strict Mode's double-invoke then causes every FlapChar with a
+  // non-zero stagger delay to silently abort its mount cascade
+  // (symptom: only the first letter animates on initial load).
+  // See docs/clackboard-strict-mode-fix-prompt.md for the upstream fix.
+  reactStrictMode: false,
   outputFileTracingRoot: path.join(__dirname),
   images: {
     remotePatterns: [
@@ -68,7 +78,7 @@ const nextConfig = {
           },
         ],
       },
-    ];
+    ]
   },
   async rewrites() {
     return [
@@ -80,7 +90,7 @@ const nextConfig = {
         source: '/robots.txt',
         destination: '/api/robots',
       },
-    ];
+    ]
   },
   async redirects() {
     return [
@@ -93,8 +103,8 @@ const nextConfig = {
       { source: '/case-studies/:path*', destination: '/work', permanent: true },
       { source: '/projects', destination: '/work', permanent: true },
       { source: '/projects/:path*', destination: '/work', permanent: true },
-    ];
+    ]
   },
-};
+}
 
-module.exports = nextConfig;
+export default nextConfig
