@@ -170,21 +170,23 @@ export function Headline({ mode = "strategy" }: HeadlineProps) {
   // intentionally NOT restored from localStorage — every visit starts
   // muted so nobody is surprised by autoplay audio. If a visitor
   // clicked "Sound on" last session, they re-opt in this session.
+  //
+  // matchMedia is used instead of window.innerWidth because some iOS
+  // WKWebViews (e.g. Facebook's in-app browser) briefly report the
+  // layout viewport (~980px) at mount, then never fire a resize event
+  // to correct it. matchMedia evaluates against the same CSS viewport
+  // Tailwind's `sm:` breakpoint uses, and its `change` event fires if
+  // the match flips later.
   useEffect(() => {
-    setIsMobile(window.innerWidth < 640)
+    const mql = window.matchMedia("(max-width: 639px)")
+    setIsMobile(mql.matches)
     setReady(true)
-  }, [])
-
-  // Resize listener — only active after first resolve, so it can't
-  // interrupt the initial cascade.
-  useEffect(() => {
-    if (!ready) return
-    function update() {
-      setIsMobile(window.innerWidth < 640)
+    function update(e: MediaQueryListEvent) {
+      setIsMobile(e.matches)
     }
-    window.addEventListener("resize", update)
-    return () => window.removeEventListener("resize", update)
-  }, [ready])
+    mql.addEventListener("change", update)
+    return () => mql.removeEventListener("change", update)
+  }, [])
 
   const boards = isMobile
     ? mode === "engineering"
@@ -250,7 +252,7 @@ export function Headline({ mode = "strategy" }: HeadlineProps) {
 
   return (
     <div className="mb-6">
-      <div className="-mx-2 px-2 flex justify-center" aria-hidden="true">
+      <div className="-mx-2 px-2 flex justify-center [overflow-x:clip]" aria-hidden="true">
         {ready ? (
           <SplitFlap
             key={splitFlapKey}
